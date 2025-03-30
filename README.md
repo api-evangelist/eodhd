@@ -34,6 +34,17 @@ One-stop shop for API endpoints that provide30  years of historical and live dat
 
 - [Documentation]( https://eodhd.com/)
 
+## Common Properties
+
+- [Pricing](https://eodhd.com/pricing)
+- [Forums](https://forum.eodhd.com/?_gl=1*1i5xfxo*_gcl_au*MTc5NzA2OTc5LjE3NDMzNzg3ODU.*FPAU*MTc5NzA2OTc5LjE3NDMzNzg3ODU.)
+- [Marketplace](https://eodhd.com/marketplace)
+- [Blog](https://eodhd.com/financial-apis-blog/)
+- [PrivacyPolicy](https://eodhd.com/financial-apis/privacy-policy)
+- [TermsOfService](https://eodhd.com/financial-apis/terms-conditions)
+- [Affiliate](https://eodhd.com/financial-apis/eodhd-affiliate-program)
+- [TermsOfService](https://eodhd.com/financial-apis/terms-conditions)
+
 ## Maintainers
 
 **FN:** Kin Lane
