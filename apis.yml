@@ -5,7 +5,9 @@ apis:
   - aid: eodhd:eodhd
     name: EODHD
     tags:
-      - API
+      - Financial
+      - Stocks
+      - Stock Options
     humanURL: ' https://eodhd.com/'
     properties:
       - url: ' https://eodhd.com/'
@@ -15,7 +17,9 @@ apis:
       live data for stocks, forex, and more. 
 name: EODHD
 tags:
-  - API
+  - Financial
+  - Stocks
+  - Stock Options
 type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
