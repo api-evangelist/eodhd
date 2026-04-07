@@ -6,8 +6,8 @@ apis:
     name: EODHD
     tags:
       - Financial
-      - Stocks
       - Stock Options
+      - Stocks
     humanURL: ' https://eodhd.com/'
     properties:
       - url: ' https://eodhd.com/'
@@ -18,8 +18,8 @@ apis:
 name: EODHD
 tags:
   - Financial
-  - Stocks
   - Stock Options
+  - Stocks
 type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
