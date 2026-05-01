@@ -1,0 +1,144 @@
+openapi: 3.1.0
+info:
+  title: EODHD End-Of-Day Historical Data API
+  description: >-
+    Access end-of-day historical OHLCV data for stocks, ETFs, funds, indices,
+    and currencies across global exchanges. Returns daily, weekly, or monthly
+    historical price and volume data with both raw and split/dividend-adjusted
+    closing prices.
+  version: '1.0'
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com/financial-apis/
+  license:
+    name: EODHD Terms of Service
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+  - url: https://eodhd.com/api
+    description: EODHD production API
+paths:
+  /eod/{symbol}:
+    get:
+      summary: Retrieve end-of-day historical data
+      description: >-
+        Returns the end-of-day historical OHLCV time series for a given ticker
+        symbol. The symbol must include the exchange suffix, for example
+        AAPL.US or BMW.XETRA. One call per request regardless of date range.
+      operationId: getEodHistoricalData
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          description: Ticker symbol with exchange suffix, e.g. AAPL.US.
+          schema:
+            type: string
+            example: AAPL.US
+        - name: api_token
+          in: query
+          required: true
+          description: API token assigned to your EODHD account.
+          schema:
+            type: string
+        - name: fmt
+          in: query
+          required: false
+          description: Response format. Defaults to csv.
+          schema:
+            type: string
+            enum:
+              - json
+              - csv
+            default: csv
+        - name: period
+          in: query
+          required: false
+          description: Aggregation period. d=daily, w=weekly, m=monthly.
+          schema:
+            type: string
+            enum:
+              - d
+              - w
+              - m
+            default: d
+        - name: order
+          in: query
+          required: false
+          description: Sort order of returned rows. a=ascending, d=descending.
+          schema:
+            type: string
+            enum:
+              - a
+              - d
+            default: a
+        - name: from
+          in: query
+          required: false
+          description: Inclusive start date in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          required: false
+          description: Inclusive end date in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+        - name: filter
+          in: query
+          required: false
+          description: Return only a single field, e.g. last_close or last_volume.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Historical OHLCV time series for the requested symbol.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EodBar'
+            text/csv:
+              schema:
+                type: string
+        '401':
+          description: Missing or invalid api_token.
+        '404':
+          description: Unknown symbol or exchange.
+        '429':
+          description: Rate limit exceeded.
+components:
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: query
+      name: api_token
+  schemas:
+    EodBar:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Trading date for this bar.
+        open:
+          type: number
+          description: Opening price (raw, unadjusted).
+        high:
+          type: number
+          description: Intraday high (raw, unadjusted).
+        low:
+          type: number
+          description: Intraday low (raw, unadjusted).
+        close:
+          type: number
+          description: Closing price (raw, unadjusted).
+        adjusted_close:
+          type: number
+          description: Closing price adjusted for splits and dividends.
+        volume:
+          type: integer
+          description: Volume adjusted for splits.
+security:
+  - apiToken: []
