@@ -1,0 +1,13 @@
+{
+  "repo": "eodhd",
+  "feeds": [
+    {
+      "source": "https://eodhd.com/financial-apis-blog/",
+      "feed_url": "https://eodhd.com/financial-apis-blog/feed",
+      "saved": 10,
+      "title": "Financial Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:27:47Z"
+}
