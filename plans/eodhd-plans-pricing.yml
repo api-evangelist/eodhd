@@ -4,162 +4,203 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: EODHD
 providerId: eodhd
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Financial
   - Market Data
   - Stock Options
   - Stocks
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: EODHD prices subscriptions per data product (EOD, Intraday, Fundamentals, all-in-one). Each
+  paid plan shares the same daily API call ceiling and per-minute throttle; the differentiator is data
+  scope and historical depth. A free tier exists for evaluation. Commercial use requires the Startups
+  & Enterprise plan, which is custom-priced.
+sources:
+  - https://eodhd.com/pricing
+  - https://eodhd.com/financial-apis/api-for-historical-data-and-volumes
 plans:
   - id: eodhd-free
     name: Free
     type: freemium
-    description: Free entry tier for the EODHD API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+    description: Free trial tier with 20 API calls per day, 1 year of EOD history on demo tickers, and
+      a one-time welcome bonus of 500 calls.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
+      - label: Daily API call quota
+        name: api_calls_daily
         type: quota
         metric: requests
-        limit: 1000
-        timeFrame: month
+        limit: 20
+        timeFrame: day
         geo: global
-        domains: []
         unit: 1
         price: '0.00'
         userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
+      - label: Per-minute rate limit
         name: rate_limit
-        type: rate
+        type: quota
         metric: requests_per_minute
-        limit: 10
+        limit: 1000
         timeFrame: minute
         geo: global
-        domains: []
         unit: 1
         price: '0.00'
         userMultiplied: false
     elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: EODHD End-Of-Day Historical Data API
-      - name: EODHD Intraday Historical Data API
-      - name: EODHD Live (Delayed) Stock Prices API
-      - name: EODHD WebSockets Real-Time API
-      - name: EODHD Fundamental Data API
-      - name: EODHD Stock Options API
-      - name: EODHD Technical Indicators API
-      - name: EODHD Economic Events Calendar API
-  - id: eodhd-pro
-    name: Professional
-    type: paid
-    description: Production tier for EODHD. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
+      - name: 1 year of EOD historical depth
+      - name: 6 demo tickers
+      - name: Welcome bonus (500 calls)
+      - name: Personal use only
+  - id: eodhd-eod-all-world
+    name: EOD Historical Data — All World
+    type: subscription
+    description: $19.99/month or $199/year (=$16.58/mo). 100,000 API calls/day with 30+ years of EOD
+      history.
     entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
+      - label: Monthly subscription
+        name: eod_monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '19.99'
+        userMultiplied: false
+      - label: Yearly subscription
+        name: eod_yearly
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: '199.00'
+        userMultiplied: false
+      - label: Daily API call quota
+        name: api_calls_daily
         type: quota
         metric: requests
         limit: 100000
-        timeFrame: month
+        timeFrame: day
         geo: global
-        domains: []
         unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
+        price: included
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: EODHD End-Of-Day Historical Data API
-      - name: EODHD Intraday Historical Data API
-      - name: EODHD Live (Delayed) Stock Prices API
-      - name: EODHD WebSockets Real-Time API
-      - name: EODHD Fundamental Data API
-      - name: EODHD Stock Options API
-      - name: EODHD Technical Indicators API
-      - name: EODHD Economic Events Calendar API
-      - name: EODHD Financial News and Sentiment API
-      - name: EODHD Exchanges and Symbols API
-  - id: eodhd-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for EODHD. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
+      - name: 30+ years of EOD history
+      - name: All World coverage
+      - name: 100,000 API calls/day
+      - name: 1,000 requests/minute
+  - id: eodhd-eod-intraday-extended
+    name: EOD+Intraday — All World Extended
+    type: subscription
+    description: $29.99/month or $299.90/year (=$24.99/mo). Adds intraday data on top of EOD All World.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
+      - label: Monthly subscription
+        name: extended_monthly
+        type: subscription
+        metric: month
         limit: -1
         timeFrame: month
-        geo: configurable
-        domains: []
+        geo: global
         unit: 1
-        price: custom
+        price: '29.99'
         userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
+      - label: Yearly subscription
+        name: extended_yearly
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
         unit: 1
-        price: custom
+        price: '299.90'
         userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: EODHD End-Of-Day Historical Data API
-      - name: EODHD Intraday Historical Data API
-      - name: EODHD Live (Delayed) Stock Prices API
-      - name: EODHD WebSockets Real-Time API
-      - name: EODHD Fundamental Data API
-      - name: EODHD Stock Options API
-      - name: EODHD Technical Indicators API
-      - name: EODHD Economic Events Calendar API
-      - name: EODHD Financial News and Sentiment API
-      - name: EODHD Exchanges and Symbols API
+      - name: EOD + Intraday data
+      - name: 30+ years history
+      - name: 100,000 API calls/day
+  - id: eodhd-fundamentals
+    name: Fundamentals Data Feed
+    type: subscription
+    description: $59.99/month or $599.90/year (=$49.99/mo). Fundamentals (financial statements, ratios)
+      across global tickers.
+    entries:
+      - label: Monthly subscription
+        name: fundamentals_monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '59.99'
+        userMultiplied: false
+      - label: Yearly subscription
+        name: fundamentals_yearly
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: '599.90'
+        userMultiplied: false
+    elements:
+      - name: Fundamentals coverage
+      - name: 100,000 API calls/day
+  - id: eodhd-all-in-one
+    name: ALL-IN-ONE Package
+    type: subscription
+    description: $99.99/month or $999.90/year (=$83.33/mo). Bundles EOD Historical, Fundamentals, Calendar,
+      and Bonds.
+    entries:
+      - label: Monthly subscription
+        name: aio_monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '99.99'
+        userMultiplied: false
+      - label: Yearly subscription
+        name: aio_yearly
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: '999.90'
+        userMultiplied: false
+    elements:
+      - name: EOD Historical
+      - name: Fundamentals
+      - name: Calendar
+      - name: Bonds
+      - name: 100,000 API calls/day
+  - id: eodhd-startups-enterprise
+    name: Startups & Enterprise Data Solution
+    type: enterprise
+    description: Custom-priced commercial-use plan negotiated with EODHD; required for any commercial
+      use of the data.
+    entries:
+      - label: Custom contract
+        name: enterprise_custom
+        type: subscription
+        metric: contract
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: contact sales
+        userMultiplied: false
+    elements:
+      - name: Commercial-use license
+      - name: Negotiated quotas
+      - name: Custom data bundles
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

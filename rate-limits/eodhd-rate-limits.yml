@@ -4,130 +4,48 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: EODHD
 providerId: eodhd
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
+  - Rate Limiting
   - Financial
   - Market Data
-  - Stock Options
-  - Stocks
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the EODHD API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+description: EODHD enforces both a per-day API call ceiling (20 on free, 100,000 on paid plans) and a
+  per-minute throttle of 1,000 requests. Limits are scoped per API token. A single API call covers an
+  entire historical price series for one ticker, so the daily quota is more permissive than it appears.
+sources:
+  - https://eodhd.com/pricing
+  - https://eodhd.com/financial-apis/api-for-historical-data-and-volumes
 responseCodes:
   throttled: 429
   quotaExceeded: 429
-  serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - EODHD End-Of-Day Historical Data API
-      - EODHD Intraday Historical Data API
-      - EODHD Live (Delayed) Stock Prices API
-      - EODHD WebSockets Real-Time API
-      - EODHD Fundamental Data API
-      - EODHD Stock Options API
-      - EODHD Technical Indicators API
-      - EODHD Economic Events Calendar API
-      - EODHD Financial News and Sentiment API
-      - EODHD Exchanges and Symbols API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - EODHD End-Of-Day Historical Data API
-      - EODHD Intraday Historical Data API
-      - EODHD Live (Delayed) Stock Prices API
-      - EODHD WebSockets Real-Time API
-      - EODHD Fundamental Data API
-      - EODHD Stock Options API
-      - EODHD Technical Indicators API
-      - EODHD Economic Events Calendar API
-      - EODHD Financial News and Sentiment API
-      - EODHD Exchanges and Symbols API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - EODHD End-Of-Day Historical Data API
-      - EODHD Intraday Historical Data API
-      - EODHD Live (Delayed) Stock Prices API
-      - EODHD WebSockets Real-Time API
-      - EODHD Fundamental Data API
-      - EODHD Stock Options API
-      - EODHD Technical Indicators API
-      - EODHD Economic Events Calendar API
-      - EODHD Financial News and Sentiment API
-      - EODHD Exchanges and Symbols API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
+  - name: Free tier daily call ceiling
+    scope: api-token
+    metric: requests
+    limit: 20
+    timeFrame: day
+    notes: One-time welcome bonus of 500 calls is added to the first day of the account.
+  - name: Paid tier daily call ceiling
+    scope: api-token
+    metric: requests
     limit: 100000
-    timeFrame: month
-    applies:
-      - EODHD End-Of-Day Historical Data API
-      - EODHD Intraday Historical Data API
-      - EODHD Live (Delayed) Stock Prices API
-      - EODHD WebSockets Real-Time API
-      - EODHD Fundamental Data API
-      - EODHD Stock Options API
-      - EODHD Technical Indicators API
-      - EODHD Economic Events Calendar API
-      - EODHD Financial News and Sentiment API
-      - EODHD Exchanges and Symbols API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
+    timeFrame: day
+  - name: Per-minute throttle (all tiers)
+    scope: api-token
     metric: requests_per_minute
     limit: 1000
-    burst: 5000
     timeFrame: minute
-    applies:
-      - EODHD End-Of-Day Historical Data API
-      - EODHD Intraday Historical Data API
-      - EODHD Live (Delayed) Stock Prices API
-      - EODHD WebSockets Real-Time API
-      - EODHD Fundamental Data API
-      - EODHD Stock Options API
-      - EODHD Technical Indicators API
-      - EODHD Economic Events Calendar API
-      - EODHD Financial News and Sentiment API
-      - EODHD Exchanges and Symbols API
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Single-call historical series
+    description: A request for an entire price history for a ticker counts as a single call regardless
+      of date range, so the daily ceiling is generous for historical analysis.
+  - name: Token scope
+    description: All limits are tracked at the API token level; sharing tokens across applications consumes
+      a shared budget.
+  - name: Commercial use
+    description: Commercial usage requires the Startups & Enterprise plan; consumer plans are licensed
+      for personal use only.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
