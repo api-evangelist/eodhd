@@ -193,6 +193,10 @@ common:
   - url: https://eodhd.com/financial-apis/terms-conditions
     name: Terms and Conditions
     type: TermsOfService
+  - type: Integrations
+    url: https://eodhd.com/marketplace
+integrations:
+  - name: Start selling your data
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
