@@ -1,24 +1,23 @@
 naftiko: 1.0.0-alpha2
 info:
   label: EODHD End-Of-Day Historical Data API
-  description: Access end-of-day historical OHLCV data for stocks, ETFs, funds, indices, and currencies across global exchanges.
-    Returns daily, weekly, or monthly historical price and volume data with both raw and split/dividend-adjusted closing prices.
+  description: 'EODHD End-Of-Day Historical Data API. 1 operations. Lead operation: Retrieve end-of-day historical data. Self-contained
+    Naftiko capability covering one Eodhd business surface.'
   tags:
   - Eodhd
-  - API
-  created: '2026-05-06'
-  modified: '2026-05-06'
+  - EODHD End-Of-Day Historical Data API
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    EODHD_API_KEY: EODHD_API_KEY
 capability:
   consumes:
   - type: http
-    namespace: eodhd
+    namespace: eod-historical-data
     baseUri: https://eodhd.com/api
-    description: EODHD End-Of-Day Historical Data API HTTP API.
-    authentication:
-      type: apikey
-      in: query
-      name: api_token
-      value: '{{EODHD_TOKEN}}'
+    description: EODHD End-Of-Day Historical Data API business capability. Self-contained, no shared references.
     resources:
     - name: eod-symbol
       path: /eod/{symbol}
@@ -26,17 +25,22 @@ capability:
       - name: geteodhistoricaldata
         method: GET
         description: Retrieve end-of-day historical data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
         inputParameters:
         - name: symbol
           in: path
           type: string
-          required: true
           description: Ticker symbol with exchange suffix, e.g. AAPL.US.
+          required: true
         - name: api_token
           in: query
           type: string
-          required: true
           description: API token assigned to your EODHD account.
+          required: true
         - name: fmt
           in: query
           type: string
@@ -61,42 +65,52 @@ capability:
           in: query
           type: string
           description: Return only a single field, e.g. last_close or last_volume.
-        outputRawFormat: json
-        outputParameters:
-        - name: result
-          type: object
-          value: $.
+    authentication:
+      type: apikey
+      key: api_token
+      value: '{{env.EODHD_API_KEY}}'
+      placement: query
   exposes:
   - type: rest
+    namespace: eod-historical-data-rest
     port: 8080
-    namespace: eodhd-rest
-    description: REST adapter for EODHD End-Of-Day Historical Data API.
+    description: REST adapter for EODHD End-Of-Day Historical Data API. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
     resources:
-    - path: /eod/{symbol}
-      name: geteodhistoricaldata
+    - path: /v1/eod/{symbol}
+      name: eod-symbol
+      description: REST surface for eod-symbol.
       operations:
       - method: GET
         name: geteodhistoricaldata
         description: Retrieve end-of-day historical data
-        call: eodhd.geteodhistoricaldata
+        call: eod-historical-data.geteodhistoricaldata
         with:
           symbol: rest.symbol
+          api_token: rest.api_token
+          fmt: rest.fmt
+          period: rest.period
+          order: rest.order
+          from: rest.from
+          to: rest.to
+          filter: rest.filter
         outputParameters:
         - type: object
           mapping: $.
   - type: mcp
+    namespace: eod-historical-data-mcp
     port: 9090
-    namespace: eodhd-mcp
     transport: http
-    description: MCP adapter for EODHD End-Of-Day Historical Data API for AI agent use.
+    description: MCP adapter for EODHD End-Of-Day Historical Data API. One tool per consumed operation, routed inline through
+      this capability's consumes block.
     tools:
-    - name: geteodhistoricaldata
+    - name: retrieve-end-day-historical-data
       description: Retrieve end-of-day historical data
       hints:
         readOnly: true
         destructive: false
         idempotent: true
-      call: eodhd.geteodhistoricaldata
+      call: eod-historical-data.geteodhistoricaldata
       with:
         symbol: tools.symbol
         api_token: tools.api_token
@@ -106,37 +120,6 @@ capability:
         from: tools.from
         to: tools.to
         filter: tools.filter
-      inputParameters:
-      - name: symbol
-        type: string
-        description: Ticker symbol with exchange suffix, e.g. AAPL.US.
-        required: true
-      - name: api_token
-        type: string
-        description: API token assigned to your EODHD account.
-        required: true
-      - name: fmt
-        type: string
-        description: Response format. Defaults to csv.
-      - name: period
-        type: string
-        description: Aggregation period. d=daily, w=weekly, m=monthly.
-      - name: order
-        type: string
-        description: Sort order of returned rows. a=ascending, d=descending.
-      - name: from
-        type: string
-        description: Inclusive start date in YYYY-MM-DD format.
-      - name: to
-        type: string
-        description: Inclusive end date in YYYY-MM-DD format.
-      - name: filter
-        type: string
-        description: Return only a single field, e.g. last_close or last_volume.
       outputParameters:
       - type: object
         mapping: $.
-binds:
-- namespace: env
-  keys:
-    EODHD_TOKEN: EODHD_TOKEN
