@@ -11,7 +11,7 @@ tags:
   - Stocks
 access: 3rd-Party
 created: '2025-02-24'
-modified: '2026-04-28'
+modified: '2026-05-19'
 position: Consumer
 specificationVersion: '0.19'
 description: >-
@@ -195,6 +195,12 @@ common:
     type: TermsOfService
   - type: Integrations
     url: https://eodhd.com/marketplace
+  - name: MCP Server
+    url: https://eodhd.com/financial-apis-blog/eodhd-mcp-server-update-75-tools-oauth-and-api-versioning
+    type: MCPServer
+  - name: Agent Skills
+    url: https://eodhd.com/financial-apis-blog/announcing-eodhd-claude-skills-teach-your-ai-the-entire-financial-api
+    type: AgentSkill
 integrations:
   - name: Start selling your data
 maintainers:
