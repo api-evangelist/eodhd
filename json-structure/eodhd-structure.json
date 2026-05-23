@@ -1,0 +1,25 @@
+{
+  "provider": "EODHD",
+  "providerId": "eodhd",
+  "kind": "json-structure",
+  "description": "Structural overview of the EODHD API surface; extracted from openapi/.",
+  "schemaCount": 1,
+  "operationCount": 1,
+  "schemas": [
+    {
+      "name": "EodBar",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/eod/{symbol}",
+      "operationId": "getEodHistoricalData",
+      "summary": "Retrieve end-of-day historical data",
+      "tags": []
+    }
+  ]
+}
