@@ -185,6 +185,8 @@ common:
   - name: Agent Skills
     url: https://eodhd.com/financial-apis-blog/announcing-eodhd-claude-skills-teach-your-ai-the-entire-financial-api
     type: AgentSkill
+  - type: LLMsTxt
+    url: https://eodhd.com/llms.txt
 integrations:
   - name: Start selling your data
 maintainers:
