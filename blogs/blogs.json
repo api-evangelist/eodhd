@@ -2,12 +2,20 @@
   "repo": "eodhd",
   "feeds": [
     {
+      "source": "https://eodhd.com/financial-apis-blog/feed/",
+      "feed_url": "https://eodhd.com/financial-apis-blog/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://eodhd.com/financial-apis-blog/",
       "feed_url": "https://eodhd.com/financial-apis-blog/feed/",
-      "title": "Financial Blog",
-      "saved": 6
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
     }
   ],
   "post_count": 17,
-  "fetched": "2026-05-17T20:20:35Z"
+  "fetched": "2026-06-01T23:35:02Z"
 }
