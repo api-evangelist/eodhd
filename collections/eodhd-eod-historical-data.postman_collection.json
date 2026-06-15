@@ -1,0 +1,415 @@
+{
+  "item": [
+    {
+      "id": "26a899d0-460f-4ba4-8d36-ffd4d24ae5dd",
+      "name": "Retrieve end-of-day historical data",
+      "request": {
+        "name": "Retrieve end-of-day historical data",
+        "description": {
+          "content": "Returns the end-of-day historical OHLCV time series for a given ticker symbol. The symbol must include the exchange suffix, for example AAPL.US or BMW.XETRA. One call per request regardless of date range.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "eod",
+            ":symbol"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "api_token",
+              "value": "<string>",
+              "description": "(Required) API token assigned to your EODHD account."
+            },
+            {
+              "disabled": false,
+              "key": "fmt",
+              "value": "csv",
+              "description": "Response format. Defaults to csv."
+            },
+            {
+              "disabled": false,
+              "key": "period",
+              "value": "d",
+              "description": "Aggregation period. d=daily, w=weekly, m=monthly."
+            },
+            {
+              "disabled": false,
+              "key": "order",
+              "value": "a",
+              "description": "Sort order of returned rows. a=ascending, d=descending."
+            },
+            {
+              "disabled": false,
+              "key": "from",
+              "value": "<date>",
+              "description": "Inclusive start date in YYYY-MM-DD format."
+            },
+            {
+              "disabled": false,
+              "key": "to",
+              "value": "<date>",
+              "description": "Inclusive end date in YYYY-MM-DD format."
+            },
+            {
+              "disabled": false,
+              "key": "filter",
+              "value": "<string>",
+              "description": "Return only a single field, e.g. last_close or last_volume."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "symbol",
+              "description": "(Required) Ticker symbol with exchange suffix, e.g. AAPL.US."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "763f7aca-88ee-4075-aefb-27414a2c00df",
+          "name": "Historical OHLCV time series for the requested symbol.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "eod",
+                ":symbol"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "api_token",
+                  "value": "<string>"
+                },
+                {
+                  "key": "fmt",
+                  "value": "csv"
+                },
+                {
+                  "key": "period",
+                  "value": "d"
+                },
+                {
+                  "key": "order",
+                  "value": "a"
+                },
+                {
+                  "key": "from",
+                  "value": "<date>"
+                },
+                {
+                  "key": "to",
+                  "value": "<date>"
+                },
+                {
+                  "key": "filter",
+                  "value": "<string>"
+                },
+                {
+                  "key": "api_token",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "symbol",
+                  "description": "(Required) Ticker symbol with exchange suffix, e.g. AAPL.US."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n  {\n    \"date\": \"1958-06-08\",\n    \"open\": 1751.3767961577264,\n    \"high\": 9004.232659367985,\n    \"low\": 243.18962116894104,\n    \"close\": 4821.958468920437,\n    \"adjusted_close\": 7116.715534602025,\n    \"volume\": 2830\n  },\n  {\n    \"date\": \"1986-02-17\",\n    \"open\": 5471.928324433102,\n    \"high\": 3385.3305651938304,\n    \"low\": 6366.205025048262,\n    \"close\": 60.11773232495909,\n    \"adjusted_close\": 3003.197078990166,\n    \"volume\": 9991\n  }\n]",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "2e2c900a-f36a-4954-8eda-a1dc9d4303dd",
+          "name": "Missing or invalid api_token.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "eod",
+                ":symbol"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "api_token",
+                  "value": "<string>"
+                },
+                {
+                  "key": "fmt",
+                  "value": "csv"
+                },
+                {
+                  "key": "period",
+                  "value": "d"
+                },
+                {
+                  "key": "order",
+                  "value": "a"
+                },
+                {
+                  "key": "from",
+                  "value": "<date>"
+                },
+                {
+                  "key": "to",
+                  "value": "<date>"
+                },
+                {
+                  "key": "filter",
+                  "value": "<string>"
+                },
+                {
+                  "key": "api_token",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "symbol",
+                  "description": "(Required) Ticker symbol with exchange suffix, e.g. AAPL.US."
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "56de9d8a-59b0-4e8c-bfe4-920ab4dcb85e",
+          "name": "Unknown symbol or exchange.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "eod",
+                ":symbol"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "api_token",
+                  "value": "<string>"
+                },
+                {
+                  "key": "fmt",
+                  "value": "csv"
+                },
+                {
+                  "key": "period",
+                  "value": "d"
+                },
+                {
+                  "key": "order",
+                  "value": "a"
+                },
+                {
+                  "key": "from",
+                  "value": "<date>"
+                },
+                {
+                  "key": "to",
+                  "value": "<date>"
+                },
+                {
+                  "key": "filter",
+                  "value": "<string>"
+                },
+                {
+                  "key": "api_token",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "symbol",
+                  "description": "(Required) Ticker symbol with exchange suffix, e.g. AAPL.US."
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "59d7b78f-7d7d-4f4b-b342-ec5a98a12138",
+          "name": "Rate limit exceeded.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "eod",
+                ":symbol"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "api_token",
+                  "value": "<string>"
+                },
+                {
+                  "key": "fmt",
+                  "value": "csv"
+                },
+                {
+                  "key": "period",
+                  "value": "d"
+                },
+                {
+                  "key": "order",
+                  "value": "a"
+                },
+                {
+                  "key": "from",
+                  "value": "<date>"
+                },
+                {
+                  "key": "to",
+                  "value": "<date>"
+                },
+                {
+                  "key": "filter",
+                  "value": "<string>"
+                },
+                {
+                  "key": "api_token",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "symbol",
+                  "description": "(Required) Ticker symbol with exchange suffix, e.g. AAPL.US."
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Too Many Requests",
+          "code": 429,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://eodhd.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1a74cef0-da4d-4baf-9c1f-a4bbae7dec54",
+    "name": "EODHD End-Of-Day Historical Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Access end-of-day historical OHLCV data for stocks, ETFs, funds, indices, and currencies across global exchanges. Returns daily, weekly, or monthly historical price and volume data with both raw and split/dividend-adjusted closing prices.\n\nContact Support:\n Name: EODHD Support",
+      "type": "text/plain"
+    }
+  }
+}

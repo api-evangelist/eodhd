@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "EODHD End-Of-Day Historical Data API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_token",
+      "value": "{{api_token}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Retrieve end-of-day historical data",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://eodhd.com/api/eod/:symbol",
+        "params": [
+          {
+            "name": "symbol",
+            "value": "",
+            "type": "path",
+            "description": "Ticker symbol with exchange suffix, e.g. AAPL.US."
+          },
+          {
+            "name": "api_token",
+            "value": "",
+            "type": "query",
+            "description": "API token assigned to your EODHD account."
+          },
+          {
+            "name": "fmt",
+            "value": "",
+            "type": "query",
+            "description": "Response format. Defaults to csv."
+          },
+          {
+            "name": "period",
+            "value": "",
+            "type": "query",
+            "description": "Aggregation period. d=daily, w=weekly, m=monthly."
+          },
+          {
+            "name": "order",
+            "value": "",
+            "type": "query",
+            "description": "Sort order of returned rows. a=ascending, d=descending."
+          },
+          {
+            "name": "from",
+            "value": "",
+            "type": "query",
+            "description": "Inclusive start date in YYYY-MM-DD format."
+          },
+          {
+            "name": "to",
+            "value": "",
+            "type": "query",
+            "description": "Inclusive end date in YYYY-MM-DD format."
+          },
+          {
+            "name": "filter",
+            "value": "",
+            "type": "query",
+            "description": "Return only a single field, e.g. last_close or last_volume."
+          }
+        ]
+      },
+      "docs": "Returns the end-of-day historical OHLCV time series for a given ticker symbol. The symbol must include the exchange suffix, for example AAPL.US or BMW.XETRA. One call per request regardless of date range."
+    }
+  ],
+  "bundled": true
+}
