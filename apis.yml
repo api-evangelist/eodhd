@@ -156,6 +156,10 @@ apis:
       Lists supported exchanges and instruments with metadata including ticker, exchange code, name, type, and
       identifier mappings (CUSIP, ISIN, FIGI) to support symbol lookup and reference data workflows.
 common:
+  - type: DomainSecurity
+    url: security/eodhd-domain-security.yml
+  - type: Authentication
+    url: authentication/eodhd-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/EodHistoricalData
   - type: LinkedIn
