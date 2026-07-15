@@ -156,6 +156,8 @@ apis:
       Lists supported exchanges and instruments with metadata including ticker, exchange code, name, type, and
       identifier mappings (CUSIP, ISIN, FIGI) to support symbol lookup and reference data workflows.
 common:
+  - type: AgenticAccess
+    url: agentic-access/eodhd-agentic-access.yml
   - type: DomainSecurity
     url: security/eodhd-domain-security.yml
   - type: Authentication
