@@ -1,0 +1,37 @@
+generated: '2026-07-22'
+method: derived
+format: proprietary-json-envelope
+source: openapi/eodhd-financial-data-openapi.yml (4xx/5xx responses) + https://eodhd.com/llms.txt + https://eodhd.com/financial-apis/api-limits
+envelope:
+  shape: '{"error": "Error message", "code": 403}'
+  schema: openapi/eodhd-financial-data-openapi.yml#/components/schemas/Error
+  notes: Marketplace index endpoints (getIndexComponents, listIndicesWithDetails) return text/html error pages instead of the JSON envelope.
+problems:
+  - status: 400
+    title: Bad request
+    detail: Malformed parameters (bad date format, invalid filter expression, unknown fmt value).
+  - status: 401
+    title: Missing or invalid api_token
+    detail: The api_token query parameter is absent, wrong, or the demo token was used outside its allowed tickers.
+    remediation: Register at https://eodhd.com/register and pass ?api_token=YOUR_KEY on every request.
+  - status: 402
+    title: Daily API-call quota exhausted
+    detail: The plan's daily allowance (100,000 calls/day on paid plans, 20/day free) is spent; endpoints consume 1-100 calls per request.
+    remediation: Wait for the midnight-GMT reset or upgrade the plan; check usage via GET /user.
+  - status: 403
+    title: Forbidden / not in plan
+    detail: The subscription does not include the requested endpoint or marketplace product.
+    remediation: Upgrade the plan or subscribe to the marketplace product; PRAAMS/marketplace endpoints require separate authorization.
+  - status: 404
+    title: Unknown symbol, exchange, or resource
+    detail: Ticker/exchange suffix not found — verify the {TICKER}.{EXCHANGE} symbol format (see conventions/).
+  - status: 429
+    title: Rate limit exceeded
+    detail: More than 1,000 HTTP requests per minute.
+    remediation: Back off and retry; spread bulk pulls across minutes or use bulk endpoints.
+sources_of_truth:
+  - https://eodhd.com/financial-apis/api-limits
+notes: >-
+  Derived from the 4xx responses declared across the official spec's operations plus
+  the documented rate-limit semantics (429 = per-minute limit, 402 = daily quota).
+  The API does not use RFC 9457 problem+json.

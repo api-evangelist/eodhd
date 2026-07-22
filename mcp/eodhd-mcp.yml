@@ -1,0 +1,29 @@
+generated: '2026-07-22'
+method: searched
+status: published
+source: https://mcpv2.eodhd.dev/v1/mcp (live tools/list, anonymous) + https://eodhd.com/financial-apis-blog/eodhd-mcp-server-update-75-tools-oauth-and-api-versioning
+server:
+  name: eodhd
+  vendor: EODHD (Unicorn Data Services SAS)
+  transport: http
+  open_source: https://github.com/EodHistoricalData/EODHD-MCP-Server
+  versions:
+    - version: v1
+      url: https://mcpv2.eodhd.dev/v1/mcp?apikey=YOUR_API_KEY
+      authorization: API key (query parameter). tools/list responds anonymously with full inputSchemas; tool calls require a key.
+    - version: v2
+      url: https://mcpv2.eodhd.dev/v2/mcp
+      authorization: OAuth 2.0 (authorization code + PKCE S256, dynamic client registration, resource indicators). tools/list requires a Bearer token.
+  oauth:
+    authorization_server: https://mcpv2.eodhd.dev/.well-known/oauth-authorization-server
+    protected_resource: https://mcpv2.eodhd.dev/.well-known/oauth-protected-resource
+    scopes: [read:eod, read:intraday, read:live, read:fundamentals, read:news, read:technicals, read:options, read:marketplace, read:screener, read:macro, read:user, full-access]
+  legacy_url: https://mcp.eodhd.dev/mcp
+tools_count: 86
+tools_file: mcp/eodhd-mcp-tools.json
+crosswalk: mcp/eodhd-tool-crosswalk.yml
+notes: >-
+  Official EODHD MCP server (open source, Python). The live v1 tools/list was captured
+  anonymously on 2026-07-22 and saved verbatim with every tool's inputSchema in
+  mcp/eodhd-mcp-tools.json (86 tools — the provider's blog advertises "75+"). v2 adds
+  OAuth 2.0 with 12 published scopes and per-endpoint scope gating.

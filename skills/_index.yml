@@ -1,0 +1,78 @@
+generated: '2026-07-22'
+method: searched
+source: https://github.com/EodHistoricalData/eodhd-claude-skills
+note: Provider-published Claude/Agent Skills saved verbatim from the official EODHD eodhd-claude-skills plugin repo
+  (MIT-licensed). The full plugin also ships an eodhd-api skill with 72 endpoint reference guides, scripts, and
+  templates not mirrored here.
+skills:
+- file: eodhd-company-brief.md
+  name: company-brief
+  description: 'Generate a comprehensive company snapshot using EODHD data — profile, fundamentals, recent news,
+    sentiment, insider transactions, and key metrics. Use when the user asks about a specific company, wants a stock
+    overview, '
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/company-brief/SKILL.md
+- file: eodhd-earnings-monitor.md
+  name: earnings-monitor
+  description: 'Monitor upcoming and recent earnings — calendar, trends, news context, and options activity around
+    earnings dates. Use when the user asks about earnings season, upcoming reports, earnings surprises, or pre/post-earnings '
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/earnings-monitor/SKILL.md
+- file: eodhd-analyze.md
+  name: eodhd-analyze
+  description: Comprehensive single-company analysis using EODHD data — profile, fundamentals, price action, news
+    sentiment, insider activity, and technicals, presented as a structured company brief. Invoke as /eodhd-analyze
+    <ticker>.
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/eodhd-analyze/SKILL.md
+- file: eodhd-api.md
+  name: eodhd-api
+  description: Fetch financial data from EODHD API — historical prices, fundamentals, options, technical indicators,
+    news, sentiment, macro indicators, corporate events, ESG scores, risk analytics, bank data, US Treasury rates,
+    and tra
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/eodhd-api/SKILL.md
+- file: eodhd-compare.md
+  name: eodhd-compare
+  description: Side-by-side comparison of two or more companies using EODHD data — valuation, financials, profitability,
+    performance, and dividends in comparison tables. Invoke as /eodhd-compare <ticker1> <ticker2> ...
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/eodhd-compare/SKILL.md
+- file: eodhd-macro.md
+  name: eodhd-macro
+  description: Macro-economic dashboard using EODHD data — GDP, CPI, unemployment, interest rates, Treasury yield
+    curve, real yields, and the economic events calendar. Invoke as /eodhd-macro [country or region].
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/eodhd-macro/SKILL.md
+- file: eodhd-market.md
+  name: eodhd-market
+  description: Comprehensive market overview using EODHD data — major indices, sector performance, Treasury yield
+    curve, macro snapshot, and commodities. Invoke as /eodhd-market [region].
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/eodhd-market/SKILL.md
+- file: eodhd-screen.md
+  name: eodhd-screen
+  description: Screen stocks by fundamental and technical criteria using the EODHD screener — market cap, P/E, dividend
+    yield, sector, exchange, and signals, with currency- aware thresholds. Invoke as /eodhd-screen <criteria>.
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/eodhd-screen/SKILL.md
+- file: eodhd-macro-dashboard.md
+  name: macro-dashboard
+  description: Macro-economic dashboard — GDP, CPI, unemployment, interest rates, Treasury yields, trade balance,
+    and economic events calendar. Use when the user asks about the economy, macro trends, interest rates, or economic
+    indicat
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/macro-dashboard/SKILL.md
+- file: eodhd-market-overview.md
+  name: market-overview
+  description: Generate a broad market overview — major indices, sector performance, top movers, macro indicators,
+    Treasury rates, and commodities. Use when the user asks "how's the market?", wants a daily market summary, or
+    needs a ma
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/market-overview/SKILL.md
+- file: eodhd-options-analyzer.md
+  name: options-analyzer
+  description: Analyze options chains, implied volatility, Greeks, and strategy payoffs using EODHD Marketplace
+    options data. Use when the user asks about options, implied volatility, Greeks, or options strategies.
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/options-analyzer/SKILL.md
+- file: eodhd-portfolio-risk.md
+  name: portfolio-risk
+  description: Analyze portfolio risk — technical indicators, sentiment shifts, insider alerts, ESG scores, and
+    volatility metrics. Use when the user asks about portfolio risk, wants to assess holdings, or needs risk/reward
+    analysis.
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/portfolio-risk/SKILL.md
+- file: eodhd-stock-screener.md
+  name: stock-screener
+  description: Screen stocks by fundamental and technical criteria using EODHD screener — filter by market cap,
+    P/E, dividend yield, sector, signals, and more. Use when the user wants to find stocks matching specific criteria.
+  source: https://github.com/EodHistoricalData/eodhd-claude-skills/blob/main/skills/stock-screener/SKILL.md

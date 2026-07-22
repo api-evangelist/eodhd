@@ -4,7 +4,7 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: EODHD
 providerId: eodhd
 created: '2026-05-04'
-modified: '2026-05-05'
+modified: '2026-07-22'
 reconciled: true
 tags:
   - Rate Limiting
@@ -16,9 +16,10 @@ description: EODHD enforces both a per-day API call ceiling (20 on free, 100,000
 sources:
   - https://eodhd.com/pricing
   - https://eodhd.com/financial-apis/api-for-historical-data-and-volumes
+  - https://eodhd.com/llms.txt
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
+  quotaExceeded: 402
 limits:
   - name: Free tier daily call ceiling
     scope: api-token

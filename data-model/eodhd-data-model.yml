@@ -1,0 +1,68 @@
+generated: '2026-07-22'
+method: derived
+source: openapi/eodhd-financial-data-openapi.yml (components.schemas + path/parameter structure) + https://eodhd.com/llms.txt (symbol format, identifier coverage)
+identifiers:
+  primary: "symbol — {TICKER}.{EXCHANGE_CODE} (e.g. AAPL.US, BMW.XETRA)"
+  external: [CUSIP, ISIN, FIGI, LEI, CIK]
+  mapping_operation: GetIdMapping (GET /id-mapping)
+entities:
+  - entity: Exchange
+    key: exchange code (also MIC)
+    operations: [GetListOfExchanges, GetExchangeDetails, GetExchangeDetailsV2, ListExchangeDetailsV2]
+  - entity: Symbol / Instrument
+    key: symbol ({TICKER}.{EXCHANGE})
+    operations: [GetExchangeSymbolList, SearchStocksByQuery, GetIdMapping, GetSymbolChangeHistory]
+    notes: SearchResult schema carries Code, Exchange, Name, Type, ISIN.
+  - entity: EodBar (OHLCV time series)
+    operations: [GetEODDataByTicker, GetBulkEODData, GetIntradayHistoricalData]
+  - entity: Quote (live/delayed)
+    operations: [GetLiveDelayedStockPrices, GetUSQuoteDelayed]
+  - entity: Fundamentals document
+    operations: [GetFundamentalData, GetFundamentalDataV1_1, GetBulkFundamentals]
+    notes: Nested sections — General, Highlights, Valuation, Financials (FinancialStatementRow), Earnings, Holders, ETF/Fund data.
+  - entity: Dividend / Split event
+    operations: [GetHistoricalDividends, GetHistoricalSplits, GetUpcomingDividends, GetUpcomingSplits]
+  - entity: CalendarEvent (earnings, IPOs, trends)
+    operations: [GetUpcomingEarnings, GetUpcomingIPOs, GetEarningsTrends]
+  - entity: NewsArticle (+ sentiment)
+    operations: [GetFinancialNews, GetSentimentData, getNewsWordWeights]
+  - entity: OptionsContract
+    key: contract id per underlying symbol
+    operations: [getOptionsContracts, getOptionsEOD, listUnderlyingSymbols]
+    notes: OptionsContractsItem/OptionsEODItem with JSON:API Links + MetaPagination.
+  - entity: Index (+ components)
+    operations: [listIndicesWithDetails, getIndexComponents, GetCBOEIndices, GetCBOEIndexData]
+    notes: IndexComponentItem and HistoricalComponentsMap give current and historical constituents.
+  - entity: MacroSeries / EconomicEvent
+    operations: [GetMacroIndicatorData, GetEconomicEventsData, GetUSTBillRates, GetUSTYieldRates, GetUSTRealYieldRates, GetUSTLongTermRates, GetReferenceRates, GetPolicyRates, GetFundingStressSpreads]
+  - entity: CreditRiskSeries
+    operations: [GetSovereignRiskPremium, GetSovereignCreditRatings, GetSovereignCdsSpreads, GetSovereignDefaultSpreads, GetCorporateCmdi, GetCorporateHqmYields, GetCdsMarketAggregates]
+  - entity: SanctionedParty
+    operations: [GetSanctionsEntities, GetSanctionsVessels, GetSanctionsPrograms, GetSanctionsSources]
+  - entity: ESGScore
+    operations: [GetESGRating, GetESGCompanies, GetESGCountries, GetESGCountryDetails, GetESGSectors, GetESGSectorDetails]
+  - entity: RiskAnalysis (PRAAMS)
+    operations: [AnalysePRAAMSEquityByTicker, AnalysePRAAMSEquityByISIN, AnalysePRAAMSBond, ExplorePRAAMSEquities, ExplorePRAAMSBonds, GetPRAAMSEquityReportByTicker, GetPRAAMSEquityReportByISIN, GetPRAAMSBondReport, GetPRAAMSBankBalanceSheetByTicker, GetPRAAMSBankBalanceSheetByISIN, GetPRAAMSBankIncomeByTicker, GetPRAAMSBankIncomeByISIN]
+  - entity: Tick
+    operations: [GetTickData, GetMarketplaceTickData]
+  - entity: InsiderTransaction
+    operations: [GetInsiderTransactions]
+  - entity: User / Account
+    operations: [GetUserDetails, GetInternalUserInfo]
+relationships:
+  - {from: Exchange, to: Symbol, type: has_many, via: exchange code suffix in symbol}
+  - {from: Symbol, to: EodBar, type: has_many, via: symbol path parameter}
+  - {from: Symbol, to: Quote, type: has_one, via: symbol path parameter}
+  - {from: Symbol, to: Fundamentals document, type: has_one, via: symbol path parameter}
+  - {from: Symbol, to: Dividend / Split event, type: has_many, via: symbol path parameter}
+  - {from: Symbol, to: NewsArticle, type: has_many, via: s= ticker query parameter}
+  - {from: Symbol, to: OptionsContract, type: has_many, via: underlying symbol}
+  - {from: Index, to: Symbol, type: has_many, via: component constituents}
+  - {from: Symbol, to: InsiderTransaction, type: has_many, via: ticker code}
+  - {from: Symbol, to: ESGScore, type: has_many, via: symbol, per year/frequency}
+  - {from: Symbol, to: RiskAnalysis (PRAAMS), type: has_one, via: ticker or ISIN}
+  - {from: Symbol, to: Tick, type: has_many, via: ticker + millisecond timestamps}
+notes: >-
+  Entity graph derived from the operation surface and schema names of the official
+  spec; the symbol string ({TICKER}.{EXCHANGE}) is the join key across virtually the
+  entire API, with CUSIP/ISIN/FIGI/LEI/CIK as external identifier bridges.

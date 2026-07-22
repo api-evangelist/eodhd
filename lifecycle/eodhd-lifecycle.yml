@@ -1,0 +1,23 @@
+generated: '2026-07-22'
+method: searched
+source: https://eodhd.com/llms.txt + https://eodhd.com/financial-apis-blog/ + openapi/eodhd-financial-data-openapi.yml
+versioning:
+  scheme: per-endpoint URI-path versions
+  examples:
+    - GET /v1.1/fundamentals/{ticker} and /v1.1/bulk-fundamentals/{EXCHANGE} (v1.1 alongside v1)
+    - GET /v2/exchange-details (v2 announced 2026-05-04, v1 still served)
+  mcp: MCP server versioned v1 (API key) / v2 (OAuth 2.0)
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No published deprecation policy or RFC 8594 Sunset-header contract found; superseded endpoint versions (v1 exchange-details, v1 fundamentals) remain live alongside newer versions.
+sla:
+  url: null
+  notes: No public SLA; B2B clients get a dedicated account manager and 24/7 human support.
+status_page: null
+status_page_notes: No public status page found (status.eodhd.com does not resolve; /status returns 404).
+changelog: changelog/eodhd-changelog.yml
+deprecated_operations: []
+notes: >-
+  The published OpenAPI marks no operations deprecated. Lifecycle communication happens
+  through dated blog announcements (see changelog/) and endpoint-level versioning.

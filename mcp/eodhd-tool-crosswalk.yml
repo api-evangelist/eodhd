@@ -1,0 +1,527 @@
+generated: '2026-07-22'
+method: derived
+source: live tools/list on https://mcpv2.eodhd.dev/v1/mcp (86 tools, anonymous) bound to openapi/eodhd-financial-data-openapi.yml (83 operations)
+surfaces:
+  openapi: openapi/eodhd-financial-data-openapi.yml
+  mcp:
+    v1: https://mcpv2.eodhd.dev/v1/mcp?apikey=YOUR_API_KEY (tools/list open anonymously; tool calls require API key)
+    v2: https://mcpv2.eodhd.dev/v2/mcp (OAuth 2.0; tools/list requires Bearer token)
+    tools_file: mcp/eodhd-mcp-tools.json
+  websocket: wss://ws.eodhistoricaldata.com/ws/{market} — streaming surface, no OpenAPI/AsyncAPI published by provider (see asyncapi/eodhd-websockets-asyncapi.yml,
+    derived)
+coverage:
+  mcp_tools: 86
+  tools_bound: 78
+  mcp_only: 8
+  rest_operations: 83
+  rest_operations_with_tool: 80
+  rest_only: 3
+crosswalk:
+- tool: get_historical_stock_prices
+  category: End-of-Day Data
+  rest:
+  - GetEODDataByTicker
+  binding: rest
+  confidence: high
+- tool: get_live_price_data
+  category: Live (Delayed) Data
+  rest:
+  - GetLiveDelayedStockPrices
+  binding: rest
+  confidence: high
+- tool: get_intraday_historical_data
+  category: Intraday Data
+  rest:
+  - GetIntradayHistoricalData
+  binding: rest
+  confidence: high
+- tool: get_company_news
+  category: News
+  rest:
+  - GetFinancialNews
+  binding: rest
+  confidence: high
+- tool: get_sentiment_data
+  category: News
+  rest:
+  - GetSentimentData
+  binding: rest
+  confidence: high
+- tool: get_news_word_weights
+  category: News
+  rest:
+  - getNewsWordWeights
+  binding: rest
+  confidence: high
+- tool: get_exchanges_list
+  category: Exchanges
+  rest:
+  - GetListOfExchanges
+  binding: rest
+  confidence: high
+- tool: get_exchange_tickers
+  category: Exchanges
+  rest:
+  - GetExchangeSymbolList
+  binding: rest
+  confidence: high
+- tool: get_macro_indicator
+  category: Economic Data
+  rest:
+  - GetMacroIndicatorData
+  binding: rest
+  confidence: high
+- tool: get_stocks_from_search
+  category: Screening
+  rest:
+  - SearchStocksByQuery
+  binding: rest
+  confidence: high
+- tool: get_user_details
+  category: User
+  rest:
+  - GetUserDetails
+  - GetInternalUserInfo
+  binding: rest
+  confidence: high
+  note: Two user-detail operations exist (/user and /internal-user); the tool description matches the account/usage payload of both.
+- tool: get_exchange_details
+  category: Exchanges
+  rest:
+  - GetExchangeDetails
+  - GetExchangeDetailsV2
+  binding: rest
+  confidence: high
+  note: v1 and v2 exchange-details operations both back this tool; the MCP server update announced API versioning.
+- tool: get_symbol_change_history
+  category: Corporate Actions
+  rest:
+  - GetSymbolChangeHistory
+  binding: rest
+  confidence: high
+- tool: get_historical_market_cap
+  category: Market Data
+  rest:
+  - GetHistoricalMarketCap
+  binding: rest
+  confidence: high
+- tool: get_historical_dividends
+  category: Dividends & Splits
+  rest:
+  - GetHistoricalDividends
+  binding: rest
+  confidence: high
+- tool: get_historical_splits
+  category: Dividends & Splits
+  rest:
+  - GetHistoricalSplits
+  binding: rest
+  confidence: high
+- tool: get_insider_transactions
+  category: Corporate Actions
+  rest:
+  - GetInsiderTransactions
+  binding: rest
+  confidence: high
+- tool: get_insider_transactions_form4
+  category: Corporate Actions
+  rest:
+  - GetInsiderTransactions
+  binding: rest
+  confidence: medium
+  note: SEC Form 4 detail view of the same insider-transactions surface; no separate Form 4 operation in the published OpenAPI.
+- tool: get_historical_commodity_prices
+  category: Economic Data
+  rest:
+  - GetCommodityHistoricalData
+  binding: rest
+  confidence: high
+- tool: get_us_tick_data
+  category: Tick Data
+  rest:
+  - GetTickData
+  binding: rest
+  confidence: high
+- tool: stock_screener
+  category: Screening
+  rest:
+  - GetStockScreenerData
+  binding: rest
+  confidence: high
+- tool: get_economic_events
+  category: Economic Data
+  rest:
+  - GetEconomicEventsData
+  binding: rest
+  confidence: high
+- tool: get_upcoming_earnings
+  category: Calendar
+  rest:
+  - GetUpcomingEarnings
+  binding: rest
+  confidence: high
+- tool: get_earnings_trends
+  category: Calendar
+  rest:
+  - GetEarningsTrends
+  binding: rest
+  confidence: high
+- tool: get_upcoming_ipos
+  category: Calendar
+  rest:
+  - GetUpcomingIPOs
+  binding: rest
+  confidence: high
+- tool: get_upcoming_splits
+  category: Calendar
+  rest:
+  - GetUpcomingSplits
+  binding: rest
+  confidence: high
+- tool: get_upcoming_dividends
+  category: Calendar
+  rest:
+  - GetUpcomingDividends
+  binding: rest
+  confidence: high
+- tool: get_fundamentals_data
+  category: Fundamentals
+  rest:
+  - GetFundamentalData
+  - GetFundamentalDataV1_1
+  binding: rest
+  confidence: high
+  note: v1 and v1.1 fundamentals operations both exist in the spec.
+- tool: get_technical_indicators
+  category: Technical
+  rest:
+  - GetTechnicalIndicatorData
+  binding: rest
+  confidence: high
+- tool: get_us_live_extended_quotes
+  category: Live (Delayed) Data
+  rest:
+  - GetUSQuoteDelayed
+  binding: rest
+  confidence: high
+- tool: get_cboe_indices_list
+  category: CBOE
+  rest:
+  - GetCBOEIndices
+  binding: rest
+  confidence: high
+- tool: get_cboe_index_data
+  category: CBOE
+  rest:
+  - GetCBOEIndexData
+  binding: rest
+  confidence: high
+- tool: get_bulk_fundamentals
+  category: Fundamentals
+  rest:
+  - GetBulkFundamentals
+  - GetBulkFundamentalsV1_1
+  binding: rest
+  confidence: high
+- tool: get_stock_market_logos
+  category: Logos
+  rest:
+  - getTickerLogo
+  binding: rest
+  confidence: high
+- tool: get_stock_market_logos_svg
+  category: Logos
+  rest:
+  - getTickerLogoSvg
+  binding: rest
+  confidence: high
+- tool: get_ust_bill_rates
+  category: US Treasury
+  rest:
+  - GetUSTBillRates
+  binding: rest
+  confidence: high
+- tool: get_ust_yield_rates
+  category: US Treasury
+  rest:
+  - GetUSTYieldRates
+  binding: rest
+  confidence: high
+- tool: get_ust_real_yield_rates
+  category: US Treasury
+  rest:
+  - GetUSTRealYieldRates
+  binding: rest
+  confidence: high
+- tool: get_ust_long_term_rates
+  category: US Treasury
+  rest:
+  - GetUSTLongTermRates
+  binding: rest
+  confidence: high
+- tool: resolve_ticker
+  category: Screening
+  rest:
+  - SearchStocksByQuery
+  binding: rest
+  confidence: medium
+  note: Wraps the Search API to normalize a name/ISIN to SYMBOL.EXCHANGE; the ID-mapping operation (GetIdMapping) covers the ISIN path server-side.
+- tool: get_credit_sovereign_risk_premium
+  category: Credit & Sovereign Risk
+  rest:
+  - GetSovereignRiskPremium
+  binding: rest
+  confidence: high
+- tool: get_credit_sovereign_credit_ratings
+  category: Credit & Sovereign Risk
+  rest:
+  - GetSovereignCreditRatings
+  binding: rest
+  confidence: high
+- tool: get_credit_sovereign_cds_spreads
+  category: Credit & Sovereign Risk
+  rest:
+  - GetSovereignCdsSpreads
+  binding: rest
+  confidence: high
+- tool: get_credit_sovereign_default_spreads
+  category: Credit & Sovereign Risk
+  rest:
+  - GetSovereignDefaultSpreads
+  binding: rest
+  confidence: high
+- tool: get_credit_corporate_cmdi
+  category: Credit & Sovereign Risk
+  rest:
+  - GetCorporateCmdi
+  binding: rest
+  confidence: high
+- tool: get_credit_corporate_hqm_yields
+  category: Credit & Sovereign Risk
+  rest:
+  - GetCorporateHqmYields
+  binding: rest
+  confidence: high
+- tool: get_credit_cds_market_aggregates
+  category: Credit & Sovereign Risk
+  rest:
+  - GetCdsMarketAggregates
+  binding: rest
+  confidence: high
+- tool: get_sanctions_entities
+  category: Sanctions
+  rest:
+  - GetSanctionsEntities
+  binding: rest
+  confidence: high
+- tool: get_sanctions_vessels
+  category: Sanctions
+  rest:
+  - GetSanctionsVessels
+  binding: rest
+  confidence: high
+- tool: get_sanctions_programs
+  category: Sanctions
+  rest:
+  - GetSanctionsPrograms
+  binding: rest
+  confidence: high
+- tool: get_sanctions_sources
+  category: Sanctions
+  rest:
+  - GetSanctionsSources
+  binding: rest
+  confidence: high
+- tool: get_rates_reference_rates
+  category: Interest Rates
+  rest:
+  - GetReferenceRates
+  binding: rest
+  confidence: high
+- tool: get_rates_policy_rates
+  category: Interest Rates
+  rest:
+  - GetPolicyRates
+  binding: rest
+  confidence: high
+- tool: get_rates_funding_stress
+  category: Interest Rates
+  rest:
+  - GetFundingStressSpreads
+  binding: rest
+  confidence: high
+- tool: get_us_options_contracts
+  category: Options
+  rest:
+  - getOptionsContracts
+  binding: rest
+  confidence: high
+- tool: get_us_options_eod
+  category: Options
+  rest:
+  - getOptionsEOD
+  binding: rest
+  confidence: high
+- tool: get_us_options_underlyings
+  category: Options
+  rest:
+  - listUnderlyingSymbols
+  binding: rest
+  confidence: high
+- tool: mp_indices_list
+  category: Indices
+  rest:
+  - listIndicesWithDetails
+  binding: rest
+  confidence: high
+- tool: mp_index_components
+  category: Indices
+  rest:
+  - getIndexComponents
+  binding: rest
+  confidence: high
+- tool: get_mp_tick_data
+  category: Tick Data
+  rest:
+  - GetMarketplaceTickData
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_risk_scoring_by_ticker
+  category: Investment Analytics
+  rest:
+  - AnalysePRAAMSEquityByTicker
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_risk_scoring_by_isin
+  category: Investment Analytics
+  rest:
+  - AnalysePRAAMSEquityByISIN
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_bond_analyze_by_isin
+  category: Investment Analytics
+  rest:
+  - AnalysePRAAMSBond
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_bank_income_statement_by_ticker
+  category: Investment Analytics
+  rest:
+  - GetPRAAMSBankIncomeByTicker
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_bank_income_statement_by_isin
+  category: Investment Analytics
+  rest:
+  - GetPRAAMSBankIncomeByISIN
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_bank_balance_sheet_by_ticker
+  category: Investment Analytics
+  rest:
+  - GetPRAAMSBankBalanceSheetByTicker
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_bank_balance_sheet_by_isin
+  category: Investment Analytics
+  rest:
+  - GetPRAAMSBankBalanceSheetByISIN
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_smart_screener_bond
+  category: Investment Analytics
+  rest:
+  - ExplorePRAAMSBonds
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_smart_screener_equity
+  category: Investment Analytics
+  rest:
+  - ExplorePRAAMSEquities
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_report_equity_by_ticker
+  category: Investment Analytics
+  rest:
+  - GetPRAAMSEquityReportByTicker
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_report_equity_by_isin
+  category: Investment Analytics
+  rest:
+  - GetPRAAMSEquityReportByISIN
+  binding: rest
+  confidence: high
+- tool: get_mp_praams_report_bond_by_isin
+  category: Investment Analytics
+  rest:
+  - GetPRAAMSBondReport
+  binding: rest
+  confidence: high
+- tool: get_mp_investverte_esg_list_companies
+  category: ESG
+  rest:
+  - GetESGCompanies
+  binding: rest
+  confidence: high
+- tool: get_mp_investverte_esg_list_countries
+  category: ESG
+  rest:
+  - GetESGCountries
+  binding: rest
+  confidence: high
+- tool: get_mp_investverte_esg_view_country
+  category: ESG
+  rest:
+  - GetESGCountryDetails
+  binding: rest
+  confidence: high
+- tool: get_mp_investverte_esg_view_company
+  category: ESG
+  rest:
+  - GetESGRating
+  binding: rest
+  confidence: high
+- tool: get_mp_investverte_esg_list_sectors
+  category: ESG
+  rest:
+  - GetESGSectors
+  binding: rest
+  confidence: high
+- tool: get_mp_investverte_esg_view_sector
+  category: ESG
+  rest:
+  - GetESGSectorDetails
+  binding: rest
+  confidence: high
+mcp_only:
+- tool: capture_realtime_ws
+  reason: Streams the WebSocket surface (wss://ws.eodhistoricaldata.com/ws/{us,us-quote,forex,crypto}) for a fixed window; no REST operation — see asyncapi/eodhd-websockets-asyncapi.yml.
+- tool: get_asx_corporate_actions
+  reason: ASX corporate-actions endpoint (announced 2026-04-15) is not yet present in the published OpenAPI specification.
+- tool: get_support_resistance_levels
+  reason: 'Server-side composite: fetches historical OHLCV then computes pivot-point support/resistance levels (Classic/Fibonacci/Woodie/Camarilla/Demark); no single
+    backing REST operation.'
+- tool: retrieve_description_by_id
+  reason: Returns built-in EODHD documentation content by numeric type/id; an MCP-internal documentation surface with no public REST operation.
+- tool: get_mp_tradinghours_list_markets
+  reason: TradingHours marketplace endpoint (GET /mp/tradinghours/markets, documented in llms.txt) is not present in the published OpenAPI specification.
+- tool: get_mp_tradinghours_lookup_markets
+  reason: TradingHours marketplace endpoint (GET /mp/tradinghours/markets/lookup, documented in llms.txt) is not present in the published OpenAPI specification.
+- tool: get_mp_tradinghours_market_details
+  reason: TradingHours marketplace endpoint (GET /mp/tradinghours/markets/details, documented in llms.txt) is not present in the published OpenAPI specification.
+- tool: get_mp_tradinghours_market_status
+  reason: TradingHours marketplace endpoint (GET /mp/tradinghours/markets/status, documented in llms.txt) is not present in the published OpenAPI specification.
+rest_only:
+- operationId: GetBulkEODData
+  method: GET
+  path: /eod-bulk-last-day/{exchange}
+  category: End-of-Day Data
+- operationId: GetIdMapping
+  method: GET
+  path: /id-mapping
+  category: Exchanges
+- operationId: ListExchangeDetailsV2
+  method: GET
+  path: /v2/exchange-details
+  category: Exchanges

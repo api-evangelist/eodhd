@@ -1,0 +1,62 @@
+generated: '2026-07-22'
+method: searched
+source: https://eodhd.com/financial-apis-blog/ (dated release announcements; no standalone changelog page — /financial-apis/api-changelog and /changelog return 404)
+scheme: dated blog announcements per new API/feature; endpoint-level URI versioning (v1.1, v2) where breaking
+entries:
+  - date: '2026-07-17'
+    title: Real Estate Data API introduced
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/introducing-the-real-estate-data-api
+  - date: '2026-07-16'
+    title: Congressional Trades API introduced
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/introducing-the-congressional-trades-api
+  - date: '2026-07-01'
+    title: Credit & Sovereign Risk Data API introduced
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/introducing-the-credit-sovereign-risk-data-api
+  - date: '2026-06-11'
+    title: Interest Rates API (SOFR, Fed Funds, ECB, BoE policy rates)
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/new-interest-rates-api-sofr-fed-funds-ecb-boe-policy-rates
+  - date: '2026-06-11'
+    title: Sanctions API (OFAC screening data for entities and vessels)
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/new-sanctions-api-ofac-screening-data-for-entities-vessels
+  - date: '2026-05-04'
+    title: Exchange Details API v2 goes live
+    type: version
+    url: https://eodhd.com/financial-apis-blog/exchange-details-api-v2-is-live
+  - date: '2026-04-15'
+    title: ASX Corporate Actions API
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/new-api-asx-corporate-actions
+  - date: '2026-04-08'
+    title: Commodities API — historical prices for energy, metals, agriculture
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/commodities-api-historical-prices-for-energy-metals
+  - date: '2026-03-31'
+    title: 'MCP Server update: 75 tools, OAuth 2.0, API versioning (v1/v2)'
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/eodhd-mcp-server-update-75-tools-oauth-and-api-versioning
+  - date: '2026-03-12'
+    title: Interactive OpenAPI documentation (Swagger UI + Redoc)
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/introducing-interactive-openapi-documentation-swagger-ui
+  - date: '2026-03-09'
+    title: EODHD Claude Skills plugin released
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/announcing-eodhd-claude-skills-teach-your-ai-the-entire-financial-api
+  - date: '2026-03-06'
+    title: New Node.js/TypeScript SDK
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/new-nodejs-sdk-for-eodhd-financial-apis
+  - date: '2026-02-04'
+    title: US Treasury Interest Rates API
+    type: addition
+    url: https://eodhd.com/financial-apis-blog/us-treasury-interest-rates-api
+notes: >-
+  EODHD ships product changes as dated blog announcements rather than a versioned
+  changelog document; the recent window above is captured from announcements already
+  harvested into blogs/. No breaking changes were announced in this window — v2 and
+  v1.1 endpoints were introduced alongside their predecessors.

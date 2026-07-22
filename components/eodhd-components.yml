@@ -1,0 +1,31 @@
+generated: '2026-07-22'
+method: searched
+source: https://eodhd.com/llms.txt (SDKs & Integrations) + https://github.com/EodHistoricalData
+families:
+  - family: Spreadsheet add-ins
+    components:
+      - name: Excel Add-In
+        description: Official Excel add-in with VBA functions for pulling EODHD data into worksheets.
+        url: https://github.com/EodHistoricalData/Excel-Add-In-for-Financial-Data-APIs
+      - name: Google Sheets Add-on
+        description: Official add-on distributed via the Google Workspace Marketplace (V2).
+        url: https://github.com/EodHistoricalData/Google-Sheets-add-on-V2
+  - family: BI / platform connectors
+    components:
+      - name: Power BI custom connector
+        description: Custom connector for loading EODHD data into Power BI.
+      - name: NinjaTrader adapter
+        description: NinjaScript adapter for the NinjaTrader trading platform.
+      - name: MATLAB
+        description: webread() integration via the published non-secure endpoint (http://nonsecure.eodhd.com/api).
+  - family: CMS / messaging surfaces
+    components:
+      - name: WordPress plugin
+        description: Official plugin with shortcodes and widgets for embedding market data.
+        url: https://github.com/EodHistoricalData/EodHistoricalData.Wordpress-Plugin
+      - name: Telegram bot (EODHDSignals)
+        description: Telegram bot with buy/sell alerts built on EODHD data.
+notes: >-
+  EODHD ships no embeddable web-component/JS element library; its client-side surface
+  is spreadsheet add-ins, BI connectors, and CMS/messaging integrations. Server-side
+  SDKs live in packages/eodhd-packages.yml.

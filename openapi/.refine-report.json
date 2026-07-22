@@ -1,0 +1,14 @@
+{
+  "provider": "eodhd",
+  "sources": [
+    "eodhd-eod-api-openapi.yml"
+  ],
+  "outputs": [
+    "eodhd-eod-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

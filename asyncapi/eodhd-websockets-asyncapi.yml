@@ -1,0 +1,146 @@
+# generated: 2026-07-22 | method: derived
+# source: https://eodhd.com/financial-apis/new-real-time-data-api-websockets +
+#         provider-published WebSocket reference (github.com/EodHistoricalData/eodhd-claude-skills,
+#         skills/eodhd-api/references/endpoints/websockets-realtime.md) + https://eodhd.com/llms.txt
+# EODHD publishes no AsyncAPI document; this file is derived strictly from the
+# provider's documented channels, subscribe protocol, and message schemas.
+asyncapi: 3.0.0
+info:
+  title: EODHD WebSockets Real-Time API
+  version: '1.0'
+  description: >-
+    Real-time streaming of US equity trades and quotes, forex, and cryptocurrency
+    prices over WebSockets with sub-50ms latency. Authenticates with the same
+    api_token used by the REST API (validated during handshake); streaming consumes
+    zero API calls; up to 50 tickers per connection (upgradeable). Demo token `demo`
+    streams AAPL/MSFT/TSLA (us), EURUSD (forex), and ETH-USD/BTC-USD (crypto).
+  externalDocs:
+    url: https://eodhd.com/financial-apis/new-real-time-data-api-websockets
+defaultContentType: application/json
+servers:
+  production:
+    host: ws.eodhistoricaldata.com
+    protocol: wss
+    description: 'Production WebSocket host. Connect with ?api_token=YOUR_API_KEY.'
+channels:
+  usTrades:
+    address: /ws/us
+    description: US equity trades — last price, size, condition codes, dark-pool flag; pre/post-market 4 AM-8 PM EST.
+    messages:
+      subscribe:
+        $ref: '#/components/messages/subscribeCommand'
+      trade:
+        $ref: '#/components/messages/usTrade'
+  usQuotes:
+    address: /ws/us-quote
+    description: US equity bid/ask quotes with sizes.
+    messages:
+      subscribe:
+        $ref: '#/components/messages/subscribeCommand'
+      quote:
+        $ref: '#/components/messages/usQuote'
+  forex:
+    address: /ws/forex
+    description: Forex bid/ask prices for 1,100+ currency pairs.
+    messages:
+      subscribe:
+        $ref: '#/components/messages/subscribeCommand'
+      tick:
+        $ref: '#/components/messages/forexTick'
+  crypto:
+    address: /ws/crypto
+    description: Cryptocurrency trades for 1,000+ digital currencies.
+    messages:
+      subscribe:
+        $ref: '#/components/messages/subscribeCommand'
+      tick:
+        $ref: '#/components/messages/cryptoTick'
+operations:
+  subscribeSymbols:
+    action: send
+    channel:
+      $ref: '#/channels/usTrades'
+    summary: Subscribe or unsubscribe to symbols after connecting (same JSON command shape on every channel).
+    messages:
+      - $ref: '#/channels/usTrades/messages/subscribe'
+  receiveUsTrades:
+    action: receive
+    channel:
+      $ref: '#/channels/usTrades'
+  receiveUsQuotes:
+    action: receive
+    channel:
+      $ref: '#/channels/usQuotes'
+  receiveForex:
+    action: receive
+    channel:
+      $ref: '#/channels/forex'
+  receiveCrypto:
+    action: receive
+    channel:
+      $ref: '#/channels/crypto'
+components:
+  messages:
+    subscribeCommand:
+      name: subscribeCommand
+      title: Subscribe / unsubscribe command
+      payload:
+        type: object
+        properties:
+          action:
+            type: string
+            enum: [subscribe, unsubscribe]
+          symbols:
+            type: string
+            description: Comma-separated symbols, e.g. "AAPL, MSFT".
+        required: [action, symbols]
+    usTrade:
+      name: usTrade
+      title: US trade message
+      payload:
+        type: object
+        properties:
+          s: {type: string, description: Ticker symbol}
+          p: {type: number, description: Last trade price}
+          v: {type: integer, description: Trade size in shares}
+          c: {type: integer, description: Trade condition code (see EODHD glossary)}
+          dp: {type: boolean, description: Dark pool indicator}
+          ms: {type: string, description: 'Market status: open | closed | extended hours'}
+          t: {type: integer, description: Timestamp, epoch milliseconds}
+    usQuote:
+      name: usQuote
+      title: US quote message
+      payload:
+        type: object
+        properties:
+          s: {type: string, description: Ticker symbol}
+          ap: {type: number, description: Ask price}
+          as: {type: integer, description: Ask size in shares}
+          bp: {type: number, description: Bid price}
+          bs: {type: integer, description: Bid size in shares}
+          t: {type: integer, description: Timestamp, epoch milliseconds}
+    forexTick:
+      name: forexTick
+      title: Forex tick message
+      payload:
+        type: object
+        properties:
+          s: {type: string, description: Currency pair, e.g. EURUSD}
+          a: {type: number, description: Ask price}
+          b: {type: number, description: Bid price}
+          dc: {type: number, description: Daily change, percent}
+          dd: {type: number, description: Daily difference, price units}
+          ppms: {type: boolean, description: Pre/post market status (always false for forex)}
+          t: {type: integer, description: Timestamp, epoch milliseconds}
+    cryptoTick:
+      name: cryptoTick
+      title: Crypto tick message
+      payload:
+        type: object
+        properties:
+          s: {type: string, description: Crypto pair, e.g. ETH-USD}
+          p: {type: number, description: Last price}
+          q: {type: number, description: Trade quantity}
+          dc: {type: number, description: Daily change, percent}
+          dd: {type: number, description: Daily difference, price units}
+          t: {type: integer, description: Timestamp, epoch milliseconds}

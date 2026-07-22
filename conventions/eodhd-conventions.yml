@@ -1,0 +1,46 @@
+generated: '2026-07-22'
+method: searched
+source: https://eodhd.com/llms.txt + openapi/eodhd-financial-data-openapi.yml + https://eodhd.com/financial-apis/api-limits
+authentication:
+  style: api_token query parameter on every request (see authentication/eodhd-authentication.yml)
+symbols:
+  format: "{TICKER}.{EXCHANGE_CODE}, always uppercase"
+  rules:
+    - "US stocks: AAPL.US; class shares hyphenated: BRK-B.US"
+    - "Forex has NO separator: EURUSD.FOREX"
+    - "Crypto uses a HYPHEN: BTC-USD.CC"
+    - "Hong Kong 4-digit with leading zeros (0700.HK); Shanghai/Shenzhen 6-digit (600519.SHG, 000001.SHE)"
+    - "Indices .INDX, government bonds .GBOND, money markets .MONEY, European funds .EUFUND"
+response_format:
+  parameter: fmt
+  values: [json, csv]
+  default: varies by endpoint (csv on many price endpoints; fmt=json recommended)
+date_ranges:
+  parameters: [from, to]
+  format: YYYY-MM-DD (inclusive)
+filtering:
+  parameter: filter
+  notes: Field-level filtering on fundamentals (filter=Highlights,Valuation) and single-field extraction on EOD (filter=last_close).
+pagination:
+  style: offset/limit on list endpoints (news, calendar, screener); marketplace options endpoints use JSON:API-style links + meta pagination objects (Links, MetaPagination schemas).
+error_envelope:
+  shape: '{"error": "Error message", "code": 403}'
+  notes: See errors/eodhd-problem-types.yml. Some marketplace endpoints return text/html error pages (401/403/404/429).
+rate_limits:
+  daily_quota: 100,000 API calls/day (resets midnight GMT); free plan 20/day
+  request_limit: 1,000 HTTP requests/minute
+  call_weights: endpoints consume 1, 5, 10, or 100 API calls per request (published per endpoint)
+  signals: HTTP 429 = per-minute rate limit exceeded; HTTP 402 = daily quota exhausted
+  artifact: rate-limits/eodhd-rate-limits.yml
+idempotency:
+  supported: read-only API — every endpoint is GET (two marketplace screeners accept filter bodies); no Idempotency-Key contract published and none needed for reads
+versioning:
+  style: URI-path versions introduced per endpoint (v1.1 bulk-fundamentals and fundamentals, /v2/exchange-details); MCP server versions v1 (API key) and v2 (OAuth)
+  artifact: lifecycle/eodhd-lifecycle.yml
+tracing:
+  request_id: no request-id header contract published
+cross_links:
+  errors: errors/eodhd-problem-types.yml
+  lifecycle: lifecycle/eodhd-lifecycle.yml
+  authentication: authentication/eodhd-authentication.yml
+  rate_limits: rate-limits/eodhd-rate-limits.yml

@@ -1,0 +1,49 @@
+generated: '2026-07-22'
+method: derived
+source: openapi/eodhd-financial-data-openapi.yml + well-known/eodhd-mcp-oauth-*.json + https://eodhd.com/llms.txt
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: MCP v2 endpoint secured with OAuth 2.0 authorization-code flow (live RFC 8414 metadata at mcpv2.eodhd.dev); the core REST API itself is apiKey-only.
+  - id: oauth2-pkce
+    conforms: true
+    evidence: code_challenge_methods_supported [S256] in authorization-server metadata.
+  - id: rfc8414-authorization-server-metadata
+    conforms: true
+    evidence: /.well-known/oauth-authorization-server served on mcpv2.eodhd.dev (HTTP 200).
+  - id: rfc9728-protected-resource-metadata
+    conforms: true
+    evidence: /.well-known/oauth-protected-resource served on mcpv2.eodhd.dev (HTTP 200).
+  - id: rfc7591-dynamic-client-registration
+    conforms: true
+    evidence: registration_endpoint published (https://mcpv2.eodhd.dev/register).
+  - id: rfc8707-resource-indicators
+    conforms: true
+    evidence: resource_indicators_supported true in authorization-server metadata.
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 404 on both hosts; OAuth server is not an OIDC provider.
+  - id: openapi-3.1
+    conforms: true
+    evidence: official published specification is OpenAPI 3.1.0 (github.com/EodHistoricalData/EODHD-openapi).
+  - id: mcp
+    conforms: true
+    evidence: hosted Model Context Protocol server (mcpv2.eodhd.dev) answering tools/list with 86 tools.
+  - id: llms-txt
+    conforms: true
+    evidence: https://eodhd.com/llms.txt (HTTP 200) plus llms-full.txt.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: errors use a proprietary {"error", "code"} JSON envelope, not application/problem+json.
+  - id: json-api
+    conforms: partial
+    evidence: marketplace options/indices endpoints use JSON:API-style links + meta pagination objects; core endpoints return bare arrays/objects.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on eodhd.com.
+  - id: iso-10962-identifiers
+    conforms: partial
+    evidence: symbol reference data exposes CUSIP, ISIN, FIGI, LEI, and CIK mappings via the ID-mapping and search APIs.
+notes: >-
+  No published compliance-certification program (SOC 2 / ISO 27001) was found, so no
+  Compliance pointer is emitted.

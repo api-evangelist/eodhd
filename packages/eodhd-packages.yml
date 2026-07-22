@@ -1,0 +1,86 @@
+generated: '2026-07-22'
+method: searched
+source: registries (npm, PyPI, NuGet, CRAN) + https://github.com/EodHistoricalData + llms.txt SDK section
+packages:
+  - language: python
+    registry: pypi
+    name: eodhd
+    url: https://pypi.org/project/eodhd/
+    install: pip install eodhd
+    repository: https://github.com/EodHistoricalData/EODHD-APIs-Python-Financial-Library
+    version: 1.0.32
+    official: true
+  - language: javascript
+    registry: npm
+    name: eodhd
+    url: https://www.npmjs.com/package/eodhd
+    install: npm install eodhd
+    repository: https://github.com/EodHistoricalData/EODHD-APIs-Node-Financial-Library
+    version: 1.0.1
+    official: true
+    notes: Official Node.js/TypeScript client with typed responses and retry logic.
+  - language: csharp
+    registry: nuget
+    name: EODHistoricalData.Wrapper
+    url: https://www.nuget.org/packages/EODHistoricalData.Wrapper
+    install: dotnet add package EODHistoricalData.Wrapper
+    repository: https://github.com/EodHistoricalData/EODHistoricalData.Wrapper
+    version: 1.3.4.5
+    official: true
+  - language: r
+    registry: cran
+    name: eodhdR2
+    url: https://cran.r-project.org/web/packages/eodhdR2/index.html
+    install: install.packages("eodhdR2")
+    repository: https://github.com/EodHistoricalData/R-Library-for-financial-data-2024
+    official: true
+  - language: php
+    registry: github
+    name: EODHistoricalData.PHP-Laravel
+    url: https://github.com/EodHistoricalData/EODHistoricalData.PHP-Laravel
+    install: composer (Laravel package with auto-discovery)
+    official: true
+  - language: ruby
+    registry: github
+    name: EODHD-APIs-Ruby-Financial-Library
+    url: https://github.com/EodHistoricalData/EODHD-APIs-Ruby-Financial-Library
+    official: true
+  - language: java
+    registry: github
+    name: EodHistoricalData.Java-Example
+    url: https://github.com/EodHistoricalData/EodHistoricalData.Java-Example
+    official: true
+    notes: Official Java example client (Gson-based), not a published Maven artifact.
+  - language: python
+    registry: github
+    name: EODHD-MCP-Server
+    url: https://github.com/EodHistoricalData/EODHD-MCP-Server
+    official: true
+    notes: Open-source MCP server for AI assistants (also hosted at mcpv2.eodhd.dev).
+  - language: markdown
+    registry: github
+    name: eodhd-claude-skills
+    url: https://github.com/EodHistoricalData/eodhd-claude-skills
+    official: true
+    notes: Claude Code plugin — 13 skills + 72 endpoint reference guides.
+third_party:
+  - language: python
+    registry: github
+    name: python-eodhistoricaldata
+    url: https://github.com/EodHistoricalData/python-eodhistoricaldata
+    notes: Community pandas downloader hosted in the official org.
+  - language: csharp
+    registry: nuget
+    name: EodHistoricalData.Sdk
+    url: https://www.nuget.org/packages/EodHistoricalData.Sdk
+    official: false
+  - language: php
+    registry: packagist
+    name: radicalloop/eodhistoricaldata
+    url: https://packagist.org/packages/radicalloop/eodhistoricaldata
+    official: false
+  - language: ruby
+    registry: rubygems
+    name: eodhd.rb
+    url: https://rubygems.org/gems/eodhd.rb
+    official: false

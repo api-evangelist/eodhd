@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the EODHD Eod API
+  version: 1.0.0
+extends: openapi/eodhd-eod-api-openapi.yml
+actions:
+  - target: $.info
+    description: Provenance and cross-links for the per-tag EOD split spec.
+    update:
+      x-apievangelist:
+        provider: eodhd
+        generated: '2026-07-22'
+        notes: >-
+          Curated single-operation spec for the End-Of-Day endpoint. The official
+          83-operation specification is openapi/eodhd-financial-data-openapi.yml
+          (bundled from github.com/EodHistoricalData/EODHD-openapi); its equivalent
+          operation is GetEODDataByTicker.
+      x-artifacts:
+        official-spec: openapi/eodhd-financial-data-openapi.yml
+        errors: errors/eodhd-problem-types.yml
+        conventions: conventions/eodhd-conventions.yml

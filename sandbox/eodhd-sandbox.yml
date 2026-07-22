@@ -1,0 +1,34 @@
+generated: '2026-07-22'
+method: searched
+source: https://eodhd.com/llms.txt + https://github.com/EodHistoricalData/eodhd-claude-skills (websockets reference)
+docs: https://eodhd.com/financial-apis/
+model: shared demo API key against production hosts (no separate sandbox environment)
+demo_key:
+  api_token: demo
+  usage: append ?api_token=demo to any supported REST call, or connect the WebSocket with api_token=demo
+  rest_tickers:
+    - AAPL.US
+    - MSFT.US
+    - TSLA.US
+    - VTI.US
+    - AMZN.US
+    - SWPPX.US
+    - EURUSD.FOREX
+    - BTC-USD.CC
+  websocket_tickers:
+    us: [AAPL, MSFT, TSLA]
+    forex: [EURUSD]
+    crypto: [ETH-USD, BTC-USD]
+free_tier:
+  calls_per_day: 20
+  history: past year only, limited endpoints
+  signup: https://eodhd.com/register
+marketplace_demo:
+  notes: PRAAMS marketplace analytics endpoints publish demo access for selected equities, bonds, and banks (per llms.txt endpoint descriptions).
+examples:
+  - curl "https://eodhd.com/api/eod/AAPL.US?api_token=demo&fmt=json"
+  - wss://ws.eodhistoricaldata.com/ws/us?api_token=demo
+notes: >-
+  All demo values above are published verbatim by EODHD. The Postman collection the
+  provider publishes is documented as "demo key compatible". There is no test-vs-live
+  key prefix scheme; the demo token and the free tier are the published test surface.

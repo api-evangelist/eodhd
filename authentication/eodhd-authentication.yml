@@ -1,15 +1,38 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/eodhd-eod-historical-data-openapi.yml
+generated: '2026-07-22'
+method: searched
+source: openapi/eodhd-financial-data-openapi.yml + https://eodhd.com/llms.txt + https://mcpv2.eodhd.dev/.well-known/oauth-authorization-server
+docs: https://eodhd.com/financial-apis/
 summary:
-  types:
-  - apiKey
-  api_key_in:
-  - query
+  types: [apiKey, oauth2]
+  api_key_in: [query]
+  oauth2_flows: [authorizationCode]
 schemes:
-- name: apiToken
-  type: apiKey
-  in: query
-  parameter: api_token
-  sources:
-  - openapi/eodhd-eod-historical-data-openapi.yml
+  - name: EODHDQueryKey
+    type: apiKey
+    in: query
+    parameter: api_token
+    sources:
+      - openapi/eodhd-financial-data-openapi.yml
+      - openapi/eodhd-eod-api-openapi.yml
+    notes: >-
+      All REST endpoints authenticate with ?api_token=YOUR_API_KEY. No Authorization
+      headers, no OAuth on the REST API. A public demo token (api_token=demo) is
+      limited to AAPL.US, MSFT.US, TSLA.US, VTI.US, AMZN.US, SWPPX.US, EURUSD.FOREX,
+      and BTC-USD.CC. The WebSocket API validates the same api_token during handshake.
+      A non-TLS alternative host (http://nonsecure.eodhd.com/api) is published for
+      MATLAB/R clients.
+  - name: EODHD MCP OAuth (v2)
+    type: oauth2
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://mcpv2.eodhd.dev/authorize
+        tokenUrl: https://mcpv2.eodhd.dev/token
+        pkce: S256
+        scopes: 12 published scopes — see scopes/eodhd-scopes.yml
+    sources:
+      - well-known/eodhd-mcp-oauth-authorization-server.json
+    notes: >-
+      Applies to the hosted MCP server v2 endpoint (https://mcpv2.eodhd.dev/v2/mcp,
+      Bearer tokens only). Supports dynamic client registration (RFC 7591), token
+      introspection, refresh tokens, and resource indicators (RFC 8707). MCP v1
+      accepts the REST API key as ?apikey= instead.

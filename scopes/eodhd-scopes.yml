@@ -1,0 +1,32 @@
+generated: '2026-07-22'
+method: searched
+source: https://mcpv2.eodhd.dev/.well-known/oauth-authorization-server
+docs: https://eodhd.com/financial-apis-blog/eodhd-mcp-server-update-75-tools-oauth-and-api-versioning
+notes: >-
+  The core REST API uses api_token query-parameter authentication with no OAuth scopes.
+  OAuth 2.0 (authorization code + PKCE S256, dynamic client registration RFC 7591,
+  resource indicators RFC 8707) is published for the v2 MCP server at
+  https://mcpv2.eodhd.dev/v2/mcp; these 12 scopes come verbatim from its RFC 8414
+  authorization-server metadata (scope descriptions are not published — names only).
+schemes:
+  - name: EODHD MCP OAuth
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://mcpv2.eodhd.dev/authorize
+        tokenUrl: https://mcpv2.eodhd.dev/token
+        pkce: S256
+    registration_endpoint: https://mcpv2.eodhd.dev/register
+    introspection_endpoint: https://mcpv2.eodhd.dev/introspect
+scopes:
+  - scope: read:eod
+  - scope: read:intraday
+  - scope: read:live
+  - scope: read:fundamentals
+  - scope: read:news
+  - scope: read:technicals
+  - scope: read:options
+  - scope: read:marketplace
+  - scope: read:screener
+  - scope: read:macro
+  - scope: read:user
+  - scope: full-access

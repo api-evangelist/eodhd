@@ -1,0 +1,33 @@
+generated: '2026-07-22'
+method: searched
+hosts:
+  - host: https://eodhd.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /llms.txt
+        status: 200
+        file: ../llms/eodhd-llms.txt
+  - host: https://mcpv2.eodhd.dev
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: eodhd-mcp-oauth-authorization-server.json
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        file: eodhd-mcp-oauth-protected-resource.json
+      - path: /.well-known/openid-configuration
+        status: 404
+notes: >-
+  The main eodhd.com host publishes no /.well-known documents (llms.txt lives at the
+  root instead). The MCP host mcpv2.eodhd.dev publishes RFC 8414 authorization-server
+  metadata and RFC 9728 protected-resource metadata for the OAuth-secured v2 MCP
+  endpoint, including 12 named scopes and PKCE S256 support.
