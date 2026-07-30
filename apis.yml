@@ -37,27 +37,6 @@ description: >-
   worldwide, through 68+ REST endpoints, WebSocket streaming, an official OpenAPI 3.1.0 specification, an OAuth-secured
   MCP server with 86 tools, and a published Claude Skills plugin.
 apis:
-- aid: eodhd:financial-data-api
-  name: EODHD Financial Data API
-  tags:
-  - Financial
-  - Market Data
-  - Fundamentals
-  - Options
-  - News
-  humanURL: https://eodhd.com/financial-apis/
-  baseURL: https://eodhd.com/api
-  description: >-
-    The full EODHD REST surface — 83 operations across end-of-day and intraday prices, fundamentals, calendars,
-    news and sentiment, options, indices, screening, macro and credit-risk data, sanctions, ESG, and marketplace
-    analytics — captured from the provider's official OpenAPI 3.1.0 specification.
-  properties:
-  - type: OpenAPI
-    url: openapi/eodhd-financial-data-openapi.yml
-  - type: Documentation
-    url: https://eodhd.com/financial-apis/
-  - type: APIReference
-    url: https://eodhd.com/docs
 - aid: eodhd:intraday-historical-data-api
   name: EODHD Intraday Historical Data API
   tags:
@@ -202,7 +181,17 @@ apis:
     url: openapi/eodhd-eod-api-openapi.yml
   - type: Documentation
     url: https://eodhd.com/financial-apis/api-for-historical-data-and-volumes
+- aid: eodhd:eodhd-financial-data-openapi
+  name: EODHD Financial Data API
+  description: EODHD Financial Data API from EODHD — 83 path(s) described in OpenAPI.
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-financial-data-openapi.yml
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/eodhd/overview
   - type: AgenticAccess
     url: agentic-access/eodhd-agentic-access.yml
   - type: DomainSecurity
