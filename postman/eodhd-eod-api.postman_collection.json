@@ -1,0 +1,425 @@
+{
+  "info": {
+    "_postman_id": "85895043-6055-41ed-bf38-6556efda2298",
+    "name": "EODHD End-Of-Day Historical Data Eod API",
+    "description": "Access end-of-day historical OHLCV data for stocks, ETFs, funds, indices, and currencies across global exchanges. Returns daily, weekly, or monthly historical price and volume data with both raw and split/dividend-adjusted closing prices.\n\nContact Support:\n Name: EODHD Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:34:27.000Z",
+    "updatedAt": "2026-07-28T01:34:28.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-85895043-6055-41ed-bf38-6556efda2298"
+  },
+  "item": [
+    {
+      "name": "eod",
+      "item": [
+        {
+          "name": "{symbol}",
+          "item": [
+            {
+              "name": "Retrieve end-of-day historical data",
+              "id": "3f0003c0-8cc2-4617-a55b-877e7b91ef41",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/eod/:symbol?api_token=<string>&fmt=csv&period=d&order=a&from=<date>&to=<date>&filter=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "eod",
+                    ":symbol"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) API token assigned to your EODHD account.",
+                      "key": "api_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Response format. Defaults to csv.",
+                      "key": "fmt",
+                      "value": "csv"
+                    },
+                    {
+                      "description": "Aggregation period. d=daily, w=weekly, m=monthly.",
+                      "key": "period",
+                      "value": "d"
+                    },
+                    {
+                      "description": "Sort order of returned rows. a=ascending, d=descending.",
+                      "key": "order",
+                      "value": "a"
+                    },
+                    {
+                      "description": "Inclusive start date in YYYY-MM-DD format.",
+                      "key": "from",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "Inclusive end date in YYYY-MM-DD format.",
+                      "key": "to",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "Return only a single field, e.g. last_close or last_volume.",
+                      "key": "filter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "fe42860d-630f-4e14-81bd-a45c0639ec9d",
+                      "key": "symbol",
+                      "value": "<string>",
+                      "description": "(Required) Ticker symbol with exchange suffix, e.g. AAPL.US."
+                    }
+                  ]
+                },
+                "description": "Returns the end-of-day historical OHLCV time series for a given ticker symbol. The symbol must include the exchange suffix, for example AAPL.US or BMW.XETRA. One call per request regardless of date range."
+              },
+              "response": [
+                {
+                  "id": "e4983b38-b2ea-4539-9f75-dd65855dd8e6",
+                  "name": "Historical OHLCV time series for the requested symbol.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/eod/:symbol?api_token=<API Key>&fmt=csv&period=d&order=a&from=<date>&to=<date>&filter=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "eod",
+                        ":symbol"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) API token assigned to your EODHD account.",
+                          "key": "api_token",
+                          "value": "<API Key>"
+                        },
+                        {
+                          "description": "Response format. Defaults to csv.",
+                          "key": "fmt",
+                          "value": "csv"
+                        },
+                        {
+                          "description": "Aggregation period. d=daily, w=weekly, m=monthly.",
+                          "key": "period",
+                          "value": "d"
+                        },
+                        {
+                          "description": "Sort order of returned rows. a=ascending, d=descending.",
+                          "key": "order",
+                          "value": "a"
+                        },
+                        {
+                          "description": "Inclusive start date in YYYY-MM-DD format.",
+                          "key": "from",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Inclusive end date in YYYY-MM-DD format.",
+                          "key": "to",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Return only a single field, e.g. last_close or last_volume.",
+                          "key": "filter",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "symbol"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"date\": \"<date>\",\n    \"open\": \"<number>\",\n    \"high\": \"<number>\",\n    \"low\": \"<number>\",\n    \"close\": \"<number>\",\n    \"adjusted_close\": \"<number>\",\n    \"volume\": \"<integer>\"\n  },\n  {\n    \"date\": \"<date>\",\n    \"open\": \"<number>\",\n    \"high\": \"<number>\",\n    \"low\": \"<number>\",\n    \"close\": \"<number>\",\n    \"adjusted_close\": \"<number>\",\n    \"volume\": \"<integer>\"\n  }\n]",
+                  "createdAt": "2026-07-28T01:34:28.000Z",
+                  "updatedAt": "2026-07-28T01:34:28.000Z",
+                  "uid": "35240-e4983b38-b2ea-4539-9f75-dd65855dd8e6"
+                },
+                {
+                  "id": "c5ea21b7-b8ab-44fc-8810-432b058480a3",
+                  "name": "Missing or invalid api_token.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/eod/:symbol?api_token=<API Key>&fmt=csv&period=d&order=a&from=<date>&to=<date>&filter=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "eod",
+                        ":symbol"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) API token assigned to your EODHD account.",
+                          "key": "api_token",
+                          "value": "<API Key>"
+                        },
+                        {
+                          "description": "Response format. Defaults to csv.",
+                          "key": "fmt",
+                          "value": "csv"
+                        },
+                        {
+                          "description": "Aggregation period. d=daily, w=weekly, m=monthly.",
+                          "key": "period",
+                          "value": "d"
+                        },
+                        {
+                          "description": "Sort order of returned rows. a=ascending, d=descending.",
+                          "key": "order",
+                          "value": "a"
+                        },
+                        {
+                          "description": "Inclusive start date in YYYY-MM-DD format.",
+                          "key": "from",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Inclusive end date in YYYY-MM-DD format.",
+                          "key": "to",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Return only a single field, e.g. last_close or last_volume.",
+                          "key": "filter",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "symbol"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:34:28.000Z",
+                  "updatedAt": "2026-07-28T01:34:28.000Z",
+                  "uid": "35240-c5ea21b7-b8ab-44fc-8810-432b058480a3"
+                },
+                {
+                  "id": "5500b087-e620-47ba-b7d9-d36c0a79e719",
+                  "name": "Unknown symbol or exchange.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/eod/:symbol?api_token=<API Key>&fmt=csv&period=d&order=a&from=<date>&to=<date>&filter=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "eod",
+                        ":symbol"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) API token assigned to your EODHD account.",
+                          "key": "api_token",
+                          "value": "<API Key>"
+                        },
+                        {
+                          "description": "Response format. Defaults to csv.",
+                          "key": "fmt",
+                          "value": "csv"
+                        },
+                        {
+                          "description": "Aggregation period. d=daily, w=weekly, m=monthly.",
+                          "key": "period",
+                          "value": "d"
+                        },
+                        {
+                          "description": "Sort order of returned rows. a=ascending, d=descending.",
+                          "key": "order",
+                          "value": "a"
+                        },
+                        {
+                          "description": "Inclusive start date in YYYY-MM-DD format.",
+                          "key": "from",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Inclusive end date in YYYY-MM-DD format.",
+                          "key": "to",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Return only a single field, e.g. last_close or last_volume.",
+                          "key": "filter",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "symbol"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:34:28.000Z",
+                  "updatedAt": "2026-07-28T01:34:28.000Z",
+                  "uid": "35240-5500b087-e620-47ba-b7d9-d36c0a79e719"
+                },
+                {
+                  "id": "514aceeb-b142-47c5-92ad-c138b4331999",
+                  "name": "Rate limit exceeded.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/eod/:symbol?api_token=<API Key>&fmt=csv&period=d&order=a&from=<date>&to=<date>&filter=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "eod",
+                        ":symbol"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) API token assigned to your EODHD account.",
+                          "key": "api_token",
+                          "value": "<API Key>"
+                        },
+                        {
+                          "description": "Response format. Defaults to csv.",
+                          "key": "fmt",
+                          "value": "csv"
+                        },
+                        {
+                          "description": "Aggregation period. d=daily, w=weekly, m=monthly.",
+                          "key": "period",
+                          "value": "d"
+                        },
+                        {
+                          "description": "Sort order of returned rows. a=ascending, d=descending.",
+                          "key": "order",
+                          "value": "a"
+                        },
+                        {
+                          "description": "Inclusive start date in YYYY-MM-DD format.",
+                          "key": "from",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Inclusive end date in YYYY-MM-DD format.",
+                          "key": "to",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Return only a single field, e.g. last_close or last_volume.",
+                          "key": "filter",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "symbol"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:34:28.000Z",
+                  "updatedAt": "2026-07-28T01:34:28.000Z",
+                  "uid": "35240-514aceeb-b142-47c5-92ad-c138b4331999"
+                }
+              ],
+              "createdAt": "2026-07-28T01:34:28.000Z",
+              "updatedAt": "2026-07-28T01:34:28.000Z",
+              "uid": "35240-3f0003c0-8cc2-4617-a55b-877e7b91ef41"
+            }
+          ],
+          "id": "a42e53b6-1fa3-478b-a1ef-5725db882db8",
+          "createdAt": "2026-07-28T01:34:28.000Z",
+          "updatedAt": "2026-07-28T01:34:28.000Z",
+          "uid": "35240-a42e53b6-1fa3-478b-a1ef-5725db882db8"
+        }
+      ],
+      "id": "084d45a8-7c51-46a9-9428-f69d857738a1",
+      "createdAt": "2026-07-28T01:34:28.000Z",
+      "updatedAt": "2026-07-28T01:34:28.000Z",
+      "uid": "35240-084d45a8-7c51-46a9-9428-f69d857738a1"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_token",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "query",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://eodhd.com/api"
+    }
+  ]
+}
