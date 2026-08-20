@@ -57,6 +57,11 @@ apis:
   tags:
   - Financial
   - Live Data
+  - Real-Time
+  - Stocks
+  tags_raw:
+  - Financial
+  - Live Data
   - Real Time
   - Stocks
   humanURL: https://eodhd.com/financial-apis/live-realtime-stocks-api
@@ -70,6 +75,11 @@ apis:
 - aid: eodhd:websockets-api
   name: EODHD WebSockets Real-Time API
   tags:
+  - Financial
+  - Real-Time
+  - Streaming
+  - WebSockets
+  tags_raw:
   - Financial
   - Real Time
   - Streaming
@@ -175,6 +185,8 @@ apis:
   humanURL: https://eodhd.com/financial-apis/api-for-historical-data-and-volumes
   baseURL: https://eodhd.com/api
   tags:
+  - EOD
+  tags_raw:
   - Eod
   properties:
   - type: OpenAPI
