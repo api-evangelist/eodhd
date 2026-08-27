@@ -193,14 +193,256 @@ apis:
     url: openapi/eodhd-eod-api-openapi.yml
   - type: Documentation
     url: https://eodhd.com/financial-apis/api-for-historical-data-and-volumes
-- aid: eodhd:eodhd-financial-data-openapi
-  name: EODHD Financial Data API
-  description: EODHD Financial Data API from EODHD — 83 path(s) described in OpenAPI.
+- aid: eodhd:eodhd-calendar-api
+  name: EODHD Calendar API
+  description: Calendar events including earnings, IPOs, splits, dividends, and trends
   humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
   baseURL: https://eodhd.com/api
+  tags:
+  - Calendar
   properties:
   - type: OpenAPI
-    url: openapi/eodhd-financial-data-openapi.yml
+    url: openapi/eodhd-calendar-api-openapi.yml
+- aid: eodhd:eodhd-cboe-api
+  name: EODHD CBOE API
+  description: CBOE index data and listings
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - CBOE
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-cboe-api-openapi.yml
+- aid: eodhd:eodhd-corporate-actions-api
+  name: EODHD Corporate Actions API
+  description: Symbol changes and insider transactions
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Corporate Actions
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-corporate-actions-api-openapi.yml
+- aid: eodhd:eodhd-credit-sovereign-risk-api
+  name: EODHD Credit & Sovereign Risk API
+  description: Sovereign risk premiums, credit ratings, CDS spreads, and corporate credit metrics
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Credit & Sovereign Risk
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-credit-sovereign-risk-api-openapi.yml
+- aid: eodhd:eodhd-dividends-splits-api
+  name: EODHD Dividends & Splits API
+  description: Dividend and split history
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Dividends & Splits
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-dividends-splits-api-openapi.yml
+- aid: eodhd:eodhd-economic-data-api
+  name: EODHD Economic Data API
+  description: Economic events and macro indicators
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Economic Data
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-economic-data-api-openapi.yml
+- aid: eodhd:eodhd-end-of-day-data-api
+  name: EODHD End-of-Day Data API
+  description: Historical and current end-of-day price data
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - End-of-Day Data
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-end-of-day-data-api-openapi.yml
+- aid: eodhd:eodhd-esg-api
+  name: EODHD ESG API
+  description: Environmental, Social, and Governance ratings (Investverte)
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - ESG
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-esg-api-openapi.yml
+- aid: eodhd:eodhd-exchanges-api
+  name: EODHD Exchanges API
+  description: Exchange information and symbols
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Exchanges
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-exchanges-api-openapi.yml
+- aid: eodhd:eodhd-fundamentals-api
+  name: EODHD Fundamentals API
+  description: Fundamental data for stocks and companies
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Fundamentals
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-fundamentals-api-openapi.yml
+- aid: eodhd:eodhd-indices-api
+  name: EODHD Indices API
+  description: S&P/Dow Jones indices data and components
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Indices
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-indices-api-openapi.yml
+- aid: eodhd:eodhd-interest-rates-api
+  name: EODHD Interest Rates API
+  description: Reference rates, central bank policy rates, and funding-stress spreads
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Interest Rates
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-interest-rates-api-openapi.yml
+- aid: eodhd:eodhd-intraday-data-api
+  name: EODHD Intraday Data API
+  description: Intraday historical price data (time-based bars)
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Intraday Data
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-intraday-data-api-openapi.yml
+- aid: eodhd:eodhd-investment-analytics-api
+  name: EODHD Investment Analytics API
+  description: Risk scoring, bond analysis, bank financials, reports (PRAAMS)
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Investment Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-investment-analytics-api-openapi.yml
+- aid: eodhd:eodhd-live-delayed-data-api
+  name: EODHD Live (Delayed) Data API
+  description: Delayed real-time stock prices and US delayed quotes
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Live (Delayed) Data
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-live-delayed-data-api-openapi.yml
+- aid: eodhd:eodhd-logos-api
+  name: EODHD Logos API
+  description: Company and ticker logos
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Logos
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-logos-api-openapi.yml
+- aid: eodhd:eodhd-market-data-api
+  name: EODHD Market Data API
+  description: Market capitalization and other market data
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Market Data
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-market-data-api-openapi.yml
+- aid: eodhd:eodhd-news-api
+  name: EODHD News API
+  description: Financial news and sentiment analysis
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - News
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-news-api-openapi.yml
+- aid: eodhd:eodhd-options-api
+  name: EODHD Options API
+  description: Options contracts and pricing data
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Options
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-options-api-openapi.yml
+- aid: eodhd:eodhd-sanctions-api
+  name: EODHD Sanctions API
+  description: Sanctioned entities, vessels, programs, and sources (OFAC and others)
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Sanctions
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-sanctions-api-openapi.yml
+- aid: eodhd:eodhd-screening-api
+  name: EODHD Screening API
+  description: Stock screening tools
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Screening
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-screening-api-openapi.yml
+- aid: eodhd:eodhd-technical-api
+  name: EODHD Technical API
+  description: Technical analysis indicators
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Technical
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-technical-api-openapi.yml
+- aid: eodhd:eodhd-tick-data-api
+  name: EODHD Tick Data API
+  description: Historical and marketplace tick-level trade data
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - Tick Data
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-tick-data-api-openapi.yml
+- aid: eodhd:eodhd-us-treasury-api
+  name: EODHD US Treasury API
+  description: US Treasury interest rates (bills, yields, long-term, real yields)
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - US Treasury
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-us-treasury-api-openapi.yml
+- aid: eodhd:eodhd-user-api
+  name: EODHD User API
+  description: User account and subscription information
+  humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
+  baseURL: https://eodhd.com/api
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/eodhd-user-api-openapi.yml
 common:
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/eodhd/overview
