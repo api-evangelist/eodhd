@@ -1,0 +1,432 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Indices API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Indices
+  description: S&P/Dow Jones indices data and components
+paths:
+  /mp/unicornbay/spglobal/comp/{symbol}:
+    get:
+      summary: Index components (current + historical)
+      description: Returns the current components and historical changes for an index symbol.
+      operationId: getIndexComponents
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        description: Index symbol, e.g., GSPC.INDX
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Response format.
+        schema:
+          type: string
+          enum:
+          - json
+          - xml
+          default: json
+      responses:
+        '200':
+          description: Successful response with index general info, components, and historical membership.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - General
+                - Components
+                - HistoricalTickerComponents
+                properties:
+                  General:
+                    type: object
+                    required:
+                    - Code
+                    - Type
+                    - Name
+                    - Exchange
+                    properties:
+                      Code:
+                        type: string
+                      Type:
+                        type: string
+                      Name:
+                        type: string
+                      Exchange:
+                        type: string
+                      MarketCap:
+                        type:
+                        - number
+                        - 'null'
+                      CurrencyCode:
+                        type:
+                        - string
+                        - 'null'
+                      CurrencyName:
+                        type:
+                        - string
+                        - 'null'
+                      CurrencySymbol:
+                        type:
+                        - string
+                        - 'null'
+                      CountryName:
+                        type:
+                        - string
+                        - 'null'
+                      CountryISO:
+                        type:
+                        - string
+                        - 'null'
+                      OpenFigi:
+                        type:
+                        - string
+                        - 'null'
+                    additionalProperties: false
+                  Components:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      required:
+                      - Code
+                      - Exchange
+                      - Name
+                      properties:
+                        Code:
+                          type: string
+                        Exchange:
+                          type: string
+                        Name:
+                          type: string
+                        Sector:
+                          type:
+                          - string
+                          - 'null'
+                        Industry:
+                          type:
+                          - string
+                          - 'null'
+                        Weight:
+                          type:
+                          - number
+                          - 'null'
+                      additionalProperties: false
+                    properties: {}
+                  HistoricalTickerComponents:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      required:
+                      - Code
+                      - Name
+                      - StartDate
+                      - IsActiveNow
+                      - IsDelisted
+                      properties:
+                        Code:
+                          type: string
+                        Name:
+                          type: string
+                        StartDate:
+                          type: string
+                          description: YYYY-MM-DD
+                        EndDate:
+                          type:
+                          - string
+                          - 'null'
+                          description: YYYY-MM-DD or null
+                        IsActiveNow:
+                          type: integer
+                          enum:
+                          - 0
+                          - 1
+                        IsDelisted:
+                          type: integer
+                          enum:
+                          - 0
+                          - 1
+                      additionalProperties: false
+                    properties: {}
+                additionalProperties: false
+              examples:
+                sample:
+                  summary: GSPC.INDX (truncated)
+                  value:
+                    General:
+                      Code: GSPC
+                      Type: INDEX
+                      Name: S&P 500 Index
+                      Exchange: INDX
+                      MarketCap: 54158326748416.56
+                      CurrencyCode: USD
+                      CurrencyName: US Dollar
+                      CurrencySymbol: $
+                      CountryName: USA
+                      CountryISO: US
+                      OpenFigi: BBG000H4FSM0
+                    Components:
+                      '0':
+                        Code: AAPL
+                        Exchange: US
+                        Name: Apple Inc
+                        Sector: Technology
+                        Industry: Consumer Electronics
+                        Weight: 0.0628
+                    HistoricalTickerComponents:
+                      '0':
+                        Code: AAPL
+                        Name: Apple Inc
+                        StartDate: '1982-11-30'
+                        EndDate: ''
+                        IsActiveNow: 1
+                        IsDelisted: 0
+        '401':
+          description: Unauthorized
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Indices
+  /mp/unicornbay/spglobal/list:
+    get:
+      summary: List of indices with details
+      description: Returns essential EOD details for 100+ S&P & Dow Jones indices.
+      operationId: listIndicesWithDetails
+      parameters:
+      - name: fmt
+        in: query
+        required: false
+        description: Response format.
+        schema:
+          type: string
+          enum:
+          - json
+          - xml
+          default: json
+      responses:
+        '200':
+          description: Successful response with an array of indices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - ID
+                  - Code
+                  - Name
+                  - Constituents
+                  - LastUpdate
+                  properties:
+                    ID:
+                      type: string
+                    Code:
+                      type: string
+                    Name:
+                      type: string
+                    Constituents:
+                      type: integer
+                    LastUpdate:
+                      type: string
+                      description: YYYY-MM-DD
+                    Value:
+                      type:
+                      - number
+                      - 'null'
+                    MarketCap:
+                      type:
+                      - number
+                      - 'null'
+                    Divisor:
+                      type:
+                      - number
+                      - 'null'
+                    DailyReturn:
+                      type:
+                      - number
+                      - string
+                      - 'null'
+                    Dividend:
+                      type:
+                      - number
+                      - 'null'
+                    AdjustedMarketCap:
+                      type:
+                      - number
+                      - 'null'
+                    AdjustedDivisor:
+                      type:
+                      - number
+                      - 'null'
+                    AdjustedConstituents:
+                      type:
+                      - integer
+                      - 'null'
+                    CurrencyCode:
+                      type:
+                      - string
+                      - 'null'
+                    CurrencyName:
+                      type:
+                      - string
+                      - 'null'
+                    CurrencySymbol:
+                      type:
+                      - string
+                      - 'null'
+                  additionalProperties: false
+              examples:
+                sample:
+                  summary: Truncated list
+                  value:
+                  - ID: SP1000.INDX
+                    Code: SP1000
+                    Name: S&P 1000
+                    Constituents: 1003
+                    Value: 17205.7704
+                    MarketCap: 4276250432997.9194
+                    Divisor: 248535830.1502
+                    DailyReturn: 0.0007
+                    Dividend: 0.1364
+                    AdjustedMarketCap: 4276250432997.9194
+                    AdjustedDivisor: 248535830.1502
+                    AdjustedConstituents: 1003
+                    CurrencyCode: USD
+                    CurrencyName: US Dollar
+                    CurrencySymbol: $
+                    LastUpdate: '2025-08-08'
+        '401':
+          description: Unauthorized
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Indices
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

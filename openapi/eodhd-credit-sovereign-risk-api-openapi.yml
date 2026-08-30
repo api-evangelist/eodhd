@@ -1,0 +1,1421 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Credit & Sovereign Risk API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Credit & Sovereign Risk
+  description: Sovereign risk premiums, credit ratings, CDS spreads, and corporate credit metrics
+paths:
+  /credit-risk/sovereign/risk-premium:
+    get:
+      summary: Get sovereign country risk premiums
+      description: Returns country-level default spreads, country risk premiums, equity risk premiums, corporate tax rates, and related sovereign credit metrics.
+      operationId: GetSovereignRiskPremium
+      parameters:
+      - name: filter[country]
+        in: query
+        required: false
+        description: Filter by country name or ISO Alpha-3 code (e.g., 'USA' or 'Germany').
+        schema:
+          type: string
+      - name: filter[region]
+        in: query
+        required: false
+        description: Filter by region name.
+        schema:
+          type: string
+      - name: filter[as_of]
+        in: query
+        required: false
+        description: Filter by the as-of date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved sovereign risk premium data.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country_iso3:
+                          type: string
+                          description: ISO Alpha-3 country code.
+                        country_name:
+                          type: string
+                          description: Country name.
+                        as_of_date:
+                          type: string
+                          format: date-time
+                          description: As-of timestamp for the values.
+                        moodys_rating:
+                          type: string
+                          description: Moody's sovereign credit rating.
+                        adj_default_spread:
+                          type: number
+                          description: Adjusted default spread.
+                        country_risk_premium:
+                          type: number
+                          description: Country risk premium.
+                        equity_risk_premium:
+                          type: number
+                          description: Total equity risk premium.
+                        corporate_tax_rate:
+                          type: number
+                          description: Corporate tax rate.
+                        sovereign_cds:
+                          type:
+                          - number
+                          - 'null'
+                          description: Sovereign CDS spread, if available.
+                        source:
+                          type: string
+                          description: Data source.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Credit & Sovereign Risk
+  /credit-risk/sovereign/credit-ratings:
+    get:
+      summary: Get sovereign credit ratings
+      description: Returns sovereign credit ratings by country from Moody's, S&P, and Fitch.
+      operationId: GetSovereignCreditRatings
+      parameters:
+      - name: filter[country]
+        in: query
+        required: false
+        description: Filter by country name or ISO Alpha-3 code (e.g., 'USA' or 'Germany').
+        schema:
+          type: string
+      - name: filter[as_of]
+        in: query
+        required: false
+        description: Filter by the as-of date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved sovereign credit ratings.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country_iso3:
+                          type: string
+                          description: ISO Alpha-3 country code.
+                        country_name:
+                          type: string
+                          description: Country name.
+                        as_of_date:
+                          type: string
+                          format: date-time
+                          description: As-of timestamp for the ratings.
+                        moodys_rating:
+                          type: string
+                          description: Moody's sovereign credit rating.
+                        sp_rating:
+                          type: string
+                          description: S&P sovereign credit rating.
+                        fitch_rating:
+                          type: string
+                          description: Fitch sovereign credit rating.
+                        source:
+                          type: string
+                          description: Data source.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Credit & Sovereign Risk
+  /credit-risk/sovereign/cds-spreads:
+    get:
+      summary: Get sovereign CDS spreads
+      description: Returns sovereign credit default swap (CDS) spreads by country, including spreads net of Switzerland.
+      operationId: GetSovereignCdsSpreads
+      parameters:
+      - name: filter[country]
+        in: query
+        required: false
+        description: Filter by country name or ISO Alpha-3 code (e.g., 'USA' or 'Germany').
+        schema:
+          type: string
+      - name: filter[as_of]
+        in: query
+        required: false
+        description: Filter by the as-of date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved sovereign CDS spreads.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country_iso3:
+                          type: string
+                          description: ISO Alpha-3 country code.
+                        country_name:
+                          type: string
+                          description: Country name.
+                        as_of_date:
+                          type: string
+                          format: date-time
+                          description: As-of timestamp for the spreads.
+                        moodys_rating:
+                          type: string
+                          description: Moody's sovereign credit rating.
+                        cds_spread:
+                          type:
+                          - number
+                          - 'null'
+                          description: Sovereign CDS spread.
+                        cds_spread_net_of_switzerland:
+                          type:
+                          - number
+                          - 'null'
+                          description: CDS spread net of Switzerland.
+                        source:
+                          type: string
+                          description: Data source.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Credit & Sovereign Risk
+  /credit-risk/sovereign/default-spreads:
+    get:
+      summary: Get default spreads by rating
+      description: Returns default spreads mapped to credit rating buckets.
+      operationId: GetSovereignDefaultSpreads
+      parameters:
+      - name: filter[rating]
+        in: query
+        required: false
+        description: Filter by credit rating bucket (e.g., 'Aaa', 'Baa2').
+        schema:
+          type: string
+      - name: filter[as_of]
+        in: query
+        required: false
+        description: Filter by the as-of date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved default spreads by rating.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rating:
+                          type: string
+                          description: Credit rating bucket.
+                        as_of_date:
+                          type: string
+                          format: date-time
+                          description: As-of timestamp for the spread.
+                        default_spread:
+                          type: number
+                          description: Default spread for the rating bucket.
+                        source:
+                          type: string
+                          description: Data source.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Credit & Sovereign Risk
+  /credit-risk/corporate/cmdi:
+    get:
+      summary: Get corporate market debt indices (CMDI)
+      description: Returns the Corporate Market Debt Index series, including overall market, investment-grade, and high-yield sub-indices.
+      operationId: GetCorporateCmdi
+      parameters:
+      - name: filter[from]
+        in: query
+        required: false
+        description: Start date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: filter[to]
+        in: query
+        required: false
+        description: End date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved corporate CMDI data.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        as_of_date:
+                          type: string
+                          format: date-time
+                          description: As-of timestamp for the index values.
+                        market_cmdi:
+                          type: number
+                          description: Overall market CMDI value.
+                        ig_cmdi:
+                          type: number
+                          description: Investment-grade CMDI value.
+                        hy_cmdi:
+                          type: number
+                          description: High-yield CMDI value.
+                        source:
+                          type: string
+                          description: Data source.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Credit & Sovereign Risk
+  /credit-risk/corporate/hqm-yields:
+    get:
+      summary: Get high quality market (HQM) corporate bond yields
+      description: Returns High Quality Market corporate bond yield curve values (par and spot) across standard tenors.
+      operationId: GetCorporateHqmYields
+      parameters:
+      - name: filter[tenor]
+        in: query
+        required: false
+        description: Filter by tenor in years, single value or comma-separated list (e.g., '10' or '2,5,10'). Allowed values 1, 2, 3, 5, 7, 10, 15, 20, 25, 30.
+        schema:
+          type: string
+          example: 2,5,10
+      - name: filter[type]
+        in: query
+        required: false
+        description: Yield curve type, single value or comma-separated list (e.g., 'par' or 'par,spot'). Allowed values par, spot (case-insensitive).
+        schema:
+          type: string
+          example: par
+      - name: filter[from]
+        in: query
+        required: false
+        description: Start date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: filter[to]
+        in: query
+        required: false
+        description: End date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved HQM corporate bond yields.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        series_id:
+                          type: string
+                          description: Source series identifier.
+                        tenor_years:
+                          type: number
+                          description: Tenor in years.
+                        yield_type:
+                          type: string
+                          description: Yield curve type (par or spot).
+                        as_of_date:
+                          type: string
+                          format: date-time
+                          description: As-of timestamp for the yield value.
+                        yield_value:
+                          type: number
+                          description: Yield value.
+                        source:
+                          type: string
+                          description: Data source.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Credit & Sovereign Risk
+  /credit-risk/cds-market/aggregates:
+    get:
+      summary: Get CDS market aggregate statistics
+      description: Returns aggregated CDS market statistics (e.g., gross notional) broken down by dimensions such as grade or cleared status.
+      operationId: GetCdsMarketAggregates
+      parameters:
+      - name: filter[metric]
+        in: query
+        required: false
+        description: Aggregate metric to return.
+        schema:
+          type: string
+          enum:
+          - gross_notional
+      - name: filter[dimension]
+        in: query
+        required: false
+        description: Breakdown dimension.
+        schema:
+          type: string
+          enum:
+          - grade
+          - cleared_status
+      - name: filter[value]
+        in: query
+        required: false
+        description: Filter by the value of the breakdown dimension.
+        schema:
+          type: string
+      - name: filter[region]
+        in: query
+        required: false
+        description: Filter by region.
+        schema:
+          type: string
+      - name: filter[from]
+        in: query
+        required: false
+        description: Start date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: filter[to]
+        in: query
+        required: false
+        description: End date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved CDS market aggregates.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        as_of_date:
+                          type: string
+                          format: date-time
+                          description: As-of timestamp for the aggregate.
+                        release_date:
+                          type: string
+                          format: date-time
+                          description: Release timestamp of the aggregate.
+                        metric:
+                          type: string
+                          description: Aggregate metric name.
+                        breakdown_dimension:
+                          type: string
+                          description: Dimension used for the breakdown.
+                        breakdown_value:
+                          type: string
+                          description: Value of the breakdown dimension.
+                        region:
+                          type: string
+                          description: Region.
+                        usd_notional_mn:
+                          type: number
+                          description: Notional amount in USD millions.
+                        source:
+                          type: string
+                          description: Data source.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Credit & Sovereign Risk
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

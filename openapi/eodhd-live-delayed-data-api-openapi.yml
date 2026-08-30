@@ -1,0 +1,262 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Live (Delayed) Data API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Live (Delayed) Data
+  description: Delayed real-time stock prices and US delayed quotes
+paths:
+  /real-time/{ticker}:
+    get:
+      summary: Retrieve delayed real-time stock prices
+      description: Retrieve live (delayed) stock prices for specified ticker(s).
+      operationId: GetLiveDelayedStockPrices
+      parameters:
+      - name: ticker
+        in: path
+        required: true
+        description: Ticker symbol with exchange code (e.g., 'AAPL.US').
+        schema:
+          type: string
+      - name: s
+        in: query
+        required: false
+        description: Comma-separated list of additional ticker symbols for multiple requests in a single call (e.g., 'VTI,EUR.FOREX').
+        schema:
+          type: string
+      - name: ex
+        in: query
+        required: false
+        description: Exchange code filter (e.g., 'US').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Response format. Options are 'json' and 'csv'. Defaults to JSON.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+      responses:
+        '200':
+          description: Successful response with live (delayed) stock prices.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    code:
+                      type: string
+                    timestamp:
+                      type: integer
+                    gmtoffset:
+                      type: integer
+                    open:
+                      type: number
+                    high:
+                      type: number
+                    low:
+                      type: number
+                    close:
+                      type: number
+                    volume:
+                      type:
+                      - integer
+                      - 'null'
+                    previousClose:
+                      type: number
+                    change:
+                      type: number
+                    change_p:
+                      type: number
+                - type: array
+                  items:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      timestamp:
+                        type: integer
+                      gmtoffset:
+                        type: integer
+                      open:
+                        type: number
+                      high:
+                        type: number
+                      low:
+                        type: number
+                      close:
+                        type: number
+                      volume:
+                        type:
+                        - integer
+                        - 'null'
+                      previousClose:
+                        type: number
+                      change:
+                        type: number
+                      change_p:
+                        type: number
+              examples:
+                singleTicker:
+                  summary: Single ticker response
+                  value:
+                    code: AAPL.US
+                    timestamp: 1729888080
+                    gmtoffset: 0
+                    open: 229.74
+                    high: 233.22
+                    low: 229.57
+                    close: 231.41
+                    volume: 37931706
+                    previousClose: 230.57
+                    change: 0.84
+                    change_p: 0.3643
+                multipleTickers:
+                  summary: Multiple tickers response
+                  value:
+                  - code: AAPL.US
+                    timestamp: 1729888080
+                    gmtoffset: 0
+                    open: 229.74
+                    high: 233.22
+                    low: 229.57
+                    close: 231.41
+                    volume: 37931706
+                    previousClose: 230.57
+                    change: 0.84
+                    change_p: 0.3643
+                  - code: VTI.US
+                    timestamp: 1729887240
+                    gmtoffset: 0
+                    open: 287.03
+                    high: 288.25
+                    low: 285.05
+                    close: 285.54
+                    volume: 2811137
+                    previousClose: 285.81
+                    change: -0.27
+                    change_p: -0.0945
+                  - code: EUR.FOREX
+                    timestamp: 1729891800
+                    gmtoffset: 0
+                    open: 0.9232
+                    high: 0.9263
+                    low: 0.9223
+                    close: 0.9257
+                    volume: 0
+                    previousClose: 0.9262
+                    change: -0.0005
+                    change_p: -0.054
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Ticker not found.
+      tags:
+      - Live (Delayed) Data
+  /us-quote-delayed:
+    get:
+      summary: Get US delayed stock quotes
+      description: Returns 15-minute delayed quote data for US equities. Supports multiple symbols in a single request.
+      operationId: GetUSQuoteDelayed
+      parameters:
+      - name: s
+        in: query
+        required: true
+        description: Comma-separated ticker symbols (e.g., 'AAPL,MSFT,GOOGL').
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        description: Comma-separated list of fields to return (e.g., 'close,volume,change_p').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved delayed quote data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: Ticker symbol.
+                    timestamp:
+                      type: integer
+                      format: int64
+                      description: UNIX timestamp of the quote.
+                    gmtoffset:
+                      type: integer
+                      description: GMT offset in seconds.
+                    open:
+                      type: number
+                      description: Opening price.
+                    high:
+                      type: number
+                      description: High price.
+                    low:
+                      type: number
+                      description: Low price.
+                    close:
+                      type: number
+                      description: Last traded price.
+                    volume:
+                      type: integer
+                      description: Trading volume.
+                    previousClose:
+                      type: number
+                      description: Previous day closing price.
+                    change:
+                      type: number
+                      description: Price change.
+                    change_p:
+                      type: number
+                      description: Percentage price change.
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. Invalid API token.
+      tags:
+      - Live (Delayed) Data
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

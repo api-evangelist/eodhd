@@ -1,0 +1,709 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Calendar API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Calendar
+  description: Calendar events including earnings, IPOs, splits, dividends, and trends
+paths:
+  /calendar/dividends:
+    get:
+      summary: Retrieve upcoming dividends calendar
+      description: 'Look up upcoming and historical dividend events.
+
+
+        Uses the JSON:API filter/page convention. **At least one of `filter[date_eq]` or `filter[symbol]` is required** — a request without either will return HTTP 422.
+
+        '
+      operationId: GetUpcomingDividends
+      parameters:
+      - name: filter[date_eq]
+        in: query
+        required: false
+        description: 'Exact date in ''YYYY-MM-DD'' format. Required if `filter[symbol]` is not present.
+
+          '
+        schema:
+          type: string
+          format: date
+      - name: filter[date_from]
+        in: query
+        required: false
+        description: Start date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: filter[date_to]
+        in: query
+        required: false
+        description: End date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: filter[symbol]
+        in: query
+        required: false
+        description: 'Ticker symbol (e.g., ''AAPL.US''). When provided, `filter[date_eq]` may be omitted.
+
+          '
+        schema:
+          type: string
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page (1-10000).
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10000
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (0-1000000).
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 1000000
+      - name: fmt
+        in: query
+        required: false
+        description: Output format. Defaults to 'json'.
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved dividends calendar data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and request metadata.
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                          description: Dividend ex-date.
+                        symbol:
+                          type: string
+                          description: Ticker symbol.
+                      required:
+                      - date
+                      - symbol
+                  links:
+                    type: object
+                    description: JSON:API pagination links.
+                required:
+                - data
+              example:
+                meta:
+                  total: 91
+                data:
+                - date: '2026-05-11'
+                  symbol: AAPL.US
+                - date: '2026-05-12'
+                  symbol: MSFT.US
+                links:
+                  self: https://eodhd.com/api/calendar/dividends?filter[symbol]=AAPL.US
+        '401':
+          description: Unauthorized. Invalid API token.
+        '422':
+          description: 'Validation error. Returned when required filter is missing or parameters are malformed.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    additionalProperties:
+                      type: array
+                      items:
+                        type: string
+              example:
+                errors:
+                  filter:
+                  - The filter field is required.
+                  filter.date_eq:
+                  - The filter.date eq field is required when filter.symbol is not present.
+      tags:
+      - Calendar
+  /calendar/earnings:
+    get:
+      summary: Retrieve upcoming earnings data
+      description: Fetches upcoming earnings data, with optional parameters for date ranges and specific symbols.
+      operationId: GetUpcomingEarnings
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start date for earnings data, in 'YYYY-MM-DD' format. Defaults to today if not provided.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date for earnings data, in 'YYYY-MM-DD' format. Defaults to 7 days from today if not provided.
+        schema:
+          type: string
+          format: date
+      - name: symbols
+        in: query
+        required: false
+        description: Specific symbols to retrieve earnings data for, separated by commas (e.g., 'AAPL.US,MSFT.US'). Overrides the 'from' and 'to' parameters if used.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format, either 'csv' or 'json'. Defaults to 'csv'.
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          default: csv
+      responses:
+        '200':
+          description: Successfully retrieved earnings data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: Type of data, e.g., 'Earnings'.
+                  description:
+                    type: string
+                    description: Description of the data, e.g., 'Historical and upcoming Earnings'.
+                  from:
+                    type: string
+                    format: date
+                    description: Start date for the earnings data.
+                  to:
+                    type: string
+                    format: date
+                    description: End date for the earnings data.
+                  earnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: Ticker symbol of the company.
+                        report_date:
+                          type: string
+                          format: date
+                          description: Date the earnings report was released.
+                        date:
+                          type: string
+                          format: date
+                          description: End date of the fiscal period.
+                        before_after_market:
+                          type: string
+                          description: Indicates whether the earnings report was released 'BeforeMarket' or 'AfterMarket'.
+                        currency:
+                          type: string
+                          description: Currency of the earnings values.
+                        actual:
+                          type: number
+                          description: Actual reported earnings per share or other metric.
+                        estimate:
+                          type: number
+                          description: Estimated earnings per share or other metric.
+                        difference:
+                          type: number
+                          description: Difference between actual and estimated values.
+                        percent:
+                          type: number
+                          description: Percentage difference between actual and estimated values.
+                      required:
+                      - code
+                      - report_date
+                      - date
+                      - currency
+                example:
+                  type: Earnings
+                  description: Historical and upcoming Earnings
+                  from: '2018-12-02'
+                  to: '2018-12-05'
+                  earnings:
+                  - code: AAPL.US
+                    report_date: '2023-02-02'
+                    date: '2022-12-31'
+                    before_after_market: AfterMarket
+                    currency: USD
+                    actual: 1.88
+                    estimate: 1.94
+                    difference: -0.06
+                    percent: -3.0928
+                  - code: MSFT.US
+                    report_date: '2023-04-25'
+                    date: '2023-03-31'
+                    before_after_market: AfterMarket
+                    currency: USD
+                    actual: 2.45
+                    estimate: 2.23
+                    difference: 0.22
+                    percent: 9.8655
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Earnings data not found for the specified parameters.
+      tags:
+      - Calendar
+  /calendar/ipos:
+    get:
+      summary: Retrieve upcoming IPO data
+      description: Fetches historical and upcoming IPOs for specified date ranges.
+      operationId: GetUpcomingIPOs
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start date for IPO data in 'YYYY-MM-DD' format. Defaults to today if not provided.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date for IPO data in 'YYYY-MM-DD' format. Defaults to 7 days from today if not provided.
+        schema:
+          type: string
+          format: date
+      - name: fmt
+        in: query
+        required: false
+        description: 'Output format. Possible values: ''csv'' for CSV and ''json'' for JSON. Defaults to ''csv''.'
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          default: csv
+      responses:
+        '200':
+          description: Successfully retrieved IPO data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: Response type, here 'IPOs'.
+                  description:
+                    type: string
+                    description: Description of the response data.
+                  from:
+                    type: string
+                    format: date
+                    description: The start date for the IPO data.
+                  to:
+                    type: string
+                    format: date
+                    description: The end date for the IPO data.
+                  ipos:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: Ticker symbol of the IPO if available.
+                        name:
+                          type: string
+                          description: Name of the company going public.
+                        exchange:
+                          type: string
+                          description: Exchange where the IPO will be listed.
+                        currency:
+                          type: string
+                          description: Currency used for the IPO pricing.
+                        start_date:
+                          type: string
+                          format: date
+                          description: Expected start date for trading.
+                        filing_date:
+                          type: string
+                          format: date
+                          description: Date when the IPO was filed.
+                        amended_date:
+                          type: string
+                          format: date
+                          description: Date when the IPO filing was amended.
+                        price_from:
+                          type: number
+                          format: float
+                          description: Lower end of the price range.
+                        price_to:
+                          type: number
+                          format: float
+                          description: Upper end of the price range.
+                        offer_price:
+                          type: number
+                          format: float
+                          description: Final offer price.
+                        shares:
+                          type: integer
+                          description: Number of shares being offered.
+                        deal_type:
+                          type: string
+                          description: Status of the IPO, e.g., 'Filed', 'Priced', 'Expected', or 'Amended'.
+                      required:
+                      - name
+                      - exchange
+                      - currency
+                      - deal_type
+                example:
+                  type: IPOs
+                  description: Historical and upcoming IPOs
+                  from: '2018-12-02'
+                  to: '2018-12-06'
+                  ipos:
+                  - code: 603629.SHG
+                    name: Jiangsu Lettall Electn Co Ltd
+                    exchange: Shanghai
+                    currency: CNY
+                    start_date: '2018-12-11'
+                    filing_date: '2017-06-15'
+                    amended_date: '2018-12-03'
+                    price_from: 0
+                    price_to: 0
+                    offer_price: 0
+                    shares: 25000000
+                    deal_type: Expected
+                  - code: N/A
+                    name: Gsp Resource Corp
+                    exchange: TSXV
+                    currency: CAD
+                    start_date: '2018-12-03'
+                    filing_date: '2018-08-13'
+                    amended_date: '2018-11-29'
+                    price_from: 0.1523
+                    price_to: 0.1523
+                    offer_price: 0.2
+                    shares: 2500000
+                    deal_type: Priced
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: No IPO data found for the specified date range.
+      tags:
+      - Calendar
+  /calendar/splits:
+    get:
+      summary: Retrieve upcoming and historical stock splits
+      description: Fetches information on stock splits for specified date ranges.
+      operationId: GetUpcomingSplits
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start date for split data in 'YYYY-MM-DD' format. Defaults to today if not provided.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date for split data in 'YYYY-MM-DD' format. Defaults to 7 days from today if not provided.
+        schema:
+          type: string
+          format: date
+      - name: fmt
+        in: query
+        required: false
+        description: Output format, either 'csv' or 'json'. Default is 'csv'.
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          default: csv
+      responses:
+        '200':
+          description: Successfully retrieved split data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: Response type, here 'Splits'.
+                  description:
+                    type: string
+                    description: Description of the response data.
+                  from:
+                    type: string
+                    format: date
+                    description: The start date for the split data.
+                  to:
+                    type: string
+                    format: date
+                    description: The end date for the split data.
+                  splits:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: Ticker symbol of the stock undergoing the split.
+                        split_date:
+                          type: string
+                          format: date
+                          description: The date when the stock split takes effect.
+                        optionable:
+                          type: string
+                          enum:
+                          - Y
+                          - N
+                          description: Indicates if the stock is optionable ('Y' for yes, 'N' for no).
+                        old_shares:
+                          type: integer
+                          description: The number of shares before the split.
+                        new_shares:
+                          type: integer
+                          description: The number of shares after the split.
+                      required:
+                      - code
+                      - split_date
+                      - old_shares
+                      - new_shares
+                example:
+                  type: Splits
+                  description: Historical and upcoming splits
+                  from: '2018-12-02'
+                  to: '2018-12-06'
+                  splits:
+                  - code: AINV.US
+                    split_date: '2018-12-03'
+                    optionable: N
+                    old_shares: 3
+                    new_shares: 1
+                  - code: SDV.AU
+                    split_date: '2018-12-03'
+                    optionable: N
+                    old_shares: 10
+                    new_shares: 1
+                  - code: 1604.TW
+                    split_date: '2018-12-04'
+                    optionable: N
+                    old_shares: 1000
+                    new_shares: 800
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: No split data found for the specified date range.
+      tags:
+      - Calendar
+  /calendar/trends:
+    get:
+      summary: Retrieve earnings trends data
+      description: Fetches historical and upcoming earnings trends, including EPS and revenue estimates, trends, and revisions for specific stock symbols.
+      operationId: GetEarningsTrends
+      parameters:
+      - name: symbols
+        in: query
+        required: true
+        description: Comma-separated list of stock symbols to retrieve trends data for (e.g., 'AAPL.US,MSFT.US').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format. Currently supports only 'json'.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved earnings trends data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: Response type, here 'Trends'.
+                  description:
+                    type: string
+                    description: Description of the response data.
+                  symbols:
+                    type: string
+                    description: Symbols for which data is returned.
+                  trends:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          code:
+                            type: string
+                            description: Stock symbol for which trend data is returned.
+                          date:
+                            type: string
+                            format: date
+                            description: Period end date for the trend data.
+                          period:
+                            type: string
+                            description: Period for the earnings trend (e.g., '+1y', '0y', '+1q', '0q').
+                          growth:
+                            type: string
+                            description: Expected EPS growth as a decimal.
+                          earningsEstimateAvg:
+                            type: string
+                            description: Average EPS estimate from analysts.
+                          earningsEstimateLow:
+                            type: string
+                            description: Lowest EPS estimate from analysts.
+                          earningsEstimateHigh:
+                            type: string
+                            description: Highest EPS estimate from analysts.
+                          earningsEstimateYearAgoEps:
+                            type: string
+                            description: EPS estimate from the previous year.
+                          earningsEstimateNumberOfAnalysts:
+                            type: string
+                            description: Number of analysts contributing to the EPS estimate.
+                          earningsEstimateGrowth:
+                            type: string
+                            description: Expected EPS growth, same as 'growth'.
+                          revenueEstimateAvg:
+                            type: string
+                            description: Average revenue estimate from analysts.
+                          revenueEstimateLow:
+                            type: string
+                            description: Lowest revenue estimate from analysts.
+                          revenueEstimateHigh:
+                            type: string
+                            description: Highest revenue estimate from analysts.
+                          revenueEstimateYearAgoEps:
+                            type: string
+                            description: Revenue estimate from the previous year.
+                          revenueEstimateNumberOfAnalysts:
+                            type: string
+                            description: Number of analysts contributing to the revenue estimate.
+                          revenueEstimateGrowth:
+                            type: string
+                            description: Expected growth in revenue.
+                          epsTrendCurrent:
+                            type: string
+                            description: Current EPS estimate.
+                          epsTrend7daysAgo:
+                            type: string
+                            description: EPS estimate 7 days ago.
+                          epsTrend30daysAgo:
+                            type: string
+                            description: EPS estimate 30 days ago.
+                          epsTrend60daysAgo:
+                            type: string
+                            description: EPS estimate 60 days ago.
+                          epsTrend90daysAgo:
+                            type: string
+                            description: EPS estimate 90 days ago.
+                          epsRevisionsUpLast7days:
+                            type: string
+                            description: Number of upward EPS revisions in the last 7 days.
+                          epsRevisionsUpLast30days:
+                            type: string
+                            description: Number of upward EPS revisions in the last 30 days.
+                          epsRevisionsDownLast7days:
+                            type: string
+                            description: Number of downward EPS revisions in the last 7 days.
+                          epsRevisionsDownLast30days:
+                            type: string
+                            description: Number of downward EPS revisions in the last 30 days.
+                        required:
+                        - code
+                        - date
+                        - period
+                        - earningsEstimateAvg
+                example:
+                  type: Trends
+                  description: Historical and upcoming earning trends
+                  symbols: AAPL.US
+                  trends:
+                  - - code: AAPL.US
+                      date: '2025-09-30'
+                      period: +1y
+                      growth: '0.1200'
+                      earningsEstimateAvg: '7.4700'
+                      earningsEstimateLow: '6.8800'
+                      earningsEstimateHigh: '7.9300'
+                      earningsEstimateYearAgoEps: '6.6700'
+                      earningsEstimateNumberOfAnalysts: '42'
+                      earningsEstimateGrowth: '0.1200'
+                      revenueEstimateAvg: '420689000000.00'
+                      revenueEstimateLow: '401691000000.00'
+                      revenueEstimateHigh: '441882000000.00'
+                      revenueEstimateYearAgoEps: ''
+                      revenueEstimateNumberOfAnalysts: '40'
+                      revenueEstimateGrowth: '0.0780'
+                      epsTrendCurrent: '7.4700'
+                      epsTrend7daysAgo: '7.4800'
+                      epsTrend30daysAgo: '7.4800'
+                      epsTrend60daysAgo: '7.4800'
+                      epsTrend90daysAgo: '7.3400'
+                      epsRevisionsUpLast7days: '1'
+                      epsRevisionsUpLast30days: '4'
+                      epsRevisionsDownLast30days: '3'
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Earnings trends data not found for the specified symbols.
+      tags:
+      - Calendar
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

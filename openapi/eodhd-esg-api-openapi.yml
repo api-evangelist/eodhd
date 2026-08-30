@@ -1,0 +1,398 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data ESG API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: ESG
+  description: Environmental, Social, and Governance ratings (Investverte)
+paths:
+  /mp/investverte/companies:
+    get:
+      summary: List ESG-rated companies
+      description: Returns a list of all companies with ESG ratings available from Investverte.
+      operationId: GetESGCompanies
+      parameters:
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved ESG companies list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: Ticker symbol.
+                    name:
+                      type: string
+                      description: Company name.
+                    country:
+                      type: string
+                      description: Country of domicile.
+                    sector:
+                      type: string
+                      description: Business sector.
+                    industry:
+                      type: string
+                      description: Industry classification.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '429':
+          description: Too Many Requests.
+      tags:
+      - ESG
+  /mp/investverte/countries:
+    get:
+      summary: List ESG country scores
+      description: Returns a list of all countries with their aggregate ESG scores from Investverte.
+      operationId: GetESGCountries
+      parameters:
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved ESG country scores.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    country:
+                      type: string
+                      description: Country name.
+                    country_code:
+                      type: string
+                      description: ISO country code.
+                    esg_score:
+                      type: number
+                      description: Overall ESG score.
+                    environmental_score:
+                      type: number
+                      description: Environmental pillar score.
+                    social_score:
+                      type: number
+                      description: Social pillar score.
+                    governance_score:
+                      type: number
+                      description: Governance pillar score.
+                    num_companies:
+                      type: integer
+                      description: Number of rated companies in country.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '429':
+          description: Too Many Requests.
+      tags:
+      - ESG
+  /mp/investverte/country/{symbol}:
+    get:
+      summary: Get ESG country details
+      description: Returns detailed ESG scores and metrics for a specific country from Investverte.
+      operationId: GetESGCountryDetails
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        description: Country code (e.g., 'US', 'GB', 'DE').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved country ESG details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  country:
+                    type: string
+                    description: Country name.
+                  country_code:
+                    type: string
+                    description: ISO country code.
+                  esg_score:
+                    type: number
+                    description: Overall ESG score.
+                  environmental_score:
+                    type: number
+                    description: Environmental pillar score.
+                  social_score:
+                    type: number
+                    description: Social pillar score.
+                  governance_score:
+                    type: number
+                    description: Governance pillar score.
+                  top_companies:
+                    type: array
+                    description: Top ESG-rated companies in this country.
+                    items:
+                      type: object
+                      properties:
+                        symbol:
+                          type: string
+                        name:
+                          type: string
+                        esg_score:
+                          type: number
+                  sector_breakdown:
+                    type: array
+                    description: ESG scores by sector within this country.
+                    items:
+                      type: object
+                      properties:
+                        sector:
+                          type: string
+                        avg_esg_score:
+                          type: number
+                        num_companies:
+                          type: integer
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Country not found.
+      tags:
+      - ESG
+  /mp/investverte/esg/{symbol}:
+    get:
+      summary: Get ESG rating for a company
+      description: Returns detailed ESG ratings and scores for a specific company from Investverte.
+      operationId: GetESGRating
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        description: Ticker symbol (e.g., 'AAPL.US').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved ESG rating.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  symbol:
+                    type: string
+                    description: Ticker symbol.
+                  name:
+                    type: string
+                    description: Company name.
+                  esg_score:
+                    type: number
+                    description: Overall ESG score.
+                  esg_rating:
+                    type: string
+                    description: ESG rating grade (e.g., 'A', 'BBB', 'CCC').
+                  environmental_score:
+                    type: number
+                    description: Environmental pillar score.
+                  social_score:
+                    type: number
+                    description: Social pillar score.
+                  governance_score:
+                    type: number
+                    description: Governance pillar score.
+                  environmental_details:
+                    type: object
+                    description: Detailed environmental metrics.
+                  social_details:
+                    type: object
+                    description: Detailed social metrics.
+                  governance_details:
+                    type: object
+                    description: Detailed governance metrics.
+                  last_updated:
+                    type: string
+                    format: date
+                    description: Date of last rating update.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Company not found or no ESG data available.
+      tags:
+      - ESG
+  /mp/investverte/sector/{symbol}:
+    get:
+      summary: Get ESG sector details
+      description: Returns detailed ESG scores and metrics for a specific sector from Investverte.
+      operationId: GetESGSectorDetails
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        description: Sector identifier.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved sector ESG details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sector:
+                    type: string
+                    description: Sector name.
+                  esg_score:
+                    type: number
+                    description: Overall ESG score.
+                  environmental_score:
+                    type: number
+                    description: Environmental pillar score.
+                  social_score:
+                    type: number
+                    description: Social pillar score.
+                  governance_score:
+                    type: number
+                    description: Governance pillar score.
+                  top_companies:
+                    type: array
+                    description: Top ESG-rated companies in this sector.
+                    items:
+                      type: object
+                      properties:
+                        symbol:
+                          type: string
+                        name:
+                          type: string
+                        esg_score:
+                          type: number
+                  country_breakdown:
+                    type: array
+                    description: ESG scores by country within this sector.
+                    items:
+                      type: object
+                      properties:
+                        country:
+                          type: string
+                        avg_esg_score:
+                          type: number
+                        num_companies:
+                          type: integer
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Sector not found.
+      tags:
+      - ESG
+  /mp/investverte/sectors:
+    get:
+      summary: List ESG sector scores
+      description: Returns a list of all sectors with their aggregate ESG scores from Investverte.
+      operationId: GetESGSectors
+      parameters:
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved ESG sector scores.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sector:
+                      type: string
+                      description: Sector name.
+                    esg_score:
+                      type: number
+                      description: Overall ESG score.
+                    environmental_score:
+                      type: number
+                      description: Environmental pillar score.
+                    social_score:
+                      type: number
+                      description: Social pillar score.
+                    governance_score:
+                      type: number
+                      description: Governance pillar score.
+                    num_companies:
+                      type: integer
+                      description: Number of rated companies in sector.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '429':
+          description: Too Many Requests.
+      tags:
+      - ESG
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

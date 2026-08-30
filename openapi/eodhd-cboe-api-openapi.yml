@@ -1,0 +1,159 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data CBOE API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: CBOE
+  description: CBOE index data and listings
+paths:
+  /cboe/index:
+    get:
+      summary: Get CBOE index historical data
+      description: Returns historical end-of-day data for a specific CBOE index, including daily open, high, low, close values.
+      operationId: GetCBOEIndexData
+      parameters:
+      - name: filter[index_code]
+        in: query
+        required: true
+        description: CBOE index code (e.g., 'VIX', 'SPX').
+        schema:
+          type: string
+      - name: filter[feed_type]
+        in: query
+        required: true
+        description: Feed type filter.
+        schema:
+          type: string
+      - name: filter[date]
+        in: query
+        required: true
+        description: Date filter in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: filter[include_review]
+        in: query
+        required: false
+        description: Include review data.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved CBOE index data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: Trading date.
+                    open:
+                      type: number
+                      description: Opening value.
+                    high:
+                      type: number
+                      description: High value.
+                    low:
+                      type: number
+                      description: Low value.
+                    close:
+                      type: number
+                      description: Closing value.
+                    volume:
+                      type: number
+                      description: Trading volume (if applicable).
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Index not found.
+      tags:
+      - CBOE
+  /cboe/indices:
+    get:
+      summary: List CBOE indices
+      description: Returns a list of all available CBOE indices with their latest values and metadata.
+      operationId: GetCBOEIndices
+      parameters:
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved CBOE indices list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: Index symbol code.
+                    name:
+                      type: string
+                      description: Index name.
+                    last_value:
+                      type: number
+                      description: Latest index value.
+                    change:
+                      type: number
+                      description: Change from previous close.
+                    change_p:
+                      type: number
+                      description: Percentage change.
+                    last_update:
+                      type: string
+                      format: date
+                      description: Date of last update.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '429':
+          description: Too Many Requests.
+      tags:
+      - CBOE
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

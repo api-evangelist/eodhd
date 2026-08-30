@@ -1,0 +1,633 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Interest Rates API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Interest Rates
+  description: Reference rates, central bank policy rates, and funding-stress spreads
+paths:
+  /rates/reference-rates:
+    get:
+      summary: Get reference interest rates
+      description: Returns benchmark reference interest rates (e.g., SOFR, SONIA, ESTR) by code and currency.
+      operationId: GetReferenceRates
+      parameters:
+      - name: filter[code]
+        in: query
+        required: false
+        description: Filter by reference rate code (e.g., 'SOFR').
+        schema:
+          type: string
+      - name: filter[currency]
+        in: query
+        required: false
+        description: Filter by currency.
+        schema:
+          type: string
+          enum:
+          - USD
+          - GBP
+          - EUR
+      - name: filter[from]
+        in: query
+        required: false
+        description: Start date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: filter[to]
+        in: query
+        required: false
+        description: End date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved reference rates.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                          description: Observation date.
+                        code:
+                          type: string
+                          description: Reference rate code.
+                        currency:
+                          type: string
+                          description: Currency of the rate.
+                        rate_type:
+                          type: string
+                          description: Type of rate.
+                        rate:
+                          type: number
+                          description: Rate value.
+                        source:
+                          type: string
+                          description: Data source.
+                        source_series_id:
+                          type: string
+                          description: Source series identifier.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Interest Rates
+  /rates/policy-rates:
+    get:
+      summary: Get central bank policy rates
+      description: Returns central bank policy (target) interest rates by code, country, and central bank.
+      operationId: GetPolicyRates
+      parameters:
+      - name: filter[code]
+        in: query
+        required: false
+        description: Filter by policy rate code.
+        schema:
+          type: string
+      - name: filter[country]
+        in: query
+        required: false
+        description: Filter by country.
+        schema:
+          type: string
+      - name: filter[central_bank]
+        in: query
+        required: false
+        description: Filter by central bank (e.g., 'FED', 'ECB').
+        schema:
+          type: string
+      - name: filter[from]
+        in: query
+        required: false
+        description: Start date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: filter[to]
+        in: query
+        required: false
+        description: End date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset (records to skip).
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page. Default 20, maximum 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved policy rates.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                          description: Observation date.
+                        code:
+                          type: string
+                          description: Policy rate code.
+                        country:
+                          type: string
+                          description: Country.
+                        central_bank:
+                          type: string
+                          description: Central bank.
+                        rate:
+                          type: number
+                          description: Policy rate value.
+                        source:
+                          type: string
+                          description: Data source.
+                        source_series_id:
+                          type: string
+                          description: Source series identifier.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Interest Rates
+  /spreads/funding-stress:
+    get:
+      summary: Get funding-stress spreads
+      description: Returns funding-stress spread series (in basis points) computed as the difference between two rate legs, with the underlying formula and leg values.
+      operationId: GetFundingStressSpreads
+      parameters:
+      - name: filter[code]
+        in: query
+        required: false
+        description: Filter by spread code (e.g., 'SOFR_OIS').
+        schema:
+          type: string
+      - name: filter[from]
+        in: query
+        required: false
+        description: Start date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: filter[to]
+        in: query
+        required: false
+        description: End date (YYYY-MM-DD).
+        schema:
+          type: string
+          format: date
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved funding-stress spreads.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - meta
+                - data
+                - links
+                properties:
+                  meta:
+                    type: object
+                    description: Pagination and field metadata.
+                    required:
+                    - total
+                    - fields
+                    properties:
+                      offset:
+                        type: integer
+                        minimum: 0
+                      limit:
+                        type: integer
+                        minimum: 1
+                      total:
+                        type: integer
+                        minimum: 0
+                      fields:
+                        type: array
+                        items:
+                          type: string
+                      compact:
+                        type:
+                        - boolean
+                        - 'null'
+                    additionalProperties: false
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                          description: Observation date.
+                        code:
+                          type: string
+                          description: Spread code.
+                        value_bps:
+                          type: number
+                          description: Spread value in basis points.
+                        formula:
+                          type: string
+                          description: Formula used to compute the spread.
+                        leg_a:
+                          type: string
+                          description: First rate leg code.
+                        leg_b:
+                          type: string
+                          description: Second rate leg code.
+                        leg_a_rate:
+                          type: number
+                          description: Rate value of the first leg.
+                        leg_b_rate:
+                          type: number
+                          description: Rate value of the second leg.
+                  links:
+                    type: object
+                    required:
+                    - next
+                    properties:
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to fetch the next page, or null if last page.
+                    additionalProperties: false
+                additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '422':
+          description: 'Validation error. Returned when a parameter is malformed or a filter value is invalid.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Interest Rates
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

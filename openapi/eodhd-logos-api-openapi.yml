@@ -1,0 +1,212 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Logos API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Logos
+  description: Company and ticker logos
+paths:
+  /logo/{symbol}:
+    get:
+      summary: Get ticker logo (PNG)
+      description: Returns a 200x200 PNG logo (transparent background) for the given ticker symbol, formatted as {ticker}.{exchange} (e.g., AAPL.US).
+      operationId: getTickerLogo
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        description: Ticker with exchange, e.g., AAPL.US
+        schema:
+          type: string
+        examples:
+          appleUS:
+            value: AAPL.US
+            summary: Apple Inc. on US exchange
+      responses:
+        '200':
+          description: PNG image for the requested ticker.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+              example: (binary PNG data)
+        '401':
+          description: Unauthorized (invalid token or suspended account).
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden (resource not available for current user).
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found (no logo for symbol).
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests (rate limit exceeded).
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Logos
+  /logo-svg/{symbol}:
+    get:
+      summary: Get ticker logo (SVG)
+      description: Returns an SVG logo for the given ticker symbol, formatted as {ticker}.{exchange} (e.g., AAPL.US).
+      operationId: getTickerLogoSvg
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        description: Ticker with exchange, e.g., AAPL.US
+        schema:
+          type: string
+        examples:
+          appleUS:
+            value: AAPL.US
+            summary: Apple Inc. on US exchange
+      responses:
+        '200':
+          description: SVG image for the requested ticker.
+          content:
+            image/svg+xml:
+              schema:
+                type: string
+              example: <svg>...</svg>
+        '401':
+          description: Unauthorized (invalid token or suspended account).
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '403':
+          description: Forbidden (resource not available for current user).
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found (no logo for symbol).
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+        '429':
+          description: Too Many Requests (rate limit exceeded).
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  error:
+                    type: string
+                  message:
+                    type: string
+      tags:
+      - Logos
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

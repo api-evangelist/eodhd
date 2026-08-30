@@ -1,0 +1,122 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Market Data API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Market Data
+  description: Market capitalization and other market data
+paths:
+  /historical-market-cap/{ticker}:
+    get:
+      summary: Retrieve historical market capitalization data
+      description: Fetches historical market capitalization for a specified stock symbol with weekly frequency.
+      operationId: GetHistoricalMarketCap
+      parameters:
+      - name: ticker
+        in: path
+        required: true
+        description: The ticker symbol of the stock, e.g., 'AAPL.US' or simply 'AAPL'.
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: false
+        description: Start date for data retrieval in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date for data retrieval in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: reverse
+        in: query
+        required: false
+        description: Set to 'true' to reverse sort order (newest first).
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+      - name: fmt
+        in: query
+        required: false
+        description: Output format, either 'json' or 'csv'. Defaults to 'json'.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: 'Successfully retrieved historical market capitalization data.
+
+
+            The response is a JSON object whose keys are sequential integer indices (as strings: "0", "1", "2", ...) and whose values are objects containing `date` and `value`. Iterate over the values, not the keys.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date of the market capitalization value.
+                    value:
+                      type: number
+                      description: Market capitalization value in USD.
+                  required:
+                  - date
+                  - value
+              example:
+                '0':
+                  date: '2022-06-07'
+                  value: 2406898266500
+                '1':
+                  date: '2022-06-14'
+                  value: 2148744629600
+                '2':
+                  date: '2022-06-21'
+                  value: 2199080542500
+                '3':
+                  date: '2022-06-28'
+                  value: 2212148752300
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Market capitalization data not found for the specified ticker or date range.
+      tags:
+      - Market Data
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

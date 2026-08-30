@@ -1,0 +1,209 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data User API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: User
+  description: User account and subscription information
+paths:
+  /internal-user:
+    get:
+      summary: Retrieve internal user account information
+      description: Fetch detailed internal account information for the authenticated user, including subscription type, usage statistics, and available data feeds. Requires a valid `api_token` as a query parameter.
+      operationId: GetInternalUserInfo
+      responses:
+        '200':
+          description: Successful response with user information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Full name of the user.
+                  email:
+                    type: string
+                    format: email
+                    description: Registered email address.
+                  subscriptionType:
+                    type: string
+                    enum:
+                    - monthly
+                    - yearly
+                    description: Type of subscription plan.
+                  paymentMethod:
+                    type: string
+                    description: Payment processor used for the subscription (e.g., Stripe, PayPal).
+                  apiRequests:
+                    type: integer
+                    description: Number of API requests made during the current counting period.
+                  apiRequestsDate:
+                    type: string
+                    format: date
+                    description: Date for which the API request count applies.
+                  dailyRateLimit:
+                    type: integer
+                    description: Daily request limit for standard API usage.
+                  extraLimit:
+                    type: integer
+                    description: Extra daily request limit granted to the user.
+                  inviteToken:
+                    type:
+                    - string
+                    - 'null'
+                    description: Referral invite token, if available.
+                  inviteTokenClicked:
+                    type: integer
+                    description: Number of times the invite token link was clicked.
+                  subscriptionMode:
+                    type: string
+                    enum:
+                    - paid
+                    - free
+                    - trial
+                    description: Current subscription mode.
+                  availableDataFeeds:
+                    type: array
+                    description: List of data feeds included in the subscription.
+                    items:
+                      type: string
+                  availableMarketplaceDataFeeds:
+                    type: object
+                    description: Marketplace API usage and subscription details. These have a separate request counter from the standard APIs.
+                    properties:
+                      dailyRateLimit:
+                        type: integer
+                        description: Daily request limit for marketplace subscriptions.
+                      requestsSpent:
+                        type: integer
+                        description: Number of marketplace API requests made during the current counting period.
+                      timeToReset:
+                        type: string
+                        description: Time remaining until the marketplace API request counter resets.
+                      subscriptions:
+                        type: array
+                        description: List of marketplace subscriptions available to the user.
+                        items:
+                          type: string
+              example:
+                name: John Doe
+                email: user@example.com
+                subscriptionType: monthly
+                paymentMethod: Stripe
+                apiRequests: 1234
+                apiRequestsDate: '2025-01-15'
+                dailyRateLimit: 100000
+                extraLimit: 0
+                inviteToken: ''
+                inviteTokenClicked: 0
+                subscriptionMode: paid
+                availableDataFeeds:
+                - Bulk Splits and Dividends API
+                - Fundamental Data
+                - Bond Fundamentals API
+                - Stock Options Data
+                - News API
+                - commodities
+                - sec_filings
+                - id_mapping
+                - Technical API Data
+                - Intraday Data API
+                - EOD Historical Data
+                - Search API
+                - dividends
+                - Dividends Data Feed
+                - Split Data Feed
+                - Calendar Data
+                - Live (delayed) Data API
+                - CBOE Data API
+                - Real-time Data via WebSockets
+                - Economic Events API
+                - Sentiment Data API
+                - Tick Data
+                - Exchanges List API
+                availableMarketplaceDataFeeds:
+                  dailyRateLimit: 100000
+                  requestsSpent: 30
+                  timeToReset: 08:53 GMT+0000
+                  subscriptions:
+                  - US Stock Options Data API
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. The API token is missing, invalid, or expired.
+        '404':
+          description: User not found.
+      tags:
+      - User
+  /user:
+    get:
+      summary: Get current user details
+      description: Returns details about the authenticated user, including subscription info and API usage.
+      operationId: GetUserDetails
+      parameters:
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved user details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: User name.
+                  email:
+                    type: string
+                    description: User email.
+                  subscriptionType:
+                    type: string
+                    description: Subscription plan type.
+                  paymentMethod:
+                    type: string
+                    description: Payment method.
+                  apiRequests:
+                    type: integer
+                    description: API requests used in current period.
+                  apiRequestsDate:
+                    type: string
+                    description: Date of last API request count reset.
+                  dailyRateLimit:
+                    type: integer
+                    description: Daily API request limit.
+        '401':
+          description: Unauthorized. Invalid API token.
+      tags:
+      - User
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

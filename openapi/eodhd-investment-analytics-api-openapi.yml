@@ -1,0 +1,894 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Investment Analytics API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Investment Analytics
+  description: Risk scoring, bond analysis, bank financials, reports (PRAAMS)
+paths:
+  /mp/praams/analyse/bond/{isin}:
+    get:
+      summary: Analyse bond by ISIN
+      description: Returns PRAAMS risk scoring and analysis for a specific bond identified by ISIN.
+      operationId: AnalysePRAAMSBond
+      parameters:
+      - name: isin
+        in: path
+        required: true
+        description: Bond ISIN code.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved bond analysis.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  name:
+                    type: string
+                    description: Bond name.
+                  risk_score:
+                    type: number
+                    description: PRAAMS risk score.
+                  risk_category:
+                    type: string
+                    description: Risk category (e.g., 'Low', 'Medium', 'High').
+                  yield_to_maturity:
+                    type: number
+                  duration:
+                    type: number
+                    description: Modified duration.
+                  convexity:
+                    type: number
+                  credit_rating:
+                    type: string
+                  coupon_rate:
+                    type: number
+                  maturity_date:
+                    type: string
+                    format: date
+                  issuer:
+                    type: string
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Bond not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/analyse/equity/isin/{isin}:
+    get:
+      summary: Analyse equity by ISIN
+      description: Returns PRAAMS risk scoring and analysis for a specific equity identified by ISIN.
+      operationId: AnalysePRAAMSEquityByISIN
+      parameters:
+      - name: isin
+        in: path
+        required: true
+        description: Equity ISIN code.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved equity analysis.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  name:
+                    type: string
+                  risk_score:
+                    type: number
+                  risk_category:
+                    type: string
+                  volatility:
+                    type: number
+                  beta:
+                    type: number
+                  sharpe_ratio:
+                    type: number
+                  max_drawdown:
+                    type: number
+                  sector:
+                    type: string
+                  market_cap:
+                    type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Equity not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/analyse/equity/ticker/{ticker}:
+    get:
+      summary: Analyse equity by ticker
+      description: Returns PRAAMS risk scoring and analysis for a specific equity identified by ticker.
+      operationId: AnalysePRAAMSEquityByTicker
+      parameters:
+      - name: ticker
+        in: path
+        required: true
+        description: Ticker symbol (e.g., 'AAPL.US').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved equity analysis.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticker:
+                    type: string
+                  name:
+                    type: string
+                  risk_score:
+                    type: number
+                    description: PRAAMS risk score.
+                  risk_category:
+                    type: string
+                    description: Risk category.
+                  volatility:
+                    type: number
+                  beta:
+                    type: number
+                  sharpe_ratio:
+                    type: number
+                  max_drawdown:
+                    type: number
+                  sector:
+                    type: string
+                  market_cap:
+                    type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Equity not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/bank/balance_sheet/isin/{isin}:
+    get:
+      summary: Get bank balance sheet by ISIN
+      description: Returns bank-specific balance sheet analysis for the specified ISIN from PRAAMS.
+      operationId: GetPRAAMSBankBalanceSheetByISIN
+      parameters:
+      - name: isin
+        in: path
+        required: true
+        description: ISIN code (e.g., 'US46625H1005').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved bank balance sheet.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  name:
+                    type: string
+                    description: Bank name.
+                  total_assets:
+                    type: number
+                  total_liabilities:
+                    type: number
+                  total_equity:
+                    type: number
+                  loans_net:
+                    type: number
+                  deposits:
+                    type: number
+                  tier1_capital_ratio:
+                    type: number
+                  leverage_ratio:
+                    type: number
+                  periods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        total_assets:
+                          type: number
+                        total_liabilities:
+                          type: number
+                        total_equity:
+                          type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Bank data not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/bank/balance_sheet/ticker/{ticker}:
+    get:
+      summary: Get bank balance sheet by ticker
+      description: Returns bank-specific balance sheet analysis for the specified ticker from PRAAMS.
+      operationId: GetPRAAMSBankBalanceSheetByTicker
+      parameters:
+      - name: ticker
+        in: path
+        required: true
+        description: Ticker symbol (e.g., 'JPM.US').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved bank balance sheet.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticker:
+                    type: string
+                  name:
+                    type: string
+                    description: Bank name.
+                  total_assets:
+                    type: number
+                  total_liabilities:
+                    type: number
+                  total_equity:
+                    type: number
+                  loans_net:
+                    type: number
+                    description: Net loans.
+                  deposits:
+                    type: number
+                    description: Total deposits.
+                  tier1_capital_ratio:
+                    type: number
+                    description: Tier 1 capital ratio.
+                  leverage_ratio:
+                    type: number
+                  periods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        total_assets:
+                          type: number
+                        total_liabilities:
+                          type: number
+                        total_equity:
+                          type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Bank data not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/bank/income_statement/isin/{isin}:
+    get:
+      summary: Get bank income statement by ISIN
+      description: Returns bank-specific income statement analysis for the specified ISIN from PRAAMS.
+      operationId: GetPRAAMSBankIncomeByISIN
+      parameters:
+      - name: isin
+        in: path
+        required: true
+        description: ISIN code (e.g., 'US46625H1005').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved bank income statement.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  name:
+                    type: string
+                  net_interest_income:
+                    type: number
+                  non_interest_income:
+                    type: number
+                  provision_for_loan_losses:
+                    type: number
+                  net_income:
+                    type: number
+                  return_on_assets:
+                    type: number
+                  return_on_equity:
+                    type: number
+                  efficiency_ratio:
+                    type: number
+                  periods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        net_interest_income:
+                          type: number
+                        net_income:
+                          type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Bank data not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/bank/income_statement/ticker/{ticker}:
+    get:
+      summary: Get bank income statement by ticker
+      description: Returns bank-specific income statement analysis for the specified ticker from PRAAMS.
+      operationId: GetPRAAMSBankIncomeByTicker
+      parameters:
+      - name: ticker
+        in: path
+        required: true
+        description: Ticker symbol (e.g., 'JPM.US').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved bank income statement.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticker:
+                    type: string
+                  name:
+                    type: string
+                  net_interest_income:
+                    type: number
+                    description: Net interest income.
+                  non_interest_income:
+                    type: number
+                    description: Non-interest income.
+                  provision_for_loan_losses:
+                    type: number
+                  net_income:
+                    type: number
+                  return_on_assets:
+                    type: number
+                    description: Return on assets (ROA).
+                  return_on_equity:
+                    type: number
+                    description: Return on equity (ROE).
+                  efficiency_ratio:
+                    type: number
+                  periods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        net_interest_income:
+                          type: number
+                        net_income:
+                          type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Bank data not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/explore/bond:
+    get:
+      summary: Explore bonds
+      description: Search and filter bonds using PRAAMS analytics. Returns a list of bonds matching the specified criteria with risk scores.
+      operationId: ExplorePRAAMSBonds
+      parameters:
+      - name: risk_category
+        in: query
+        required: false
+        description: Filter by risk category (e.g., 'Low', 'Medium', 'High').
+        schema:
+          type: string
+      - name: min_yield
+        in: query
+        required: false
+        description: Minimum yield to maturity filter.
+        schema:
+          type: number
+      - name: max_yield
+        in: query
+        required: false
+        description: Maximum yield to maturity filter.
+        schema:
+          type: number
+      - name: currency
+        in: query
+        required: false
+        description: Filter by currency (e.g., 'USD', 'EUR').
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        description: Pagination offset.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        required: false
+        description: Maximum results to return.
+        schema:
+          type: integer
+          default: 50
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved bond list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Total matching bonds.
+                  offset:
+                    type: integer
+                  limit:
+                    type: integer
+                  bonds:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        isin:
+                          type: string
+                        name:
+                          type: string
+                        risk_score:
+                          type: number
+                        risk_category:
+                          type: string
+                        yield_to_maturity:
+                          type: number
+                        coupon_rate:
+                          type: number
+                        maturity_date:
+                          type: string
+                          format: date
+                        currency:
+                          type: string
+                        credit_rating:
+                          type: string
+        '401':
+          description: Unauthorized. Invalid API token.
+      tags:
+      - Investment Analytics
+  /mp/praams/explore/equity:
+    get:
+      summary: Explore equities
+      description: Search and filter equities using PRAAMS analytics. Returns a list of equities matching the specified criteria with risk scores.
+      operationId: ExplorePRAAMSEquities
+      parameters:
+      - name: risk_category
+        in: query
+        required: false
+        description: Filter by risk category (e.g., 'Low', 'Medium', 'High').
+        schema:
+          type: string
+      - name: sector
+        in: query
+        required: false
+        description: Filter by sector.
+        schema:
+          type: string
+      - name: country
+        in: query
+        required: false
+        description: Filter by country code.
+        schema:
+          type: string
+      - name: min_market_cap
+        in: query
+        required: false
+        description: Minimum market capitalization filter.
+        schema:
+          type: number
+      - name: offset
+        in: query
+        required: false
+        description: Pagination offset.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        required: false
+        description: Maximum results to return.
+        schema:
+          type: integer
+          default: 50
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved equity list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Total matching equities.
+                  offset:
+                    type: integer
+                  limit:
+                    type: integer
+                  equities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ticker:
+                          type: string
+                        isin:
+                          type: string
+                        name:
+                          type: string
+                        risk_score:
+                          type: number
+                        risk_category:
+                          type: string
+                        sector:
+                          type: string
+                        country:
+                          type: string
+                        market_cap:
+                          type: number
+                        beta:
+                          type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+      tags:
+      - Investment Analytics
+  /mp/praams/reports/bond/{isin}:
+    get:
+      summary: Get bond report by ISIN
+      description: Returns a comprehensive PRAAMS report for a specific bond, including risk assessment and analytics.
+      operationId: GetPRAAMSBondReport
+      parameters:
+      - name: isin
+        in: path
+        required: true
+        description: Bond ISIN code.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved bond report.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  name:
+                    type: string
+                  report_date:
+                    type: string
+                    format: date
+                  risk_summary:
+                    type: object
+                    properties:
+                      risk_score:
+                        type: number
+                      risk_category:
+                        type: string
+                      credit_risk:
+                        type: string
+                      interest_rate_risk:
+                        type: string
+                  bond_details:
+                    type: object
+                    properties:
+                      coupon_rate:
+                        type: number
+                      maturity_date:
+                        type: string
+                        format: date
+                      yield_to_maturity:
+                        type: number
+                      duration:
+                        type: number
+                      convexity:
+                        type: number
+                      issuer:
+                        type: string
+                      credit_rating:
+                        type: string
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Bond not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/reports/equity/isin/{isin}:
+    get:
+      summary: Get equity report by ISIN
+      description: Returns a comprehensive PRAAMS report for a specific equity identified by ISIN.
+      operationId: GetPRAAMSEquityReportByISIN
+      parameters:
+      - name: isin
+        in: path
+        required: true
+        description: Equity ISIN code.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved equity report.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  name:
+                    type: string
+                  report_date:
+                    type: string
+                    format: date
+                  risk_summary:
+                    type: object
+                    properties:
+                      risk_score:
+                        type: number
+                      risk_category:
+                        type: string
+                      volatility_risk:
+                        type: string
+                      market_risk:
+                        type: string
+                  equity_details:
+                    type: object
+                    properties:
+                      sector:
+                        type: string
+                      market_cap:
+                        type: number
+                      beta:
+                        type: number
+                      pe_ratio:
+                        type: number
+                      dividend_yield:
+                        type: number
+                  performance:
+                    type: object
+                    properties:
+                      return_1y:
+                        type: number
+                      return_3y:
+                        type: number
+                      sharpe_ratio:
+                        type: number
+                      max_drawdown:
+                        type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Equity not found.
+      tags:
+      - Investment Analytics
+  /mp/praams/reports/equity/ticker/{ticker}:
+    get:
+      summary: Get equity report by ticker
+      description: Returns a comprehensive PRAAMS report for a specific equity, including risk assessment and analytics.
+      operationId: GetPRAAMSEquityReportByTicker
+      parameters:
+      - name: ticker
+        in: path
+        required: true
+        description: Ticker symbol (e.g., 'AAPL.US').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved equity report.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticker:
+                    type: string
+                  name:
+                    type: string
+                  report_date:
+                    type: string
+                    format: date
+                  risk_summary:
+                    type: object
+                    properties:
+                      risk_score:
+                        type: number
+                      risk_category:
+                        type: string
+                      volatility_risk:
+                        type: string
+                      market_risk:
+                        type: string
+                  equity_details:
+                    type: object
+                    properties:
+                      sector:
+                        type: string
+                      market_cap:
+                        type: number
+                      beta:
+                        type: number
+                      pe_ratio:
+                        type: number
+                      dividend_yield:
+                        type: number
+                  performance:
+                    type: object
+                    properties:
+                      return_1y:
+                        type: number
+                      return_3y:
+                        type: number
+                      sharpe_ratio:
+                        type: number
+                      max_drawdown:
+                        type: number
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Equity not found.
+      tags:
+      - Investment Analytics
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

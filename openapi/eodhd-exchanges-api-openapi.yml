@@ -1,0 +1,654 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Exchanges API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Exchanges
+  description: Exchange information and symbols
+paths:
+  /exchange-details/{EXCHANGE_CODE}:
+    get:
+      summary: Retrieve details for a specific exchange
+      description: Retrieve exchange details, trading hours, holidays, and active tickers for a specified exchange.
+      operationId: GetExchangeDetails
+      parameters:
+      - name: EXCHANGE_CODE
+        in: path
+        required: true
+        description: Exchange code for which details are to be retrieved (e.g., 'US' for the USA exchange).
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Response format. Options are 'json' and 'csv'. Defaults to JSON.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+      - name: from
+        in: query
+        required: false
+        description: Start date for holiday data (YYYY-MM-DD). Defaults to 6 months before the current date.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date for holiday data (YYYY-MM-DD). Defaults to 6 months after the current date.
+        schema:
+          type: string
+          format: date
+      - name: format_version
+        in: query
+        required: false
+        description: Response format version.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful response with exchange details and trading hours.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Name:
+                    type: string
+                  Code:
+                    type: string
+                  OperatingMIC:
+                    type: string
+                  Country:
+                    type: string
+                  Currency:
+                    type: string
+                  Timezone:
+                    type: string
+                  ExchangeHolidays:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Holiday:
+                          type: string
+                        Date:
+                          type: string
+                          format: date
+                        Type:
+                          type: string
+                  ExchangeEarlyCloseDays:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Date:
+                          type: string
+                          format: date
+                        CloseTime:
+                          type: string
+                  isOpen:
+                    type: boolean
+                  TradingHours:
+                    type: object
+                    properties:
+                      Open:
+                        type: string
+                      Close:
+                        type: string
+                      OpenUTC:
+                        type: string
+                      CloseUTC:
+                        type: string
+                      WorkingDays:
+                        type: string
+                  ActiveTickers:
+                    type: integer
+                  PreviousDayUpdatedTickers:
+                    type: integer
+                  UpdatedTickers:
+                    type: integer
+              example:
+                Name: USA Stocks
+                Code: US
+                OperatingMIC: XNAS, XNYS, OTCM
+                Country: USA
+                Currency: USD
+                Timezone: America/New_York
+                ExchangeHolidays:
+                - Holiday: Memorial Day
+                  Date: '2024-05-27'
+                  Type: official
+                - Holiday: Juneteenth Holiday
+                  Date: '2024-06-19'
+                  Type: official
+                - Holiday: Independence Day
+                  Date: '2024-07-04'
+                  Type: official
+                - Holiday: Labour Day
+                  Date: '2024-09-02'
+                  Type: official
+                - Holiday: Thanksgiving Day
+                  Date: '2024-11-28'
+                  Type: official
+                - Holiday: Christmas Day
+                  Date: '2024-12-25'
+                  Type: official
+                - Holiday: New Years Day
+                  Date: '2025-01-01'
+                  Type: official
+                ExchangeEarlyCloseDays: []
+                isOpen: false
+                TradingHours:
+                  Open: 09:30:00
+                  Close: '16:00:00'
+                  OpenUTC: '13:30:00'
+                  CloseUTC: '20:00:00'
+                  WorkingDays: Mon,Tue,Wed,Thu,Fri
+                ActiveTickers: 49242
+                PreviousDayUpdatedTickers: 47442
+                UpdatedTickers: 0
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Exchange not found.
+      tags:
+      - Exchanges
+  /exchange-symbol-list/{exchangeCode}:
+    get:
+      summary: Retrieve the list of tickers for a specific exchange.
+      description: Returns a list of active or delisted symbols for the specified exchange, with optional filters by ticker type.
+      operationId: GetExchangeSymbolList
+      parameters:
+      - name: exchangeCode
+        in: path
+        required: true
+        description: Exchange code, e.g., 'PSE' for the Philippines Stock Exchange or 'US' for combined US exchanges.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: 'Response format. Options: ''json'' (default) or ''csv''.'
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+      - name: delisted
+        in: query
+        required: false
+        description: Include delisted (inactive) tickers. Set to '1' to include.
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+          default: 0
+      - name: type
+        in: query
+        required: false
+        description: 'Filter by ticker type. Options: ''common_stock'', ''preferred_stock'', ''stock'', ''etf'', ''fund''.'
+        schema:
+          type: string
+          enum:
+          - common_stock
+          - preferred_stock
+          - stock
+          - etf
+          - fund
+      responses:
+        '200':
+          description: Successful response with a list of tickers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Code:
+                      type: string
+                      description: Ticker symbol code.
+                    Name:
+                      type: string
+                      description: Company name associated with the ticker.
+                    Country:
+                      type: string
+                      description: Country of the exchange.
+                    Exchange:
+                      type: string
+                      description: Exchange code.
+                    Currency:
+                      type: string
+                      description: Currency code in which the stock is traded.
+                    Type:
+                      type: string
+                      description: Type of ticker (e.g., Common Stock, ETF).
+                    Isin:
+                      type:
+                      - string
+                      - 'null'
+                      description: ISIN code if available.
+              example:
+              - Code: AB
+                Name: Atok Big Wedge Co Inc
+                Country: Philippines
+                Exchange: PSE
+                Currency: PHP
+                Type: Common Stock
+                Isin: PHY044931210
+              - Code: AC
+                Name: Ayala Corp
+                Country: Philippines
+                Exchange: PSE
+                Currency: PHP
+                Type: Common Stock
+                Isin: PHY0486V1154
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized.
+      tags:
+      - Exchanges
+  /exchanges-list:
+    get:
+      summary: List supported exchanges
+      description: Retrieve the list of supported exchanges with their details.
+      operationId: GetListOfExchanges
+      parameters:
+      - name: fmt
+        in: query
+        required: false
+        description: Response format. Options are 'json' and 'csv'. Defaults to JSON.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+      responses:
+        '200':
+          description: Successful response with a list of exchanges.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Name:
+                      type: string
+                    Code:
+                      type: string
+                    OperatingMIC:
+                      type:
+                      - string
+                      - 'null'
+                    Country:
+                      type: string
+                    Currency:
+                      type: string
+                    CountryISO2:
+                      type: string
+                    CountryISO3:
+                      type: string
+              example:
+              - Name: USA Stocks
+                Code: US
+                OperatingMIC: XNAS, XNYS, OTCM
+                Country: USA
+                Currency: USD
+                CountryISO2: US
+                CountryISO3: USA
+              - Name: Toronto Exchange
+                Code: TO
+                OperatingMIC: XTSE
+                Country: Canada
+                Currency: CAD
+                CountryISO2: CA
+                CountryISO3: CAN
+              - Name: Berlin Exchange
+                Code: BE
+                OperatingMIC: XBER
+                Country: Germany
+                Currency: EUR
+                CountryISO2: DE
+                CountryISO3: DEU
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized.
+      tags:
+      - Exchanges
+  /id-mapping:
+    get:
+      summary: Map between financial identifiers
+      description: 'Look up securities by various identifiers including symbol, exchange code, ISIN, FIGI, LEI, CUSIP, and CIK.
+
+
+        **At least one of the following filter parameters is required**:
+
+        `filter[symbol]`, `filter[isin]`, `filter[figi]`, `filter[lei]`, `filter[cusip]`, `filter[cik]`, or `filter[ex]`.
+
+        A request without any of these will return HTTP 422.
+
+        '
+      operationId: GetIdMapping
+      parameters:
+      - name: filter[symbol]
+        in: query
+        required: false
+        description: Filter by ticker symbol (e.g., 'AAPL').
+        schema:
+          type: string
+      - name: filter[ex]
+        in: query
+        required: false
+        description: Filter by exchange code (e.g., 'US').
+        schema:
+          type: string
+      - name: filter[isin]
+        in: query
+        required: false
+        description: Filter by ISIN code (e.g., 'US0378331005').
+        schema:
+          type: string
+      - name: filter[figi]
+        in: query
+        required: false
+        description: Filter by FIGI identifier.
+        schema:
+          type: string
+      - name: filter[lei]
+        in: query
+        required: false
+        description: Filter by LEI code.
+        schema:
+          type: string
+      - name: filter[cusip]
+        in: query
+        required: false
+        description: Filter by CUSIP identifier.
+        schema:
+          type: string
+      - name: filter[cik]
+        in: query
+        required: false
+        description: Filter by CIK number.
+        schema:
+          type: string
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page.
+        schema:
+          type: integer
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset.
+        schema:
+          type: integer
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved identifier mappings.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Code:
+                      type: string
+                      description: Ticker symbol.
+                    Exchange:
+                      type: string
+                      description: Exchange code.
+                    Name:
+                      type: string
+                      description: Company name.
+                    ISIN:
+                      type: string
+                      description: ISIN code.
+                    FIGI:
+                      type: string
+                      description: FIGI identifier.
+                    LEI:
+                      type: string
+                      description: LEI code.
+                    CUSIP:
+                      type: string
+                      description: CUSIP identifier.
+                    CIK:
+                      type: string
+                      description: CIK number.
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. Invalid API token.
+      tags:
+      - Exchanges
+  /v2/exchange-details:
+    get:
+      summary: List available exchanges (v2)
+      description: Returns an array of all exchange codes supported by the v2 endpoint. Use these codes to request details for a specific exchange via /v2/exchange-details/{code}.
+      operationId: ListExchangeDetailsV2
+      responses:
+        '200':
+          description: Successful response with list of exchange codes.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+                    description: Array of supported exchange codes.
+              example:
+                data:
+                - ASEX
+                - BMEX
+                - BVMF
+                - LSE
+                - NEO
+                - US
+                - XAMS
+                - XASX
+                - XHKG
+                - XKRX
+                - XNSE
+                - XPAR
+                - XTKS
+        '401':
+          description: Unauthorized — missing or invalid API token.
+      tags:
+      - Exchanges
+  /v2/exchange-details/{code}:
+    get:
+      summary: Get exchange details and trading hours (v2)
+      description: Returns trading hours, extended sessions (pre-market, after-hours), lunch breaks, and the full holiday calendar for the requested exchange. Covers 73 exchanges with verified data. The code parameter is case-insensitive.
+      operationId: GetExchangeDetailsV2
+      parameters:
+      - name: code
+        in: path
+        required: true
+        description: Exchange code (case-insensitive). Use /v2/exchange-details to get the list of supported codes.
+        schema:
+          type: string
+        examples:
+          us:
+            summary: US exchanges (NYSE / NASDAQ)
+            value: US
+          hk:
+            summary: Hong Kong Stock Exchange
+            value: XHKG
+          tokyo:
+            summary: Tokyo Stock Exchange
+            value: XTKS
+      responses:
+        '200':
+          description: Successful response with exchange details, trading hours, and holiday calendar.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      Name:
+                        type: string
+                        description: Full exchange name.
+                      Code:
+                        type: string
+                        description: Exchange code used in this endpoint.
+                      Timezone:
+                        type: string
+                        description: IANA timezone (e.g. America/New_York).
+                      TradingHours:
+                        type: object
+                        properties:
+                          Open:
+                            type: string
+                            description: Regular session open time (HH:MM:SS).
+                          Close:
+                            type: string
+                            description: Regular session close time (HH:MM:SS).
+                          WorkingDays:
+                            type: string
+                            description: Trading days (e.g. Mon, Tue, Wed, Thu, Fri).
+                          PreMarketOpen:
+                            type: string
+                            description: Pre-market session open (if available).
+                          PreMarketClose:
+                            type: string
+                            description: Pre-market session close (if available).
+                          AfterHoursOpen:
+                            type: string
+                            description: After-hours session open (if available).
+                          AfterHoursClose:
+                            type: string
+                            description: After-hours session close (if available).
+                          LunchBreakStart:
+                            type: string
+                            description: Lunch break start (if applicable).
+                          LunchBreakEnd:
+                            type: string
+                            description: Lunch break end (if applicable).
+                        required:
+                        - Open
+                        - Close
+                        - WorkingDays
+                      ExchangeHolidays:
+                        type: object
+                        description: Holiday calendar keyed by date (YYYY-MM-DD).
+                        additionalProperties:
+                          type: object
+                          properties:
+                            Holiday:
+                              type: string
+                              description: Holiday name.
+                            Type:
+                              type: string
+                              enum:
+                              - Official
+                              - Bank
+                              - EarlyClose
+                              description: Holiday type.
+                            EarlyClose:
+                              type: string
+                              description: Early close time (HH:MM:SS). Only present when Type is EarlyClose.
+                          required:
+                          - Holiday
+                          - Type
+                    required:
+                    - Name
+                    - Code
+                    - Timezone
+                    - TradingHours
+                    - ExchangeHolidays
+                  meta:
+                    type: array
+                    description: Reserved for future use.
+                  links:
+                    type: array
+                    description: Reserved for future use.
+              example:
+                data:
+                  Name: NYSE / NASDAQ
+                  Code: US
+                  Timezone: America/New_York
+                  TradingHours:
+                    Open: 09:30:00
+                    Close: '16:00:00'
+                    WorkingDays: Mon, Tue, Wed, Thu, Fri
+                    PreMarketOpen: 04:00:00
+                    PreMarketClose: 09:30:00
+                    AfterHoursOpen: '16:00:00'
+                    AfterHoursClose: '20:00:00'
+                  ExchangeHolidays:
+                    '2026-01-01':
+                      Holiday: New Year's Day
+                      Type: Official
+                    '2026-01-19':
+                      Holiday: Martin Luther King Jr. Day
+                      Type: Official
+                    '2026-11-27':
+                      Holiday: Day after Thanksgiving
+                      Type: EarlyClose
+                      EarlyClose: '13:00:00'
+                    '2026-12-24':
+                      Holiday: Christmas Eve
+                      Type: EarlyClose
+                      EarlyClose: '13:00:00'
+                    '2026-12-25':
+                      Holiday: Christmas Day
+                      Type: Official
+                meta: []
+                links: []
+        '401':
+          description: Unauthorized — missing or invalid API token.
+        '404':
+          description: Exchange not found.
+      tags:
+      - Exchanges
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

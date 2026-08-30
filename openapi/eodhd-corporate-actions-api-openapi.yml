@@ -1,0 +1,269 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data Corporate Actions API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: Corporate Actions
+  description: Symbol changes and insider transactions
+paths:
+  /insider-transactions:
+    get:
+      summary: Retrieve insider transaction data
+      description: Fetch insider transaction data for US-listed companies. Covers insider buys and sells, providing transaction details such as date, shares, and price.
+      operationId: GetInsiderTransactions
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: Max number of entries per result, from 1 to 1000. Default is 100.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          default: 100
+      - name: from
+        in: query
+        required: false
+        description: 'Start date for transactions (format: YYYY-MM-DD). Defaults to one year before current date.'
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: 'End date for transactions (format: YYYY-MM-DD). Defaults to current date.'
+        schema:
+          type: string
+          format: date
+      - name: code
+        in: query
+        required: false
+        description: Ticker symbol for filtering results (e.g., 'AAPL.US'). If omitted, returns data for all symbols.
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Output format (only 'json' supported).
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      responses:
+        '200':
+          description: Successful response with insider transaction data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: Ticker symbol of the company
+                    exchange:
+                      type: string
+                      description: Exchange where the stock is listed
+                    date:
+                      type: string
+                      format: date
+                      description: Report date of the transaction
+                    reportDate:
+                      type: string
+                      format: date
+                      description: Date the transaction was reported to the SEC
+                    ownerCik:
+                      type:
+                      - string
+                      - 'null'
+                      description: Unique identifier for the owner in SEC filings
+                    ownerName:
+                      type: string
+                      description: Name of the insider who executed the transaction
+                    ownerRelationship:
+                      type:
+                      - string
+                      - 'null'
+                      description: Relationship of the owner to the company (e.g., Director)
+                    ownerTitle:
+                      type: string
+                      description: Title or role of the insider in the company
+                    transactionDate:
+                      type: string
+                      format: date
+                      description: Date when the transaction occurred
+                    transactionCode:
+                      type: string
+                      enum:
+                      - P
+                      - S
+                      description: 'Type of transaction: ''P'' for Purchase, ''S'' for Sale'
+                    transactionAmount:
+                      type: integer
+                      description: Number of shares involved in the transaction
+                    transactionPrice:
+                      type: number
+                      format: float
+                      description: Price per share at the time of the transaction
+                    transactionAcquiredDisposed:
+                      type: string
+                      enum:
+                      - A
+                      - D
+                      description: Indicates whether securities were Acquired (A) or Disposed (D)
+                    postTransactionAmount:
+                      type:
+                      - integer
+                      - 'null'
+                      description: Total number of shares held by the insider post-transaction
+                    link:
+                      type: string
+                      format: uri
+                      description: Link to the original SEC filing document
+              examples:
+                example1:
+                  summary: Sample insider transaction data
+                  value:
+                  - code: AAPL
+                    exchange: US
+                    date: '2023-03-09'
+                    reportDate: '2023-03-13'
+                    ownerCik: 0000320193
+                    ownerName: Tim Cook
+                    ownerRelationship: CEO
+                    ownerTitle: CEO
+                    transactionDate: '2023-03-09'
+                    transactionCode: P
+                    transactionAmount: 5000
+                    transactionPrice: 120.5
+                    transactionAcquiredDisposed: A
+                    postTransactionAmount: 5000
+                    link: https://www.sec.gov/Archives/edgar/data/0000320193/000141588922012089/xslF345X03/form4.xml
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized access, invalid or missing API token.
+        '404':
+          description: No insider transaction data found for the specified criteria.
+      tags:
+      - Corporate Actions
+  /symbol-change-history:
+    get:
+      summary: Retrieve symbol change history
+      description: Retrieve the symbol change history within a specified date range. Only US exchanges are currently supported.
+      operationId: GetSymbolChangeHistory
+      parameters:
+      - name: from
+        in: query
+        required: true
+        description: Start date for symbol change history in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: true
+        description: End date for symbol change history in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: ex
+        in: query
+        required: false
+        description: Exchange code filter (e.g., 'US').
+        schema:
+          type: string
+      - name: fmt
+        in: query
+        required: false
+        description: Response format. Options are 'json' and 'csv'. Defaults to JSON.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+      responses:
+        '200':
+          description: Successful response with symbol change history.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    exchange:
+                      type: string
+                    old_symbol:
+                      type: string
+                    new_symbol:
+                      type: string
+                    company_name:
+                      type: string
+                    effective:
+                      type: string
+                      format: date
+              example:
+              - exchange: US
+                old_symbol: CBTX
+                new_symbol: STEL
+                company_name: Stellar Bancorp, Inc. Common Stock
+                effective: '2022-10-03'
+              - exchange: US
+                old_symbol: FFR
+                new_symbol: DTRE
+                company_name: First Trust Alerian Disruptive Technology Real Estate ETF
+                effective: '2022-10-03'
+              - exchange: US
+                old_symbol: XPER
+                new_symbol: ADEA
+                company_name: Adeia Inc. Common Stock
+                effective: '2022-10-03'
+              - exchange: US
+                old_symbol: CNTQ
+                new_symbol: DFLI
+                company_name: Dragonfly Energy Holdings Corp. Common Stock (NV)
+                effective: '2022-10-10'
+              - exchange: US
+                old_symbol: CNTQW
+                new_symbol: DFLIW
+                company_name: Dragonfly Energy Holdings Corp. Warrant
+                effective: '2022-10-10'
+              - exchange: US
+                old_symbol: LLL
+                new_symbol: JXJT
+                company_name: JX Luxventure Limited Common Stock
+                effective: '2022-10-10'
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: No symbol change history found for the specified date range.
+      tags:
+      - Corporate Actions
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).

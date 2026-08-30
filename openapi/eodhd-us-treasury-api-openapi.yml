@@ -1,0 +1,400 @@
+openapi: 3.2.0
+info:
+  title: EODHD Financial Data US Treasury API
+  description: Comprehensive API for retrieving financial data including stock prices, fundamentals, calendar events, news, and more from EOD Historical Data (eodhd.com)
+  version: 2.0.0
+  contact:
+    name: EODHD Support
+    url: https://eodhd.com
+    email: supportlevel1@eodhistoricaldata.com
+  termsOfService: https://eodhd.com/financial-apis/terms-conditions
+  license:
+    name: Proprietary
+    url: https://eodhd.com/financial-apis/terms-conditions
+servers:
+- url: https://eodhd.com/api
+  description: Primary API path
+- url: https://eodhistoricaldata.com/api
+  description: Alternative API path
+security:
+- EODHDQueryKey: []
+tags:
+- name: US Treasury
+  description: US Treasury interest rates (bills, yields, long-term, real yields)
+paths:
+  /ust/bill-rates:
+    get:
+      summary: Get US Treasury bill rates
+      description: Returns daily US Treasury bill rates (discount rates for 4-week, 8-week, 13-week, 17-week, 26-week, and 52-week bills).
+      operationId: GetUSTBillRates
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: filter[year]
+        in: query
+        required: false
+        description: Filter by year (e.g., 2024).
+        schema:
+          type: integer
+          example: 2024
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page.
+        schema:
+          type: integer
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset.
+        schema:
+          type: integer
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved Treasury bill rates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: Date of the rate.
+                    4_weeks_bank_discount:
+                      type: number
+                      description: 4-week bill bank discount rate.
+                    4_weeks_coupon_equivalent:
+                      type: number
+                      description: 4-week bill coupon equivalent yield.
+                    8_weeks_bank_discount:
+                      type: number
+                      description: 8-week bill bank discount rate.
+                    8_weeks_coupon_equivalent:
+                      type: number
+                      description: 8-week bill coupon equivalent yield.
+                    13_weeks_bank_discount:
+                      type: number
+                      description: 13-week bill bank discount rate.
+                    13_weeks_coupon_equivalent:
+                      type: number
+                      description: 13-week bill coupon equivalent yield.
+                    26_weeks_bank_discount:
+                      type: number
+                      description: 26-week bill bank discount rate.
+                    26_weeks_coupon_equivalent:
+                      type: number
+                      description: 26-week bill coupon equivalent yield.
+                    52_weeks_bank_discount:
+                      type: number
+                      description: 52-week bill bank discount rate.
+                    52_weeks_coupon_equivalent:
+                      type: number
+                      description: 52-week bill coupon equivalent yield.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Data not found for specified date range.
+      tags:
+      - US Treasury
+  /ust/long-term-rates:
+    get:
+      summary: Get US Treasury long-term rates
+      description: Returns US Treasury long-term average rates and extrapolation factors for maturities beyond 30 years.
+      operationId: GetUSTLongTermRates
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: filter[year]
+        in: query
+        required: false
+        description: Filter by year (e.g., 2024).
+        schema:
+          type: integer
+          example: 2024
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page.
+        schema:
+          type: integer
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset.
+        schema:
+          type: integer
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved long-term rates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: Date of the rate.
+                    lt_composite_gt_10:
+                      type: number
+                      description: Long-term composite rate (over 10 years).
+                    treasury_20_year_cmt:
+                      type: number
+                      description: Treasury 20-year constant maturity rate.
+                    extrapolation_factor:
+                      type: number
+                      description: Extrapolation factor.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Data not found for specified date range.
+      tags:
+      - US Treasury
+  /ust/real-yield-rates:
+    get:
+      summary: Get US Treasury real yield curve rates
+      description: Returns daily US Treasury real yield curve rates (TIPS-derived real yields for 5-year, 7-year, 10-year, 20-year, and 30-year maturities).
+      operationId: GetUSTRealYieldRates
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: filter[year]
+        in: query
+        required: false
+        description: Filter by year (e.g., 2024).
+        schema:
+          type: integer
+          example: 2024
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page.
+        schema:
+          type: integer
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset.
+        schema:
+          type: integer
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved real yield rates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: Date of the rate.
+                    5_years:
+                      type: number
+                      description: 5-year real yield rate.
+                    7_years:
+                      type: number
+                      description: 7-year real yield rate.
+                    10_years:
+                      type: number
+                      description: 10-year real yield rate.
+                    20_years:
+                      type: number
+                      description: 20-year real yield rate.
+                    30_years:
+                      type: number
+                      description: 30-year real yield rate.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Data not found for specified date range.
+      tags:
+      - US Treasury
+  /ust/yield-rates:
+    get:
+      summary: Get US Treasury yield curve rates
+      description: Returns daily US Treasury yield curve rates (constant maturity rates for 1-month through 30-year maturities).
+      operationId: GetUSTYieldRates
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        description: End date in 'YYYY-MM-DD' format.
+        schema:
+          type: string
+          format: date
+      - name: filter[year]
+        in: query
+        required: false
+        description: Filter by year (e.g., 2024).
+        schema:
+          type: integer
+          example: 2024
+      - name: page[limit]
+        in: query
+        required: false
+        description: Number of records per page.
+        schema:
+          type: integer
+      - name: page[offset]
+        in: query
+        required: false
+        description: Pagination offset.
+        schema:
+          type: integer
+      - name: fmt
+        in: query
+        required: false
+        description: Output format.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Successfully retrieved Treasury yield rates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: Date of the rate.
+                    1_month:
+                      type: number
+                      description: 1-month constant maturity rate.
+                    2_months:
+                      type: number
+                      description: 2-month constant maturity rate.
+                    3_months:
+                      type: number
+                      description: 3-month constant maturity rate.
+                    4_months:
+                      type: number
+                      description: 4-month constant maturity rate.
+                    6_months:
+                      type: number
+                      description: 6-month constant maturity rate.
+                    1_year:
+                      type: number
+                      description: 1-year constant maturity rate.
+                    2_years:
+                      type: number
+                      description: 2-year constant maturity rate.
+                    3_years:
+                      type: number
+                      description: 3-year constant maturity rate.
+                    5_years:
+                      type: number
+                      description: 5-year constant maturity rate.
+                    7_years:
+                      type: number
+                      description: 7-year constant maturity rate.
+                    10_years:
+                      type: number
+                      description: 10-year constant maturity rate.
+                    20_years:
+                      type: number
+                      description: 20-year constant maturity rate.
+                    30_years:
+                      type: number
+                      description: 30-year constant maturity rate.
+        '401':
+          description: Unauthorized. Invalid API token.
+        '404':
+          description: Data not found for specified date range.
+      tags:
+      - US Treasury
+components:
+  securitySchemes:
+    EODHDQueryKey:
+      type: apiKey
+      in: query
+      name: api_token
+      description: EODHD API key (stored as a secret in ChatGPT).
