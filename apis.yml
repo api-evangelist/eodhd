@@ -41,7 +41,7 @@ tags:
 access: 3rd-Party
 created: '2025-02-24'
 modified: '2026-07-22'
-position: Consumer
+position: Consuming
 specificationVersion: '0.23'
 description: >-
   Access historical end-of-day stock prices, intraday data, US stock options, and real-time prices with free and
