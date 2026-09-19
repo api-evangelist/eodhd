@@ -90,7 +90,7 @@ apis:
   - Financial
   - Real-Time
   - Streaming
-  - WebSockets
+  - WebSocket
   tags_raw:
   - Financial
   - Real Time
@@ -179,6 +179,11 @@ apis:
 - aid: eodhd:exchanges-and-tickers-api
   name: EODHD Exchanges and Symbols API
   tags:
+  - Exchange
+  - Financial
+  - Reference Data
+  - Symbols
+  tags_raw:
   - Exchanges
   - Financial
   - Reference Data
@@ -291,6 +296,8 @@ apis:
   humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
   baseURL: https://eodhd.com/api
   tags:
+  - Exchange
+  tags_raw:
   - Exchanges
   properties:
   - type: OpenAPI
@@ -361,6 +368,8 @@ apis:
   humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
   baseURL: https://eodhd.com/api
   tags:
+  - Logo
+  tags_raw:
   - Logos
   properties:
   - type: OpenAPI
