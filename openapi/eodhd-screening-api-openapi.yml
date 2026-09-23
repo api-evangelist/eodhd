@@ -24,7 +24,7 @@ tags:
 paths:
   /screener:
     get:
-      summary: Get filtered stock data based on user-defined criteria.
+      summary: Get filtered stock data based on user-defined criteria
       description: Retrieves stock data filtered by criteria such as market capitalization, exchange, sector, and more. Results can be sorted and paginated.
       operationId: GetStockScreenerData
       parameters:

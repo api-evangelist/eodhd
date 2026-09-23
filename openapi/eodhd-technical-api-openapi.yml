@@ -24,7 +24,7 @@ tags:
 paths:
   /technical/{ticker}:
     get:
-      summary: Retrieve technical indicator data for a specified symbol.
+      summary: Retrieve technical indicator data for a specified symbol
       description: Fetches technical indicator data, such as moving averages and other analytics, based on specified parameters.
       operationId: GetTechnicalIndicatorData
       parameters:

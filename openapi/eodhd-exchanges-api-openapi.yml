@@ -176,7 +176,7 @@ paths:
       - Exchanges
   /exchange-symbol-list/{exchangeCode}:
     get:
-      summary: Retrieve the list of tickers for a specific exchange.
+      summary: Retrieve the list of tickers for a specific exchange
       description: Returns a list of active or delisted symbols for the specified exchange, with optional filters by ticker type.
       operationId: GetExchangeSymbolList
       parameters:
@@ -350,9 +350,7 @@ paths:
 
         `filter[symbol]`, `filter[isin]`, `filter[figi]`, `filter[lei]`, `filter[cusip]`, `filter[cik]`, or `filter[ex]`.
 
-        A request without any of these will return HTTP 422.
-
-        '
+        A request without any of these will return HTTP 422.'
       operationId: GetIdMapping
       parameters:
       - name: filter[symbol]

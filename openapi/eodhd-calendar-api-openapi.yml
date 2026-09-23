@@ -28,9 +28,7 @@ paths:
       description: 'Look up upcoming and historical dividend events.
 
 
-        Uses the JSON:API filter/page convention. **At least one of `filter[date_eq]` or `filter[symbol]` is required** — a request without either will return HTTP 422.
-
-        '
+        Uses the JSON:API filter/page convention. **At least one of `filter[date_eq]` or `filter[symbol]` is required** — a request without either will return HTTP 422.'
       operationId: GetUpcomingDividends
       parameters:
       - name: filter[date_eq]

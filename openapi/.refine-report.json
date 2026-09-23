@@ -1,14 +1,74 @@
 {
   "provider": "eodhd",
   "sources": [
-    "eodhd-eod-api-openapi.yml"
+    "_original/eodhd-eod-historical-data-openapi.yml",
+    "_original/eodhd-financial-data-openapi.yml"
   ],
   "outputs": [
-    "eodhd-eod-api-openapi.yml"
+    "eodhd-eod-api-openapi.yml",
+    "eodhd-cboe-api-openapi.yml",
+    "eodhd-calendar-api-openapi.yml",
+    "eodhd-corporate-actions-api-openapi.yml",
+    "eodhd-credit-sovereign-risk-api-openapi.yml",
+    "eodhd-dividends-splits-api-openapi.yml",
+    "eodhd-esg-api-openapi.yml",
+    "eodhd-economic-data-api-openapi.yml",
+    "eodhd-end-of-day-data-api-openapi.yml",
+    "eodhd-exchanges-api-openapi.yml",
+    "eodhd-fundamentals-api-openapi.yml",
+    "eodhd-indices-api-openapi.yml",
+    "eodhd-interest-rates-api-openapi.yml",
+    "eodhd-intraday-data-api-openapi.yml",
+    "eodhd-investment-analytics-api-openapi.yml",
+    "eodhd-live-delayed-data-api-openapi.yml",
+    "eodhd-logos-api-openapi.yml",
+    "eodhd-market-data-api-openapi.yml",
+    "eodhd-news-api-openapi.yml",
+    "eodhd-options-api-openapi.yml",
+    "eodhd-sanctions-api-openapi.yml",
+    "eodhd-screening-api-openapi.yml",
+    "eodhd-technical-api-openapi.yml",
+    "eodhd-tick-data-api-openapi.yml",
+    "eodhd-us-treasury-api-openapi.yml",
+    "eodhd-user-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "eodhd-eod-historical-data-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "eodhd-eod-historical-data-openapi.yml: tagged paths GET /eod/{symbol} -> Eod",
+    "eodhd-eod-historical-data-openapi.yml: declared missing tag: Eod",
+    "eodhd-financial-data-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "eodhd-calendar-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-cboe-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-corporate-actions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-credit-sovereign-risk-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-dividends-splits-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-economic-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-end-of-day-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-eod-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-esg-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-exchanges-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-fundamentals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-indices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-interest-rates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-intraday-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-investment-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-live-delayed-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-logos-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-market-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-news-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-options-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-sanctions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-screening-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-technical-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-tick-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-us-treasury-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "eodhd-user-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
