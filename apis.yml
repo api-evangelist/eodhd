@@ -29,6 +29,18 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/eodhd.png
 tags:
+  - Finance
+  - Market Data
+  - Stock Options
+  - Stocks
+  - ETFs
+  - Forex
+  - Cryptocurrency
+  - Fundamentals
+  - News
+  - Real-Time
+  - Financial Data
+tags_raw:
   - Financial
   - Market Data
   - Stock Options
@@ -38,6 +50,8 @@ tags:
   - Cryptocurrency
   - Fundamentals
   - News
+  - Real-Time
+  - Financial Data
 access: 3rd-Party
 created: '2025-02-24'
 modified: '2026-07-22'
@@ -52,6 +66,11 @@ apis:
 - aid: eodhd:intraday-historical-data-api
   name: EODHD Intraday Historical Data API
   tags:
+  - Finance
+  - Historical Data
+  - Intraday
+  - Stocks
+  tags_raw:
   - Financial
   - Historical Data
   - Intraday
@@ -67,7 +86,7 @@ apis:
 - aid: eodhd:live-prices-api
   name: EODHD Live (Delayed) Stock Prices API
   tags:
-  - Financial
+  - Finance
   - Live Data
   - Real-Time
   - Stocks
@@ -87,7 +106,7 @@ apis:
 - aid: eodhd:websockets-api
   name: EODHD WebSockets Real-Time API
   tags:
-  - Financial
+  - Finance
   - Real-Time
   - Streaming
   - WebSocket
@@ -109,6 +128,10 @@ apis:
 - aid: eodhd:fundamental-data-api
   name: EODHD Fundamental Data API
   tags:
+  - Finance
+  - Fundamentals
+  - Stocks
+  tags_raw:
   - Financial
   - Fundamentals
   - Stocks
@@ -124,6 +147,10 @@ apis:
   name: EODHD Stock Options API
   tags:
   - Derivatives
+  - Finance
+  - Options
+  tags_raw:
+  - Derivatives
   - Financial
   - Options
   humanURL: https://eodhd.com/financial-apis/stock-options-data
@@ -137,6 +164,10 @@ apis:
 - aid: eodhd:technical-indicators-api
   name: EODHD Technical Indicators API
   tags:
+  - Analytics
+  - Finance
+  - Technical Indicators
+  tags_raw:
   - Analytics
   - Financial
   - Technical Indicators
@@ -153,6 +184,10 @@ apis:
   tags:
   - Calendar
   - Economic Data
+  - Finance
+  tags_raw:
+  - Calendar
+  - Economic Data
   - Financial
   humanURL: https://eodhd.com/financial-apis/economic-events-data-api
   baseURL: https://eodhd.com/api
@@ -165,6 +200,10 @@ apis:
 - aid: eodhd:news-sentiment-api
   name: EODHD Financial News and Sentiment API
   tags:
+  - Finance
+  - News
+  - Sentiment
+  tags_raw:
   - Financial
   - News
   - Sentiment
@@ -180,7 +219,7 @@ apis:
   name: EODHD Exchanges and Symbols API
   tags:
   - Exchange
-  - Financial
+  - Finance
   - Reference Data
   - Symbols
   tags_raw:
