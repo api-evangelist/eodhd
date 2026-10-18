@@ -34,7 +34,7 @@ tags:
   - Stock Options
   - Stocks
   - ETFs
-  - Forex
+  - Foreign Exchange
   - Cryptocurrency
   - Fundamentals
   - News
@@ -315,6 +315,8 @@ apis:
   humanURL: https://eodhd.com/financial-apis/intraday-historical-data-api
   baseURL: https://eodhd.com/api
   tags:
+  - End of Day
+  tags_raw:
   - End-of-Day Data
   properties:
   - type: OpenAPI
