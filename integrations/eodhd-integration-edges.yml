@@ -48,6 +48,24 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-agent-skills.py
   first_seen: '2026-10-20'
+- partner_name: Cboe Global Markets
+  partner: cboe
+  partner_match: aggregator
+  type: coverage
+  relationship: connector-coverage
+  channel: provider-built
+  direction: provider-built
+  evidence: https://www.cboe.com/market_data_services/vendors/
+  category: Cboe market data vendor
+  vendor_categories:
+  - market_data
+  registered_name: EODHD APIs (Unicorn Data Services SAS)
+  matched_domain: eodhd.com
+  matched_by: domain
+  signal_note: a licensed vendor redistributing Cboe's market data (US options, equities, futures ...); the directory
+    states no conformance test, so no certified_products
+  detected_by: sweep-private-markets-fund-admin.py
+  first_seen: '2026-10-20'
 generated: '2026-10-18'
 method: searched
 source:
@@ -60,3 +78,11 @@ checked:
 - https://officialskills.sh/sitemap.xml
 - https://skillsmp.com/sitemap.xml
 - https://www.skills.sh/sitemap.xml
+- https://brokercheck.finra.org/
+- https://ilpa.org/about-ilpa/member-directory/
+- https://ilpa.org/industry-guidance/templates-standards-model-documents/ilpa-templates-hub/template-endorsers/
+- https://ilpa.org/members
+- https://ilpa.org/wp-json/wp/v2/organization
+- https://www.cboe.com/market_data_services/vendors/
+- https://www.fixtrading.org/members/
+- https://www.sec.gov/foia/docs/form-adv-archive-data
