@@ -48,3 +48,33 @@
   relationship: connector-coverage
   status: not-a-workflow
   arazzo: null
+- slug: eodhd-cran
+  label: CRAN
+  partner_name: CRAN
+  category: official SDK (R)
+  type: register
+  channel: package-registry
+  evidence: https://cran.r-project.org/package=eodhdR2
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: CRAN (packages.rds, the public package metadata table)
+    spec_file: null
+    language: R
+    packages:
+    - name: eodhdR2
+      version: '0.8'
+      title: Official R API for Fetching Data from 'EODHD'
+      released: '2026-09-22'
+      released_field: Published
+      lapsed: false
+      page: https://cran.r-project.org/package=eodhdR2
+      repo_leg: github-org:eodhistoricaldata
+      publisher_leg: github-org:eodhistoricaldata
+      matched_by: github-org
+    current: true
+    signal_note: 'an official R package on CRAN: distribution, not an integration; lapsed = no release in 24 months'
+    detected_by: sweep-cran-r-packages.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null

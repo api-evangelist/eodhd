@@ -66,6 +66,36 @@ edges:
     states no conformance test, so no certified_products
   detected_by: sweep-private-markets-fund-admin.py
   first_seen: '2026-10-20'
+- partner_name: CRAN
+  partner: null
+  partner_match: null
+  type: register
+  direction: provider-built
+  category: official SDK (R)
+  evidence: https://cran.r-project.org/package=eodhdR2
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: CRAN (packages.rds, the public package metadata table)
+    spec_file: null
+    language: R
+    packages:
+    - name: eodhdR2
+      version: '0.8'
+      title: Official R API for Fetching Data from 'EODHD'
+      released: '2026-09-22'
+      released_field: Published
+      lapsed: false
+      page: https://cran.r-project.org/package=eodhdR2
+      repo_leg: github-org:eodhistoricaldata
+      publisher_leg: github-org:eodhistoricaldata
+      matched_by: github-org
+    current: true
+    signal_note: 'an official R package on CRAN: distribution, not an integration; lapsed = no release in 24 months'
+    detected_by: sweep-cran-r-packages.py
+    detected: '2026-10-22'
+  detected_by: sweep-cran-r-packages.py
+  first_seen: '2026-10-22'
 generated: '2026-10-18'
 method: searched
 source:
@@ -86,3 +116,4 @@ checked:
 - https://www.cboe.com/market_data_services/vendors/
 - https://www.fixtrading.org/members/
 - https://www.sec.gov/foia/docs/form-adv-archive-data
+- https://cran.r-project.org/web/packages/packages.rds
