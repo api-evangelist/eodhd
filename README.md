@@ -1,4 +1,4 @@
-# EODHD (eodhd)
+# EODHD
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,235 +64,217 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Access historical end-of-day stock prices, intraday data, US stock options, and real-time prices with free and advanced plans. EODHD provides financial data for 150,000+ tickers, including stocks, ETFs, funds, and currencies worldwide.
+Access historical end-of-day stock prices, intraday data, US stock options, and real-time prices with free and advanced plans. EODHD provides financial data for 150,000+ tickers, including stocks, ETFs, funds, and currencies worldwide, through 68+ REST endpoints, WebSocket streaming, an official OpenAPI 3.1.0 specification, an OAuth-secured MCP server with 86 tools, and a published Claude Skills plugin.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/eodhd/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/eodhd/refs/heads/main/apis.yml)
+**Areas:** Finance · Market Data · Stock Options · Stocks · ETFs · Foreign Exchange · Cryptocurrency · Fundamentals · News · Real-Time · Financial Data
 
-## Scope
+## EODHD on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for EODHD is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/eodhd/](https://apis.io/providers/eodhd/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (35)
 
-- Financial
-- Market Data
-- Stock Options
-- Stocks
+- [EODHD Intraday Historical Data API](https://apis.io/apis/eodhd/intraday-historical-data-api/) — Provides intraday historical OHLCV data at 1-minute, 5-minute, and 1-hour intervals for US stocks and other supported markets, with multi-year lookbacks…
+- [EODHD Live (Delayed) Stock Prices API](https://apis.io/apis/eodhd/live-prices-api/) — Returns live or 15-20 minute delayed stock quotes including last price, change, volume, and bid/ask data for stocks, ETFs, indices, and forex pairs across…
+- [EODHD WebSockets Real-Time API](https://apis.io/apis/eodhd/websockets-api/) — Streams real-time trade and quote updates over WebSockets for US stocks, forex, and cryptocurrencies, allowing low-latency consumption of live market data.
+- [EODHD Fundamental Data API](https://apis.io/apis/eodhd/fundamental-data-api/) — Provides company fundamentals including general info, financial statements (income statement, balance sheet, cash flow), earnings, valuation ratios, ETF…
+- [EODHD Stock Options API](https://apis.io/apis/eodhd/options-data-api/) — Returns US stock options chain data with strikes, expirations, bid/ask, open interest, implied volatility, and Greeks (delta, gamma, theta, vega).
+- [EODHD Technical Indicators API](https://apis.io/apis/eodhd/technical-indicators-api/) — Computes common technical indicators server-side, including SMA, EMA, RSI, MACD, Bollinger Bands, ATR, and stochastic oscillators, on top of the EODHD…
+- [EODHD Economic Events Calendar API](https://apis.io/apis/eodhd/economic-events-api/) — Provides a global economic calendar of macroeconomic releases including country, event name, scheduled time, prior, forecast, and actual values.
+- [EODHD Financial News and Sentiment API](https://apis.io/apis/eodhd/news-sentiment-api/) — Delivers financial news articles tagged by ticker symbol with sentiment scoring (positive, negative, neutral) for use in research, trading signals, and…
+- [EODHD Exchanges and Symbols API](https://apis.io/apis/eodhd/exchanges-and-tickers-api/) — Lists supported exchanges and instruments with metadata including ticker, exchange code, name, type, and identifier mappings (CUSIP, ISIN, FIGI) to support…
+- [EODHD Eod API](https://apis.io/apis/eodhd/eodhd-eod-api/) — The Eod API from EODHD — 1 operation(s) for eod.
+- [EODHD Calendar API](https://apis.io/apis/eodhd/eodhd-calendar-api/) — Calendar events including earnings, IPOs, splits, dividends, and trends
+- [EODHD CBOE API](https://apis.io/apis/eodhd/eodhd-cboe-api/) — CBOE index data and listings
+- [EODHD Corporate Actions API](https://apis.io/apis/eodhd/eodhd-corporate-actions-api/) — Symbol changes and insider transactions
+- [EODHD Credit & Sovereign Risk API](https://apis.io/apis/eodhd/eodhd-credit-sovereign-risk-api/) — Sovereign risk premiums, credit ratings, CDS spreads, and corporate credit metrics
+- [EODHD Dividends & Splits API](https://apis.io/apis/eodhd/eodhd-dividends-splits-api/) — Dividend and split history
+- [EODHD Economic Data API](https://apis.io/apis/eodhd/eodhd-economic-data-api/) — Economic events and macro indicators
+- [EODHD End-of-Day Data API](https://apis.io/apis/eodhd/eodhd-end-of-day-data-api/) — Historical and current end-of-day price data
+- [EODHD ESG API](https://apis.io/apis/eodhd/eodhd-esg-api/) — Environmental, Social, and Governance ratings (Investverte)
+- [EODHD Exchanges API](https://apis.io/apis/eodhd/eodhd-exchanges-api/) — Exchange information and symbols
+- [EODHD Fundamentals API](https://apis.io/apis/eodhd/eodhd-fundamentals-api/) — Fundamental data for stocks and companies
+- [EODHD Indices API](https://apis.io/apis/eodhd/eodhd-indices-api/) — S&P/Dow Jones indices data and components
+- [EODHD Interest Rates API](https://apis.io/apis/eodhd/eodhd-interest-rates-api/) — Reference rates, central bank policy rates, and funding-stress spreads
+- [EODHD Intraday Data API](https://apis.io/apis/eodhd/eodhd-intraday-data-api/) — Intraday historical price data (time-based bars)
+- [EODHD Investment Analytics API](https://apis.io/apis/eodhd/eodhd-investment-analytics-api/) — Risk scoring, bond analysis, bank financials, reports (PRAAMS)
+- [EODHD Live (Delayed) Data API](https://apis.io/apis/eodhd/eodhd-live-delayed-data-api/) — Delayed real-time stock prices and US delayed quotes
+- [EODHD Logos API](https://apis.io/apis/eodhd/eodhd-logos-api/) — Company and ticker logos
+- [EODHD Market Data API](https://apis.io/apis/eodhd/eodhd-market-data-api/) — Market capitalization and other market data
+- [EODHD News API](https://apis.io/apis/eodhd/eodhd-news-api/) — Financial news and sentiment analysis
+- [EODHD Options API](https://apis.io/apis/eodhd/eodhd-options-api/) — Options contracts and pricing data
+- [EODHD Sanctions API](https://apis.io/apis/eodhd/eodhd-sanctions-api/) — Sanctioned entities, vessels, programs, and sources (OFAC and others)
+- [EODHD Screening API](https://apis.io/apis/eodhd/eodhd-screening-api/) — Stock screening tools
+- [EODHD Technical API](https://apis.io/apis/eodhd/eodhd-technical-api/) — Technical analysis indicators
+- [EODHD Tick Data API](https://apis.io/apis/eodhd/eodhd-tick-data-api/) — Historical and marketplace tick-level trade data
+- [EODHD US Treasury API](https://apis.io/apis/eodhd/eodhd-us-treasury-api/) — US Treasury interest rates (bills, yields, long-term, real yields)
+- [EODHD User API](https://apis.io/apis/eodhd/eodhd-user-api/) — User account and subscription information
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-02-24
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### EODHD End-Of-Day Historical Data API
+Event-driven and webhook contracts.
 
-Returns end-of-day historical OHLCV data for stocks, ETFs, funds, indices, and currencies across global exchanges. Supports daily, weekly, and monthly periods with both raw and split/dividend-adjusted close prices.
+- [EODHD WebSockets Real-Time API](https://apis.io/asyncapis/eodhd/eodhd-websockets-asyncapi/)
 
-- **Human URL:** [https://eodhd.com/financial-apis/api-for-historical-data-and-volumes](https://eodhd.com/financial-apis/api-for-historical-data-and-volumes)
+#### Event channels (4)
 
-#### Tags
+Individual events and webhooks the provider emits.
 
-- End Of Day
-- Financial
-- Historical Data
-- Stocks
+- [/ws/crypto](https://apis.io/channels/eodhd/ws-crypto/)
+- [/ws/forex](https://apis.io/channels/eodhd/ws-forex/)
+- [/ws/us](https://apis.io/channels/eodhd/ws-us/)
+- [/ws/us-quote](https://apis.io/channels/eodhd/ws-us-quote/)
 
-#### Properties
+#### MCP servers (2)
 
-- [OpenAPI](openapi/eodhd-eod-historical-data-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Documentation](https://eodhd.com/financial-apis/api-for-historical-data-and-volumes)
+Model Context Protocol servers that expose the API to agents.
 
-### EODHD Intraday Historical Data API
+- [eodhd](https://apis.io/servers/eodhd/eodhd/)
+- [MCP Server announcement](https://apis.io/servers/eodhd/mcp-server-announcement/)
 
-Provides intraday historical OHLCV data at 1-minute, 5-minute, and 1-hour intervals for US stocks and other supported markets, with multi-year lookbacks depending on the resolution.
+#### Agentic access (1)
 
-- **Human URL:** [https://eodhd.com/financial-apis/intraday-historical-data-api](https://eodhd.com/financial-apis/intraday-historical-data-api)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Eodhd Agentic Access](https://apis.io/agentic-access/eodhd/eodhd-agentic-access/)
 
-- Financial
-- Historical Data
-- Intraday
-- Stocks
+#### JSON Schema (1)
 
-#### Properties
+The data models the API reads and writes.
 
-- [Documentation](https://eodhd.com/financial-apis/intraday-historical-data-api)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [EodBar](https://apis.io/schemas/eodhd/eodhd-eodbar/)
 
-### EODHD Live (Delayed) Stock Prices API
+#### JSON Structure (1)
 
-Returns live or 15-20 minute delayed stock quotes including last price, change, volume, and bid/ask data for stocks, ETFs, indices, and forex pairs across global exchanges.
+Data models expressed in JSON Structure.
 
-- **Human URL:** [https://eodhd.com/financial-apis/live-realtime-stocks-api](https://eodhd.com/financial-apis/live-realtime-stocks-api)
+- [Eodhd Structure](https://apis.io/json-structure/eodhd/eodhd-structure/)
 
-#### Tags
+#### Collections (5)
 
-- Financial
-- Live Data
-- Real Time
-- Stocks
+Postman and Open Collection request collections.
 
-#### Properties
+- [EODHD End-Of-Day Historical Data Eod API](https://apis.io/collections/eodhd/open-eodhd-eod-api/)
+- [EODHD End-Of-Day Historical Data API](https://apis.io/collections/eodhd/open-eodhd-eod-historical-data/)
+- [EODHD Financial Data API](https://apis.io/collections/eodhd/open-eodhd-financial-data/)
+- [EODHD End-Of-Day Historical Data Eod API](https://apis.io/collections/eodhd/postman-eodhd-eod-api/)
+- [EODHD Financial Data API](https://apis.io/collections/eodhd/postman-eodhd-financial-data/)
 
-- [Documentation](https://eodhd.com/financial-apis/live-realtime-stocks-api)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Overlays (2)
 
-### EODHD WebSockets Real-Time API
+OpenAPI overlays, including conversational phrasing for each operation.
 
-Streams real-time trade and quote updates over WebSockets for US stocks, forex, and cryptocurrencies, allowing low-latency consumption of live market data.
+- [Eodhd Eod Api Overlay](https://apis.io/overlays/eodhd/eodhd-eod-api-overlay/)
+- [Eodhd Financial Data Overlay](https://apis.io/overlays/eodhd/eodhd-financial-data-overlay/)
 
-- **Human URL:** [https://eodhd.com/financial-apis/new-real-time-data-api-websockets](https://eodhd.com/financial-apis/new-real-time-data-api-websockets)
+#### Governance rules (1)
 
-#### Tags
+Spectral rulesets for the provider's contracts.
 
-- Financial
-- Real Time
-- Streaming
-- WebSockets
+- [EODHD — jsonschema rules](https://apis.io/rules/eodhd/eodhd-jsonschema-spectral-rules/)
 
-#### Properties
+#### Security (2)
 
-- [Documentation](https://eodhd.com/financial-apis/new-real-time-data-api-websockets)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Authentication, trust centre, and vulnerability disclosure.
 
-### EODHD Fundamental Data API
+- [Eodhd Authentication](https://apis.io/security/eodhd/eodhd-authentication/)
+- [Eodhd Domain Security](https://apis.io/security/eodhd/eodhd-domain-security/)
 
-Provides company fundamentals including general info, financial statements (income statement, balance sheet, cash flow), earnings, valuation ratios, ETF holdings, and mutual fund details.
+#### OAuth scopes (1)
 
-- **Human URL:** [https://eodhd.com/financial-apis/stock-etfs-fundamental-data-feeds](https://eodhd.com/financial-apis/stock-etfs-fundamental-data-feeds)
+The permissions the API asks for.
 
-#### Tags
+- [Eodhd Scopes](https://apis.io/scopes/eodhd/eodhd-scopes/)
 
-- Financial
-- Fundamentals
-- Stocks
+#### Plans and pricing (1)
 
-#### Properties
+Published plans, tiers and prices.
 
-- [Documentation](https://eodhd.com/financial-apis/stock-etfs-fundamental-data-feeds)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Eodhd Plans Pricing](https://apis.io/plans/eodhd/eodhd-plans-pricing/)
 
-### EODHD Stock Options API
+#### Rate limits (1)
 
-Returns US stock options chain data with strikes, expirations, bid/ask, open interest, implied volatility, and Greeks (delta, gamma, theta, vega).
+Published request limits.
 
-- **Human URL:** [https://eodhd.com/financial-apis/stock-options-data](https://eodhd.com/financial-apis/stock-options-data)
+- [Eodhd Rate Limits](https://apis.io/rate-limits/eodhd/eodhd-rate-limits/)
 
-#### Tags
+#### FinOps (1)
 
-- Derivatives
-- Financial
-- Options
+What the API costs to run, by operation.
 
-#### Properties
+- [Eodhd Finops](https://apis.io/finops/eodhd/eodhd-finops/)
 
-- [Documentation](https://eodhd.com/financial-apis/stock-options-data)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+## Where to find this API
 
-### EODHD Technical Indicators API
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-Computes common technical indicators server-side, including SMA, EMA, RSI, MACD, Bollinger Bands, ATR, and stochastic oscillators, on top of the EODHD historical price database.
-
-- **Human URL:** [https://eodhd.com/financial-apis/technical-indicators-api](https://eodhd.com/financial-apis/technical-indicators-api)
-
-#### Tags
-
-- Analytics
-- Financial
-- Technical Indicators
-
-#### Properties
-
-- [Documentation](https://eodhd.com/financial-apis/technical-indicators-api)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### EODHD Economic Events Calendar API
-
-Provides a global economic calendar of macroeconomic releases including country, event name, scheduled time, prior, forecast, and actual values.
-
-- **Human URL:** [https://eodhd.com/financial-apis/economic-events-data-api](https://eodhd.com/financial-apis/economic-events-data-api)
-
-#### Tags
-
-- Calendar
-- Economic Data
-- Financial
-
-#### Properties
-
-- [Documentation](https://eodhd.com/financial-apis/economic-events-data-api)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### EODHD Financial News and Sentiment API
-
-Delivers financial news articles tagged by ticker symbol with sentiment scoring (positive, negative, neutral) for use in research, trading signals, and news-driven workflows.
-
-- **Human URL:** [https://eodhd.com/financial-apis/stock-market-financial-news-api](https://eodhd.com/financial-apis/stock-market-financial-news-api)
-
-#### Tags
-
-- Financial
-- News
-- Sentiment
-
-#### Properties
-
-- [Documentation](https://eodhd.com/financial-apis/stock-market-financial-news-api)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### EODHD Exchanges and Symbols API
-
-Lists supported exchanges and instruments with metadata including ticker, exchange code, name, type, and identifier mappings (CUSIP, ISIN, FIGI) to support symbol lookup and reference data workflows.
-
-- **Human URL:** [https://eodhd.com/financial-apis/list-supported-exchanges](https://eodhd.com/financial-apis/list-supported-exchanges)
-
-#### Tags
-
-- Exchanges
-- Financial
-- Reference Data
-- Symbols
-
-#### Properties
-
-- [Documentation](https://eodhd.com/financial-apis/list-supported-exchanges)
-- [Postman Collection](collections/eodhd-eod-historical-data.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/eodhd-eod-historical-data.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/EodHistoricalData)
-- [LinkedIn](https://www.linkedin.com/company/eodhd-apis)
 - [Website](https://eodhd.com/)
 - [Documentation](https://eodhd.com/financial-apis/)
+- [Getting started](https://eodhd.com/financial-apis)
+- [API reference](https://eodhd.com/docs)
 - [Pricing](https://eodhd.com/pricing)
-- [Marketplace](https://eodhd.com/marketplace)
+- [Sign up](https://eodhd.com/register)
+- [Support](https://forum.eodhd.com/)
 - [Blog](https://eodhd.com/financial-apis-blog/)
-- [Forums](https://forum.eodhd.com/)
-- [Affiliate](https://eodhd.com/financial-apis/eodhd-affiliate-program)
-- [Privacy Policy](https://eodhd.com/financial-apis/privacy-policy)
-- [Terms of Service](https://eodhd.com/financial-apis/terms-conditions)
-- [Integrations](https://eodhd.com/marketplace)
-- [M C P Server](https://eodhd.com/financial-apis-blog/eodhd-mcp-server-update-75-tools-oauth-and-api-versioning)
-- [Agent Skill](https://eodhd.com/financial-apis-blog/announcing-eodhd-claude-skills-teach-your-ai-the-entire-financial-api)
-- [L L Ms Txt](https://eodhd.com/llms.txt)
+- [Terms of service](https://eodhd.com/financial-apis/terms-conditions)
+- [Privacy policy](https://eodhd.com/financial-apis/privacy-policy)
+- [GitHub](https://github.com/EodHistoricalData)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 55.9** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 56.5 |
+| Contract governance | 14.4 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 83.3 |
+| Access clarity | 52.6 |
+
+**Agent readiness 58.3** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | templated |
+| Auth Clarity | served (partial credit) |
+| Idempotency | na |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 38.0** — Securities & Market Data
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/eodhd/](https://apis.io/providers/eodhd/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for EODHD: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/eodhd/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
