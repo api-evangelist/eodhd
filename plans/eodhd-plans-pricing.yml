@@ -1,0 +1,367 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://eodhd.com/pricing
+sources:
+- https://eodhd.com/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+  managed_tier: EOD Historical
+published: true
+note: Subscription tiers with monthly/annual prices plus marketplace add-ons; students get 50% discount
+  for 12 months. Commercial/B2B plans referenced but not priced here.
+plan_count: 23
+currency: USD
+plans:
+- name: Sandbox Free Package
+  price_text: $ 0 /mo.
+  price: 0
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: 20 API calls/day, 20 requests/minute, 1 yr history
+- name: Historian — EOD Historical All-World
+  price_text: $ 19.99 /mo.
+  price: 19.99
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: 100000 API calls/day, 1000 requests/minute, 30+ yrs history
+  overage: 'Additional API calls: By request'
+- name: Active trader — EOD + Intraday All-World Extended
+  price_text: $ 29.99 /mo.
+  price: 29.99
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: 100000 API calls/day, 1000 requests/minute
+  overage: 'Additional API calls: By request'
+- name: Equity analyst — Fundamentals Data Feed
+  price_text: $ 59.99 /mo.
+  price: 59.99
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: 100000 API calls/day, 1000 requests/minute
+  overage: 'Additional API calls: By request'
+- name: Everything ALL-IN-ONE Package
+  price_text: $ 99.99 /mo.
+  price: 99.99
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: 100000 API calls/day, 1000 requests/minute
+  overage: 'Additional API calls: By request'
+- name: EOD Historical (annual)
+  price_text: $ 199.00 /year
+  price: 199
+  currency: USD
+  period: year
+  unit: plan
+  included_quota: save 2 mo.
+- name: EOD + Intraday (annual)
+  price_text: $ 299.90 /year
+  price: 299.9
+  currency: USD
+  period: year
+  unit: plan
+- name: Fundamentals (annual)
+  price_text: $ 599.90 /year
+  price: 599.9
+  currency: USD
+  period: year
+  unit: plan
+- name: ALL-IN-ONE (annual)
+  price_text: $ 999.90 /year
+  price: 999.9
+  currency: USD
+  period: year
+  unit: plan
+- name: 'Add-on: Corporate Events Calendar & News API'
+  price_text: Get started for $19.99/mo.
+  price: 19.99
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Tick Data API: US Stock Market'
+  price_text: Get started for $19.99 $9.99/mo.
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: US Stock Options Data API'
+  price_text: Get started for $39.99 $29.99/mo.
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Indices Historical Constituents Data API'
+  price_text: Get started for $50.00 $29.99/mo.
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: ESG Data'
+  price_text: Get started for $50.00 $29.99/mo.
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Equity Risk & Return Scoring API'
+  price_text: Get started for $270.00/mo.
+  price: 270
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Bank financials API'
+  price_text: Get started for $455.00/mo.
+  price: 455
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Smart Investment Screener API'
+  price_text: Get started for $110.00/mo.
+  price: 110
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Multi-Factor Investment Reports API'
+  price_text: Get started for $540.00/mo.
+  price: 540
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Stock Market Logos API'
+  price_text: Get started for $299.00/year
+  price: 299
+  currency: USD
+  period: year
+  unit: add-on
+- name: 'Add-on: Stock Market Logos API (SVG extension)'
+  price_text: Get started for $399.00/year
+  price: 399
+  currency: USD
+  period: year
+  unit: add-on
+- name: 'Add-on: Market Status API: G20+ Markets'
+  price_text: Get started for $50.00/mo.
+  price: 50
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Market Status API: Global Equities'
+  price_text: Get started for $100.00/mo.
+  price: 100
+  currency: USD
+  period: month
+  unit: add-on
+- name: 'Add-on: Market Status API: Global Equities & Derivatives'
+  price_text: Get started for $150.00/mo.
+  price: 150
+  currency: USD
+  period: month
+  unit: add-on
+rate_limit_statements:
+- Requests / minute 20 1000 1000 1000 1000
+- Once you register you get 20 free API calls per day.
+- Each request spends API calls — 1 for EOD/live, 5 for intraday & news, 10 for fundamentals, 100+ for
+  bulk. The daily allowance resets at midnight GMT.
+- Real-time WebSocket Simultaneous connections for real-time data streaming — one connection per ticker.
+  The included limit (e.g. 50) can be increased on request.
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  - hybrid
+  - subscription
+  units: []
+  plans:
+  - name: Sandbox Free Package
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Historian — EOD Historical All-World
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Active trader — EOD + Intraday All-World Extended
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Equity analyst — Fundamentals Data Feed
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Everything ALL-IN-ONE Package
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: EOD Historical (annual)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: EOD + Intraday (annual)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: Fundamentals (annual)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: ALL-IN-ONE (annual)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: 'Add-on: Corporate Events Calendar & News API'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Tick Data API: US Stock Market'
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: US Stock Options Data API'
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Indices Historical Constituents Data API'
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: ESG Data'
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Equity Risk & Return Scoring API'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Bank financials API'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Smart Investment Screener API'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Multi-Factor Investment Reports API'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Stock Market Logos API'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: 'Add-on: Stock Market Logos API (SVG extension)'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: 'Add-on: Market Status API: G20+ Markets'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Market Status API: Global Equities'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: 'Add-on: Market Status API: Global Equities & Derivatives'
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
